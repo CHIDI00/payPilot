@@ -79,7 +79,10 @@ const InvoiceHeading: React.FC<ModalProp> = ({ setIsModalOpen }) => {
               New Invoice
             </Button>
           )}
-          <button className="md:hidden bg-[#7C5DFA] rounded-full text-[1.5rem] text-white py-3 px-9 gap-3 flex justify-center items-center hover:bg-[#9277FF]">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="md:hidden bg-[#7C5DFA] rounded-full text-[1.5rem] text-white py-3 px-9 gap-3 flex justify-center items-center hover:bg-[#9277FF]"
+          >
             <img src={addIcon} alt="" className="w-10 h-10" />
             New
           </button>

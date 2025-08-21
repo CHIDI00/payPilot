@@ -44,7 +44,7 @@ export default function Button({
     secondary: "bg-[#F9FAFE] text-[#7E88C3] hover:bg-[#DFE3FA]",
     light: "bg-[#F9FAFE] text-[#7E88C3] hover:bg-[#DFE3FA]",
     // Dark (Save as Draft)
-    dark: "bg-[#252945] text-white hover:bg-[#0C0E16]",
+    dark: "bg-[#252945] text-[#888EB0] hover:bg-[#0C0E16]",
     // Red (Delete)
     danger: "bg-[#EC5757] text-white hover:bg-[#FF9797]",
   };

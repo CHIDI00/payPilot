@@ -38,14 +38,18 @@ const Modal: React.FC<ModalProp> = ({ children, isModalOpen, onClose }) => {
 
   if (!isModalOpen) return null;
   return (
-    <div className="fixed top-0 left-0 w-full h-[100vh]  text-black transition-all duration-300 z-[1000] flex ">
-      <div className="w-[5.5%] h-full"></div>
-      <div className="w-full bg-[#9797976f]">
-        <div className={`bg-primary-gray  h-full w-[33%] `}>
-          <div className="w-full h-full overflow-y-scroll rounded-r-[2rem] ">
-            <div className="px-14 py-16 rounded-r-[2rem]">{children}</div>
+    <div className="fixed top-0 left-0 w-full h-[100vh]  text-black transition-all duration-300 z-[1000] flex lg:flex-row flex-col">
+      <div className="lg:w-[5.5%] lg:h-full md:w-full md:h-[7%]"></div>
+      <div className="w-full lg:h-full h-[93%] bg-[#9797976f]">
+        {/* <div
+          className={`bg-primary-gray  h-full lg:w-[33%] md:w-[70%] w-full `}
+        > */}
+        <div className="lg:w-[33%] md:w-[70%] w-full h-full  rounded-r-[2rem] bg-primary-gray px-1 py-6  ">
+          <div className="px-14 py-16 w-full h-full rounded-r-[2rem] overflow-y-scroll">
+            {children}
           </div>
         </div>
+        {/* </div> */}
       </div>
     </div>
   );

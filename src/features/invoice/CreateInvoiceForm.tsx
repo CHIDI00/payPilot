@@ -2,296 +2,347 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import FormColumn from "../../ui/FormColumn";
 import FormSubTitle from "../../ui/FormSubTitle";
+import { LucideTrash, Plus, Trash } from "lucide-react";
+import Button from "../../ui/Button";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
 }
 
+interface InvoiceFormData {
+  streetAddress?: string;
+  postCode?: string;
+  city?: string;
+  country?: string;
+  clientName?: string;
+  clientEmail?: string;
+  clientStreetAddress?: string;
+  clientCity?: string;
+  clientPostCode?: string;
+  clientCountry?: string;
+  invoiceDate?: string;
+  paymentTerms?: string;
+  description?: string;
+  itemName?: string;
+  quantity?: string;
+  price?: string;
+}
+
 const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
-  const { register, error, handleSubmit, formState } = useForm();
-  function onSubmit() {
-    console.log("Submitted");
+  const { register, handleSubmit, formState } = useForm<InvoiceFormData>();
+  const { errors } = formState;
+
+  function onSubmit(data: InvoiceFormData) {
+    console.log(data);
   }
+
+  function onError(error: unknown) {
+    console.log(error);
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="font-bold text-[2.1rem] mb-10" onClick={onCloseModal}>
-        New Invoice
-      </h2>
-
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
+      <h2 className="font-bold text-[2.1rem] mb-10">New Invoice</h2>
+      {/* BILL FROM */}
       <div className="my-6">
         <FormSubTitle>Bill From</FormSubTitle>
 
-        <FormColumn label="Street Adress">
+        <FormColumn label="Street Adress" error={errors.streetAddress}>
           <input
             type="text"
             id="streetAddress"
             className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              error ? "border-red-500" : "border-gray-300"
+              errors.streetAddress ? "border-red-500" : "border-gray-300"
             }`}
-            {...register("streetAddress")}
+            {...register("streetAddress", {
+              required: "This field is required",
+            })}
           />
         </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-[1fr_1fr_100%] gap-6">
-          <FormColumn label="City">
+        <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
+          <FormColumn label="City" error={errors.city}>
             <input
               type="text"
-              id="streetAddress"
+              id="city"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.city ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("city", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
-          <FormColumn label="Post Code">
+          <FormColumn label="Post Code" error={errors.postCode}>
             <input
               type="text"
-              id="streetAddress"
+              id="postCode"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.postCode ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("postCode", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
-          <FormColumn label="Country">
+          <FormColumn label="Country" error={errors.country}>
             <input
               type="text"
-              id="streetAddress"
+              id="country"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.country ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("country", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
         </div>
       </div>
-      <div className="my-6">
-        <FormSubTitle>Bill From</FormSubTitle>
 
-        <FormColumn label="Street Adress">
+      {/* BILL TO */}
+      <div className="my-6">
+        <FormSubTitle>Bill To</FormSubTitle>
+
+        <FormColumn label="Client's Name" error={errors.clientName}>
           <input
             type="text"
-            id="streetAddress"
+            id="clientName"
             className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              error ? "border-red-500" : "border-gray-300"
+              errors.clientName ? "border-red-500" : "border-gray-300"
             }`}
-            {...register("streetAddress")}
+            {...register("clientName", {
+              required: "This field is required",
+            })}
           />
         </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-[1fr_1fr_100%] gap-6">
-          <FormColumn label="City">
+        <FormColumn label="Client's Email" error={errors.clientEmail}>
+          <input
+            type="email"
+            id="clientEmail"
+            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.clientEmail ? "border-red-500" : "border-gray-300"
+            }`}
+            {...register("clientEmail", {
+              required: "This field is required",
+            })}
+          />
+        </FormColumn>
+        <FormColumn label="Street Address" error={errors.clientStreetAddress}>
+          <input
+            type="text"
+            id="clientStreetAddress"
+            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.clientStreetAddress ? "border-red-500" : "border-gray-300"
+            }`}
+            {...register("clientStreetAddress", {
+              required: "This field is required",
+            })}
+          />
+        </FormColumn>
+        <div className="grid grid-cols-3 gap-6">
+          <FormColumn label="City" error={errors.clientCity}>
             <input
               type="text"
-              id="streetAddress"
+              id="clientCity"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.clientCity ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("clientCity", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
-          <FormColumn label="Post Code">
+          <FormColumn label="Post Code" error={errors.clientPostCode}>
             <input
               type="text"
-              id="streetAddress"
+              id="clientPostCode"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.clientPostCode ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("clientPostCode", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
-          <FormColumn label="Country">
+          <FormColumn label="Country" error={errors.clientCountry}>
             <input
               type="text"
-              id="streetAddress"
+              id="clientCountry"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.clientCountry ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("clientCountry", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
         </div>
-      </div>
-      <div className="my-6">
-        <FormSubTitle>Bill From</FormSubTitle>
-
-        <FormColumn label="Street Adress">
-          <input
-            type="text"
-            id="streetAddress"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              error ? "border-red-500" : "border-gray-300"
-            }`}
-            {...register("streetAddress")}
-          />
-        </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-[1fr_1fr_100%] gap-6">
-          <FormColumn label="City">
+        <div className="grid grid-cols-2 gap-6">
+          <FormColumn label="Invoice Date" error={errors.invoiceDate}>
             <input
-              type="text"
-              id="streetAddress"
+              type="date"
+              id="invoiceDate"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.invoiceDate ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("invoiceDate", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
-          <FormColumn label="Post Code">
+          <FormColumn label="Payment Terms" error={errors.paymentTerms}>
             <input
               type="text"
-              id="streetAddress"
+              id="paymentTerms"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.paymentTerms ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
-            />
-          </FormColumn>
-          <FormColumn label="Country">
-            <input
-              type="text"
-              id="streetAddress"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("streetAddress")}
+              {...register("paymentTerms", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
         </div>
-      </div>
-      <div className="my-6">
-        <FormSubTitle>Bill From</FormSubTitle>
-
-        <FormColumn label="Street Adress">
+        <FormColumn label="Project Description" error={errors.description}>
           <input
             type="text"
-            id="streetAddress"
+            id="description"
             className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              error ? "border-red-500" : "border-gray-300"
+              errors.description ? "border-red-500" : "border-gray-300"
             }`}
-            {...register("streetAddress")}
+            {...register("description", {
+              required: "This field is required",
+            })}
           />
         </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-[1fr_1fr_100%] gap-6">
-          <FormColumn label="City">
-            <input
-              type="text"
-              id="streetAddress"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("streetAddress")}
-            />
-          </FormColumn>
-          <FormColumn label="Post Code">
-            <input
-              type="text"
-              id="streetAddress"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("streetAddress")}
-            />
-          </FormColumn>
-          <FormColumn label="Country">
-            <input
-              type="text"
-              id="streetAddress"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("streetAddress")}
-            />
-          </FormColumn>
+      </div>
+
+      <div className="my-14">
+        <FormSubTitle>Item List</FormSubTitle>
+
+        <div className="grid grid-cols-[3fr_.8fr_1.3fr_1fr_.4fr] gap-7 mb-5">
+          <p className="text-[#7E88C3] text-[1.4rem]">Item Name</p>
+          <p className="text-[#7E88C3] text-[1.4rem] text-left">QTY.</p>
+          <p className="text-[#7E88C3] text-[1.4rem] text-left">Price</p>
+          <p className="text-[#7E88C3] text-[1.4rem] text-left">Total</p>
+          <div></div>
         </div>
-      </div>
-      <div className="my-6">
-        <FormSubTitle>Bill From</FormSubTitle>
 
-        <FormColumn label="Street Adress">
-          <input
-            type="text"
-            id="streetAddress"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              error ? "border-red-500" : "border-gray-300"
-            }`}
-            {...register("streetAddress")}
-          />
-        </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-[1fr_1fr_100%] gap-6">
-          <FormColumn label="City">
+        <div className="grid grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] gap-7">
+          <FormColumn error={errors.itemName}>
             <input
               type="text"
-              id="streetAddress"
+              id="itemName"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.itemName ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("itemName", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
-          <FormColumn label="Post Code">
+          <FormColumn error={errors.quantity}>
             <input
               type="text"
-              id="streetAddress"
+              id="quantity"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.quantity ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("quantity", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
-          <FormColumn label="Country">
+          <FormColumn error={errors.price}>
             <input
               type="text"
-              id="streetAddress"
+              id="price"
               className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
+                errors.price ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("streetAddress")}
+              {...register("price", {
+                required: "This field is required",
+              })}
             />
           </FormColumn>
+          <p className="text-[#000] py-3 font-bold text-[1.7rem] mb-5">
+            150.00
+          </p>
+          <div className="py-3">
+            <Trash />
+          </div>
         </div>
-      </div>
-      <div className="my-6">
-        <FormSubTitle>Bill From</FormSubTitle>
+        <div className="grid grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] gap-7">
+          <FormColumn error={errors.itemName}>
+            <input
+              type="text"
+              id="itemName"
+              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.itemName ? "border-red-500" : "border-gray-300"
+              }`}
+              {...register("itemName", {
+                required: "This field is required",
+              })}
+            />
+          </FormColumn>
+          <FormColumn error={errors.quantity}>
+            <input
+              type="text"
+              id="quantity"
+              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.quantity ? "border-red-500" : "border-gray-300"
+              }`}
+              {...register("quantity", {
+                required: "This field is required",
+              })}
+            />
+          </FormColumn>
+          <FormColumn error={errors.price}>
+            <input
+              type="text"
+              id="price"
+              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.price ? "border-red-500" : "border-gray-300"
+              }`}
+              {...register("price", {
+                required: "This field is required",
+              })}
+            />
+          </FormColumn>
+          <p className="text-[#000] py-3 font-bold text-[1.7rem] mb-5">
+            150.00
+          </p>
+          <div className="py-3">
+            <LucideTrash />
+          </div>
+        </div>
 
-        <FormColumn label="Street Adress">
-          <input
-            type="text"
-            id="streetAddress"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              error ? "border-red-500" : "border-gray-300"
-            }`}
-            {...register("streetAddress")}
-          />
-        </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-[1fr_1fr_100%] gap-6">
-          <FormColumn label="City">
-            <input
-              type="text"
-              id="streetAddress"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("streetAddress")}
-            />
-          </FormColumn>
-          <FormColumn label="Post Code">
-            <input
-              type="text"
-              id="streetAddress"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("streetAddress")}
-            />
-          </FormColumn>
-          <FormColumn label="Country">
-            <input
-              type="text"
-              id="streetAddress"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
-              {...register("streetAddress")}
-            />
-          </FormColumn>
+        <button className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 md:py-8 mt-5 text-[#7C5DFA] font-bold bg-primary-gray100 rounded-full">
+          <Plus size={15} /> Add New Item
+        </button>
+      </div>
+
+      <div className="flex justify-between items-center">
+        <div className="">
+          <Button
+            variant="secondary"
+            className="font-bold px-7 text-[1.2rem]"
+            onClick={onCloseModal}
+          >
+            Discard
+          </Button>
+        </div>
+
+        <div className="flex gap-4">
+          <Button
+            variant="dark"
+            className="font-bold"
+            type="submit"
+            onClick={onCloseModal}
+          >
+            Save as Draft
+          </Button>
+          <Button className="font-bold">Save & Send</Button>
         </div>
       </div>
     </form>
