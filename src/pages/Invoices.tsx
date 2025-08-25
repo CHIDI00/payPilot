@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InvoiceHeading from "../features/invoice/InvoiceHeading";
 import InvoiceContainer from "../features/invoice/InvoiceContainer";
 import Modal from "../ui/Modal";
 import CreateInvoiceForm from "../features/invoice/CreateInvoiceForm";
+import { getInvoice } from "../services/apiInvoices";
 
 const Invoices: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClose = () => setIsModalOpen(false);
+  useEffect(function () {
+    getInvoice().then((data) => console.log(data));
+  }, []);
 
   return (
     <>

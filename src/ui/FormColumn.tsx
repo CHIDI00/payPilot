@@ -17,21 +17,26 @@ interface FormColumnProps extends PropsWithChildren {
 const FormColumn: React.FC<FormColumnProps> = ({ label, error, children }) => {
   return (
     <div className="flex flex-col justify-center items-start gap-2 w-full mb-7 font-medium">
-      {label && (
-        <label htmlFor="" className="text-[1.5rem] text-[#7E88C3]">
-          {label}
-        </label>
-      )}
-      <div className="w-full">
-        {children}
+      <div className="w-full flex justify-between items-center">
+        {label && (
+          <label
+            htmlFor=""
+            className={`text-[1.2rem] text-[#7E88C3] ${
+              error && "text-red-600"
+            }`}
+          >
+            {label}
+          </label>
+        )}
         {error && (
-          <p className="text-red-500 text-[1.4rem]">
+          <p className="text-red-600 text-[1.1rem]">
             {typeof error === "object" && error !== null && "message" in error
               ? (error as FieldError).message
               : ""}
           </p>
         )}
       </div>
+      <div className="w-full">{children}</div>
     </div>
   );
 };

@@ -34,6 +34,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
 
   function onSubmit(data: InvoiceFormData) {
     console.log(data);
+    onCloseModal();
   }
 
   function onError(error: unknown) {
@@ -51,11 +52,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <input
             type="text"
             id="streetAddress"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.streetAddress ? "border-red-500" : "border-gray-300"
+            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.streetAddress ? "border-red-600" : "border-gray-300"
             }`}
             {...register("streetAddress", {
-              required: "This field is required",
+              required: "can't be empty",
             })}
           />
         </FormColumn>
@@ -64,11 +65,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="city"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.city ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.city ? "border-red-600" : "border-gray-300"
               }`}
               {...register("city", {
-                required: "This field is required",
+                required: "*",
               })}
             />
           </FormColumn>
@@ -76,11 +77,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="postCode"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.postCode ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.postCode ? "border-red-600" : "border-gray-300"
               }`}
               {...register("postCode", {
-                required: "This field is required",
+                required: "*",
               })}
             />
           </FormColumn>
@@ -88,11 +89,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="country"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.country ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.country ? "border-red-600" : "border-gray-300"
               }`}
               {...register("country", {
-                required: "This field is required",
+                required: "*",
               })}
             />
           </FormColumn>
@@ -107,11 +108,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <input
             type="text"
             id="clientName"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.clientName ? "border-red-500" : "border-gray-300"
+            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.clientName ? "border-red-600" : "border-gray-300"
             }`}
             {...register("clientName", {
-              required: "This field is required",
+              required: "can't be empty",
             })}
           />
         </FormColumn>
@@ -119,11 +120,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <input
             type="email"
             id="clientEmail"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.clientEmail ? "border-red-500" : "border-gray-300"
+            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.clientEmail ? "border-red-600" : "border-gray-300"
             }`}
             {...register("clientEmail", {
-              required: "This field is required",
+              required: "can't be empty",
             })}
           />
         </FormColumn>
@@ -131,11 +132,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <input
             type="text"
             id="clientStreetAddress"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.clientStreetAddress ? "border-red-500" : "border-gray-300"
+            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.clientStreetAddress ? "border-red-600" : "border-gray-300"
             }`}
             {...register("clientStreetAddress", {
-              required: "This field is required",
+              required: "can't be empty",
             })}
           />
         </FormColumn>
@@ -144,11 +145,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="clientCity"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.clientCity ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.clientCity ? "border-red-600" : "border-gray-300"
               }`}
               {...register("clientCity", {
-                required: "This field is required",
+                required: "*",
               })}
             />
           </FormColumn>
@@ -156,11 +157,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="clientPostCode"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.clientPostCode ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.clientPostCode ? "border-red-600" : "border-gray-300"
               }`}
               {...register("clientPostCode", {
-                required: "This field is required",
+                required: "*",
               })}
             />
           </FormColumn>
@@ -168,11 +169,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="clientCountry"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.clientCountry ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.clientCountry ? "border-red-600" : "border-gray-300"
               }`}
               {...register("clientCountry", {
-                required: "This field is required",
+                required: "*",
               })}
             />
           </FormColumn>
@@ -182,11 +183,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="date"
               id="invoiceDate"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.invoiceDate ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.invoiceDate ? "border-red-600" : "border-gray-300"
               }`}
               {...register("invoiceDate", {
-                required: "This field is required",
+                required: "can't be empty",
               })}
             />
           </FormColumn>
@@ -194,11 +195,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="paymentTerms"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.paymentTerms ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.paymentTerms ? "border-red-600" : "border-gray-300"
               }`}
               {...register("paymentTerms", {
-                required: "This field is required",
+                required: "can't be empty",
               })}
             />
           </FormColumn>
@@ -207,11 +208,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <input
             type="text"
             id="description"
-            className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.description ? "border-red-500" : "border-gray-300"
+            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.description ? "border-red-600" : "border-gray-300"
             }`}
             {...register("description", {
-              required: "This field is required",
+              required: "can't be empty",
             })}
           />
         </FormColumn>
@@ -233,11 +234,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="itemName"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.itemName ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.itemName ? "border-red-600" : "border-gray-300"
               }`}
               {...register("itemName", {
-                required: "This field is required",
+                required: " ",
               })}
             />
           </FormColumn>
@@ -245,11 +246,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="quantity"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.quantity ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.quantity ? "border-red-600" : "border-gray-300"
               }`}
               {...register("quantity", {
-                required: "This field is required",
+                required: " ",
               })}
             />
           </FormColumn>
@@ -257,11 +258,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="price"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.price ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.price ? "border-red-600" : "border-gray-300"
               }`}
               {...register("price", {
-                required: "This field is required",
+                required: " ",
               })}
             />
           </FormColumn>
@@ -277,11 +278,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="itemName"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.itemName ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.itemName ? "border-red-600" : "border-gray-300"
               }`}
               {...register("itemName", {
-                required: "This field is required",
+                required: "",
               })}
             />
           </FormColumn>
@@ -289,11 +290,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="quantity"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.quantity ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.quantity ? "border-red-600" : "border-gray-300"
               }`}
               {...register("quantity", {
-                required: "This field is required",
+                required: "",
               })}
             />
           </FormColumn>
@@ -301,11 +302,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
             <input
               type="text"
               id="price"
-              className={`w-full bg-transparent border-2 border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.price ? "border-red-500" : "border-gray-300"
+              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.price ? "border-red-600" : "border-gray-300"
               }`}
               {...register("price", {
-                required: "This field is required",
+                required: "",
               })}
             />
           </FormColumn>
@@ -317,7 +318,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           </div>
         </div>
 
-        <button className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 md:py-8 mt-5 text-[#7C5DFA] font-bold bg-primary-gray100 rounded-full">
+        <button className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 py-7 mt-5 text-[#7C5DFA] font-bold bg-primary-gray100 rounded-full">
           <Plus size={15} /> Add New Item
         </button>
       </div>
@@ -334,15 +335,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
         </div>
 
         <div className="flex gap-4">
-          <Button
-            variant="dark"
-            className="font-bold"
-            type="submit"
-            onClick={onCloseModal}
-          >
+          <Button variant="dark" className="font-bold" type="submit">
             Save as Draft
           </Button>
-          <Button className="font-bold">Save & Send</Button>
+          <Button className="font-bold" type="submit">
+            Save & Send
+          </Button>
         </div>
       </div>
     </form>

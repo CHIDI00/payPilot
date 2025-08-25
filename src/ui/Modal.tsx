@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, type PropsWithChildren } from "react";
+import { motion } from "framer-motion";
 
 interface ModalProp extends PropsWithChildren {
   isModalOpen: boolean;
@@ -8,18 +9,18 @@ interface ModalProp extends PropsWithChildren {
 const Modal: React.FC<ModalProp> = ({ children, isModalOpen, onClose }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.classList.add("overflow-hidden");
-    } else {
-      document.body.classList.remove("overflow-hidden");
-    }
+  // useEffect(() => {
+  //   if (isModalOpen) {
+  //     document.body.classList.add("overflow-hidden");
+  //   } else {
+  //     document.body.classList.remove("overflow-hidden");
+  //   }
 
-    // Cleanup if modal unmounts
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-    };
-  }, [isModalOpen]);
+  //   // Cleanup if modal unmounts
+  //   return () => {
+  //     document.body.classList.remove("overflow-hidden");
+  //   };
+  // }, [isModalOpen]);
 
   useEffect(
     function () {
@@ -38,18 +39,20 @@ const Modal: React.FC<ModalProp> = ({ children, isModalOpen, onClose }) => {
 
   if (!isModalOpen) return null;
   return (
-    <div className="fixed top-0 left-0 w-full h-[100vh]  text-black transition-all duration-300 z-[1000] flex lg:flex-row flex-col">
-      <div className="lg:w-[5.5%] lg:h-full md:w-full md:h-[7%]"></div>
+    <div className="fixed top-0 left-0 w-full h-[100vh]  text-black transition-all duration-300 z-[20] flex lg:flex-row flex-col">
+      <div className="bg-primary-gray lg:w-[5.5%] lg:h-full md:w-full h-[7%] z-[-100]"></div>
       <div className="w-full lg:h-full h-[93%] bg-[#9797976f]">
-        {/* <div
-          className={`bg-primary-gray  h-full lg:w-[33%] md:w-[70%] w-full `}
-        > */}
-        <div className="lg:w-[33%] md:w-[70%] w-full h-full  rounded-r-[2rem] bg-primary-gray px-1 py-6  ">
+        <motion.div
+          ref={ref}
+          initial={{ x: "-100%" }}
+          animate={{ x: isModalOpen ? 0 : "-100%" }}
+          transition={{ duration: 0.2, ease: "easeIn" }}
+          className="lg:w-[33%] md:w-[70%] w-full h-full md:rounded-r-[2rem] bg-primary-gray px-1 py-6"
+        >
           <div className="px-14 py-16 w-full h-full rounded-r-[2rem] overflow-y-scroll">
             {children}
           </div>
-        </div>
-        {/* </div> */}
+        </motion.div>
       </div>
     </div>
   );
