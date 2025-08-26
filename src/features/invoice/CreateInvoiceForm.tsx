@@ -12,7 +12,7 @@ import type { Invoice } from "../../helper/types";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
-  invoiceToEdit: Invoice;
+  invoiceToEdit: Invoice | null;
 }
 
 interface InvoiceItem {
@@ -37,6 +37,7 @@ interface InvoiceFormData {
   invoice_date?: string;
   payment_terms?: string;
   description?: string;
+  status: string;
 
   // instead of single fields, use an array
   items: InvoiceItem[];
@@ -57,26 +58,22 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     useForm<InvoiceFormData>({
       defaultValues: {
         ...(isEditSession ? editValue : {}),
-        items: [
-          { name: "", quantity: 0, price: 0 }, // 👈 start with one item
-        ],
+        items: [{ name: "", quantity: 0, price: 0 }],
       },
     });
   const { errors } = formState;
 
-  // ...rest of your code
-
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "items", // 👈 this links to InvoiceFormData.items
+    name: "items",
   });
 
   function onSubmit(data: InvoiceFormData) {
     console.log(data);
 
-    if (isEditSession)
+    if (isEditSession && editId)
       editInvoice(
-        { newInvoiceData: { ...data }, id: editId },
+        { newInvoiceData: { ...data }, id: editId! },
         {
           onSuccess: () => {
             reset();

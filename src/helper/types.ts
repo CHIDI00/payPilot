@@ -21,6 +21,7 @@ export interface Invoice {
   invoice_date?: string;
   payment_terms?: string;
   description?: string;
+  status: string;
   items: InvoiceItem[]; // <-- not optional if your db always has []
   created_at?: string;
   user_id?: string;
