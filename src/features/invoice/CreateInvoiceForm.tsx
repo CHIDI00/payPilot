@@ -3,13 +3,16 @@ import { useForm, useFieldArray } from "react-hook-form";
 
 import FormColumn from "../../ui/FormColumn";
 import FormSubTitle from "../../ui/FormSubTitle";
-import { Plus, Trash } from "lucide-react";
 import Button from "../../ui/Button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createInvoice } from "../../services/apiInvoices";
+import { Plus, Trash } from "lucide-react";
+
+import { useCreateInvoice } from "./useCreateInvoice";
+import { useEditInvoice } from "./useEditInvoice";
+import type { Invoice } from "../../helper/types";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
+  invoiceToEdit: Invoice;
 }
 
 interface InvoiceItem {
@@ -19,6 +22,8 @@ interface InvoiceItem {
 }
 
 interface InvoiceFormData {
+  id: string;
+  invoice_id: string;
   street_address?: string;
   post_code?: string;
   city?: string;
@@ -37,10 +42,21 @@ interface InvoiceFormData {
   items: InvoiceItem[];
 }
 
-const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
-  const { register, handleSubmit, formState, control } =
+const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
+  invoiceToEdit,
+  onCloseModal,
+}) => {
+  const { createInvoice, isCreating } = useCreateInvoice();
+  const { editInvoice, isEditing } = useEditInvoice();
+  const isWorking = isCreating || isEditing;
+
+  const { id: editId, ...editValue } = invoiceToEdit ?? {};
+  const isEditSession = Boolean(editId);
+
+  const { register, handleSubmit, formState, control, reset } =
     useForm<InvoiceFormData>({
       defaultValues: {
+        ...(isEditSession ? editValue : {}),
         items: [
           { name: "", quantity: 0, price: 0 }, // 👈 start with one item
         ],
@@ -55,20 +71,29 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
     name: "items", // 👈 this links to InvoiceFormData.items
   });
 
-  const queryClient = useQueryClient();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: createInvoice,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["invoices"] });
-      onCloseModal?.();
-    },
-    onError: (err) => console.log(err.message),
-  });
-
   function onSubmit(data: InvoiceFormData) {
     console.log(data);
-    mutate(data);
+
+    if (isEditSession)
+      editInvoice(
+        { newInvoiceData: { ...data }, id: editId },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
+    else
+      createInvoice(
+        { id: data.id, newInvoice: { ...data } },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
   }
 
   return (
@@ -351,7 +376,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <Button variant="dark" className="font-bold" type="submit">
             Save as Draft
           </Button>
-          <Button className="font-bold" type="submit" disabled={isPending}>
+          <Button className="font-bold" type="submit" disabled={isWorking}>
             Save & Send
           </Button>
         </div>

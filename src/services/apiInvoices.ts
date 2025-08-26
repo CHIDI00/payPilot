@@ -1,3 +1,4 @@
+import type { Invoice } from "../helper/types";
 import supabase from "./supabase";
 
 export async function getInvoice() {
@@ -10,40 +11,44 @@ export async function getInvoice() {
 
   return data;
 }
-interface InvoiceItem {
-  name: string;
-  quantity: number;
-  price: number;
-}
 
-export interface Invoice {
-  streetAddress?: string;
-  postCode?: string;
-  city?: string;
-  country?: string;
-  clientName?: string;
-  clientEmail?: string;
-  clientStreetAddress?: string;
-  clientCity?: string;
-  clientPostCode?: string;
-  clientCountry?: string;
-  invoiceDate?: string;
-  paymentTerms?: string;
-  description?: string;
-
-  // instead of single fields, use an array
-  items: InvoiceItem[];
-}
-
-export async function createInvoice(
+export async function createEditInvoice(
+  id: string,
   newInvoice: Invoice
 ): Promise<Invoice[] | null> {
-  const { data, error } = await supabase.from("invoices").insert([newInvoice]);
+  // 1. Create/edit Invoice
+  // A) CREATE
+  if (!id) {
+    const { data, error } = await supabase
+      .from("invoices")
+      .insert([{ ...newInvoice }])
+      .select()
+      .single();
 
-  if (error) {
-    console.log(error);
-    throw new Error("Invoice could not be created");
+    if (error) {
+      console.log(error);
+      throw new Error("Invoice could not be created");
+    }
+
+    return data ? [data as Invoice] : null;
   }
 
-  return data as Invoice[] | null;
+  // B) EDIT
+  if (id) {
+    const { data, error } = await supabase
+      .from("invoices")
+      .update({ ...newInvoice })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      console.log(error);
+      throw new Error("Invoice could not be Editted");
+    }
+
+    return data ? [data as Invoice] : null;
+  }
+
+  return null;
 }
