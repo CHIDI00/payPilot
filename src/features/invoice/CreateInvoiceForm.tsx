@@ -1,61 +1,91 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
+
 import FormColumn from "../../ui/FormColumn";
 import FormSubTitle from "../../ui/FormSubTitle";
-import { LucideTrash, Plus, Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import Button from "../../ui/Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createInvoice } from "../../services/apiInvoices";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
 }
 
+interface InvoiceItem {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
 interface InvoiceFormData {
-  streetAddress?: string;
-  postCode?: string;
+  street_address?: string;
+  post_code?: string;
   city?: string;
   country?: string;
-  clientName?: string;
-  clientEmail?: string;
-  clientStreetAddress?: string;
-  clientCity?: string;
-  clientPostCode?: string;
-  clientCountry?: string;
-  invoiceDate?: string;
-  paymentTerms?: string;
+  client_name?: string;
+  client_email?: string;
+  client_street_address?: string;
+  client_city?: string;
+  client_post_code?: string;
+  client_country?: string;
+  invoice_date?: string;
+  payment_terms?: string;
   description?: string;
-  itemName?: string;
-  quantity?: string;
-  price?: string;
+
+  // instead of single fields, use an array
+  items: InvoiceItem[];
 }
 
 const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
-  const { register, handleSubmit, formState } = useForm<InvoiceFormData>();
+  const { register, handleSubmit, formState, control } =
+    useForm<InvoiceFormData>({
+      defaultValues: {
+        items: [
+          { name: "", quantity: 0, price: 0 }, // 👈 start with one item
+        ],
+      },
+    });
   const { errors } = formState;
+
+  // ...rest of your code
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "items", // 👈 this links to InvoiceFormData.items
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createInvoice,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      onCloseModal?.();
+    },
+    onError: (err) => console.log(err.message),
+  });
 
   function onSubmit(data: InvoiceFormData) {
     console.log(data);
-    onCloseModal();
-  }
-
-  function onError(error: unknown) {
-    console.log(error);
+    mutate(data);
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, onError)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h2 className="font-bold text-[2.1rem] mb-10">New Invoice</h2>
       {/* BILL FROM */}
       <div className="my-6">
         <FormSubTitle>Bill From</FormSubTitle>
 
-        <FormColumn label="Street Adress" error={errors.streetAddress}>
+        <FormColumn label="Street Adress" error={errors.street_address}>
           <input
             type="text"
-            id="streetAddress"
+            id="street_address"
             className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.streetAddress ? "border-red-600" : "border-gray-300"
+              errors.street_address ? "border-red-600" : "border-gray-300"
             }`}
-            {...register("streetAddress", {
+            {...register("street_address", {
               required: "can't be empty",
             })}
           />
@@ -73,14 +103,14 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
               })}
             />
           </FormColumn>
-          <FormColumn label="Post Code" error={errors.postCode}>
+          <FormColumn label="Post Code" error={errors.post_code}>
             <input
               type="text"
-              id="postCode"
+              id="post_code"
               className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.postCode ? "border-red-600" : "border-gray-300"
+                errors.post_code ? "border-red-600" : "border-gray-300"
               }`}
-              {...register("postCode", {
+              {...register("post_code", {
                 required: "*",
               })}
             />
@@ -104,101 +134,103 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
       <div className="my-6">
         <FormSubTitle>Bill To</FormSubTitle>
 
-        <FormColumn label="Client's Name" error={errors.clientName}>
+        <FormColumn label="Client's Name" error={errors.client_name}>
           <input
             type="text"
-            id="clientName"
+            id="client_name"
             className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.clientName ? "border-red-600" : "border-gray-300"
+              errors.client_name ? "border-red-600" : "border-gray-300"
             }`}
-            {...register("clientName", {
+            {...register("client_name", {
               required: "can't be empty",
             })}
           />
         </FormColumn>
-        <FormColumn label="Client's Email" error={errors.clientEmail}>
+        <FormColumn label="Client's Email" error={errors.client_email}>
           <input
             type="email"
-            id="clientEmail"
+            id="client_email"
             className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.clientEmail ? "border-red-600" : "border-gray-300"
+              errors.client_email ? "border-red-600" : "border-gray-300"
             }`}
-            {...register("clientEmail", {
+            {...register("client_email", {
               required: "can't be empty",
             })}
           />
         </FormColumn>
-        <FormColumn label="Street Address" error={errors.clientStreetAddress}>
+        <FormColumn label="Street Address" error={errors.client_street_address}>
           <input
             type="text"
-            id="clientStreetAddress"
+            id="client_street_address"
             className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-              errors.clientStreetAddress ? "border-red-600" : "border-gray-300"
+              errors.client_street_address
+                ? "border-red-600"
+                : "border-gray-300"
             }`}
-            {...register("clientStreetAddress", {
+            {...register("client_street_address", {
               required: "can't be empty",
             })}
           />
         </FormColumn>
         <div className="grid grid-cols-3 gap-6">
-          <FormColumn label="City" error={errors.clientCity}>
+          <FormColumn label="City" error={errors.client_city}>
             <input
               type="text"
-              id="clientCity"
+              id="client_city"
               className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.clientCity ? "border-red-600" : "border-gray-300"
+                errors.client_city ? "border-red-600" : "border-gray-300"
               }`}
-              {...register("clientCity", {
+              {...register("client_city", {
                 required: "*",
               })}
             />
           </FormColumn>
-          <FormColumn label="Post Code" error={errors.clientPostCode}>
+          <FormColumn label="Post Code" error={errors.client_post_code}>
             <input
               type="text"
-              id="clientPostCode"
+              id="client_post_code"
               className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.clientPostCode ? "border-red-600" : "border-gray-300"
+                errors.client_post_code ? "border-red-600" : "border-gray-300"
               }`}
-              {...register("clientPostCode", {
+              {...register("client_post_code", {
                 required: "*",
               })}
             />
           </FormColumn>
-          <FormColumn label="Country" error={errors.clientCountry}>
+          <FormColumn label="Country" error={errors.client_country}>
             <input
               type="text"
-              id="clientCountry"
+              id="client_country"
               className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.clientCountry ? "border-red-600" : "border-gray-300"
+                errors.client_country ? "border-red-600" : "border-gray-300"
               }`}
-              {...register("clientCountry", {
+              {...register("client_country", {
                 required: "*",
               })}
             />
           </FormColumn>
         </div>
         <div className="grid grid-cols-2 gap-6">
-          <FormColumn label="Invoice Date" error={errors.invoiceDate}>
+          <FormColumn label="Invoice Date" error={errors.invoice_date}>
             <input
               type="date"
-              id="invoiceDate"
+              id="invoice_date"
               className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.invoiceDate ? "border-red-600" : "border-gray-300"
+                errors.invoice_date ? "border-red-600" : "border-gray-300"
               }`}
-              {...register("invoiceDate", {
+              {...register("invoice_date", {
                 required: "can't be empty",
               })}
             />
           </FormColumn>
-          <FormColumn label="Payment Terms" error={errors.paymentTerms}>
+          <FormColumn label="Payment Terms" error={errors.payment_terms}>
             <input
               type="text"
-              id="paymentTerms"
+              id="payment_terms"
               className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.paymentTerms ? "border-red-600" : "border-gray-300"
+                errors.payment_terms ? "border-red-600" : "border-gray-300"
               }`}
-              {...register("paymentTerms", {
+              {...register("payment_terms", {
                 required: "can't be empty",
               })}
             />
@@ -229,96 +261,77 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <div></div>
         </div>
 
-        <div className="grid grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] gap-7">
-          <FormColumn error={errors.itemName}>
-            <input
-              type="text"
-              id="itemName"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.itemName ? "border-red-600" : "border-gray-300"
-              }`}
-              {...register("itemName", {
-                required: " ",
-              })}
-            />
-          </FormColumn>
-          <FormColumn error={errors.quantity}>
-            <input
-              type="text"
-              id="quantity"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.quantity ? "border-red-600" : "border-gray-300"
-              }`}
-              {...register("quantity", {
-                required: " ",
-              })}
-            />
-          </FormColumn>
-          <FormColumn error={errors.price}>
-            <input
-              type="text"
-              id="price"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.price ? "border-red-600" : "border-gray-300"
-              }`}
-              {...register("price", {
-                required: " ",
-              })}
-            />
-          </FormColumn>
-          <p className="text-[#000] py-3 font-bold text-[1.7rem] mb-5">
-            150.00
-          </p>
-          <div className="py-3">
-            <Trash />
-          </div>
-        </div>
-        <div className="grid grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] gap-7">
-          <FormColumn error={errors.itemName}>
-            <input
-              type="text"
-              id="itemName"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.itemName ? "border-red-600" : "border-gray-300"
-              }`}
-              {...register("itemName", {
-                required: "",
-              })}
-            />
-          </FormColumn>
-          <FormColumn error={errors.quantity}>
-            <input
-              type="text"
-              id="quantity"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.quantity ? "border-red-600" : "border-gray-300"
-              }`}
-              {...register("quantity", {
-                required: "",
-              })}
-            />
-          </FormColumn>
-          <FormColumn error={errors.price}>
-            <input
-              type="text"
-              id="price"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
-                errors.price ? "border-red-600" : "border-gray-300"
-              }`}
-              {...register("price", {
-                required: "",
-              })}
-            />
-          </FormColumn>
-          <p className="text-[#000] py-3 font-bold text-[1.7rem] mb-5">
-            150.00
-          </p>
-          <div className="py-3">
-            <LucideTrash />
-          </div>
-        </div>
+        {fields.map((field, index) => (
+          <div
+            key={field.id}
+            className="grid grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] gap-7 mb-4"
+          >
+            {/* Item Name */}
+            <FormColumn error={errors.items?.[index]?.name}>
+              <input
+                type="text"
+                className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
+                  errors.items?.[index]?.name
+                    ? "border-red-600"
+                    : "border-gray-300"
+                }`}
+                {...register(`items.${index}.name` as const, {
+                  required: "Required",
+                })}
+              />
+            </FormColumn>
 
-        <button className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 py-7 mt-5 text-[#7C5DFA] font-bold bg-primary-gray100 rounded-full">
+            {/* Quantity */}
+            <FormColumn error={errors.items?.[index]?.quantity}>
+              <input
+                type="number"
+                className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
+                  errors.items?.[index]?.quantity
+                    ? "border-red-600"
+                    : "border-gray-300"
+                }`}
+                {...register(`items.${index}.quantity` as const, {
+                  required: "Required",
+                  valueAsNumber: true,
+                })}
+              />
+            </FormColumn>
+
+            {/* Price */}
+            <FormColumn error={errors.items?.[index]?.price}>
+              <input
+                type="number"
+                step="0.01"
+                className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
+                  errors.items?.[index]?.price
+                    ? "border-red-600"
+                    : "border-gray-300"
+                }`}
+                {...register(`items.${index}.price` as const, {
+                  required: "Required",
+                  valueAsNumber: true,
+                })}
+              />
+            </FormColumn>
+
+            {/* Total (read-only) */}
+            <p className="text-[#000] py-3 font-bold text-[1.7rem] mb-5">
+              {(field.quantity ?? 0) * (field.price ?? 0)}
+            </p>
+
+            {/* Delete Item */}
+            <div className="py-3 cursor-pointer" onClick={() => remove(index)}>
+              <Trash />
+            </div>
+          </div>
+        ))}
+
+        {/* Add New Item */}
+        <button
+          type="button"
+          onClick={() => append({ name: "", quantity: 0, price: 0 })}
+          className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 py-7 mt-5 text-[#7C5DFA] font-bold bg-primary-gray100 rounded-full"
+        >
           <Plus size={15} /> Add New Item
         </button>
       </div>
@@ -338,7 +351,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({ onCloseModal }) => {
           <Button variant="dark" className="font-bold" type="submit">
             Save as Draft
           </Button>
-          <Button className="font-bold" type="submit">
+          <Button className="font-bold" type="submit" disabled={isPending}>
             Save & Send
           </Button>
         </div>
