@@ -6,6 +6,7 @@ import DeleteModal from "../../ui/DeleteModal";
 import Modal from "../../ui/Modal";
 import CreateInvoiceForm from "./CreateInvoiceForm";
 import useInvoice from "./useInvoice";
+import Loader from "../../ui/Loader";
 // import { useParams } from "react-router-dom";
 
 const InvoiceDetail: React.FC = () => {
@@ -15,14 +16,9 @@ const InvoiceDetail: React.FC = () => {
 
   const { invoice, isLoading } = useInvoice();
 
-  // const { id } = useParams<{ id: string }>(); // /invoices/:id
-
-  // find the invoice that matches the clicked id
-  // const invoice = invoices?.find((inv) => inv.id === id);
-
   const onClose = () => setIsDeleteModalOpen(false);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
   if (!invoice) return <div>No invoice found</div>;
 
   const {
