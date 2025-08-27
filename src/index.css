@@ -239,14 +239,14 @@ FOR DARK MODE
   }
 } */
 
-.loader {
-  color: #fff;
+/* .loader {
+  color: #7c5dfa;
   position: relative;
   font-size: 11px;
-  background: #fff;
+  background: #7c5dfa;
   animation: escaleY 1s infinite ease-in-out;
   width: 1em;
-  height: 4em;
+  height: 3em;
   animation-delay: -0.16s;
 }
 
@@ -256,9 +256,9 @@ FOR DARK MODE
   position: absolute;
   top: 0;
   left: 2em;
-  background: #fff;
+  background: #7c5dfa;
   width: 1em;
-  height: 4em;
+  height: 3em;
   animation: escaleY 1s infinite ease-in-out;
 }
 
@@ -277,5 +277,25 @@ FOR DARK MODE
   40% {
     box-shadow: 0 -2em;
     height: 5em;
+  }
+} */
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #7c5dfa;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
