@@ -3,7 +3,7 @@ import InvoiceRow from "./InvoiceRow";
 import type { Invoice } from "../../helper/types";
 
 type InvoiceContainerProps = {
-  invoice: Invoice[] | undefined; // or Invoice[] if you're sure it's always an array
+  invoice: Invoice[] | undefined;
 };
 
 const InvoiceContainer: React.FC<InvoiceContainerProps> = ({ invoice }) => {

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Button from "../../ui/Button";
 import addIcon from "../../assets/addIcon.svg";
 import { ChevronDown } from "lucide-react";
-import invoices from "../../data/invoiceData";
+import type { Invoice } from "../../helper/types";
 
 interface ModalProp {
   setIsModalOpen: (open: boolean) => void;
+  invoice: Invoice[] | undefined;
 }
-const InvoiceHeading: React.FC<ModalProp> = ({ setIsModalOpen }) => {
+const InvoiceHeading: React.FC<ModalProp> = ({ setIsModalOpen, invoice }) => {
   const [menuIsOpen, setMenueIsOpen] = useState(false);
 
   function handleMenu() {
@@ -22,13 +23,17 @@ const InvoiceHeading: React.FC<ModalProp> = ({ setIsModalOpen }) => {
             Invoices
           </h2>
           <p className="hidden md:flex text-[1.5rem] text-gray-400 leading-tight">
-            {invoices.length > 0
-              ? `There are ${invoices.length} total invoices`
-              : "No invoice"}
+            {invoice && invoice.length > 0
+              ? `There ${invoice.length === 1 ? "is" : "are"} ${
+                  invoice.length
+                } invoice${invoice.length > 1 ? "s" : ""}`
+              : "No invoices"}
           </p>
+
           <p className="block md:hidden text-[1.5rem] text-gray-400 leading-tight">
-            {" "}
-            {invoices.length > 0 ? `${invoices.length} invoices` : "No invoice"}
+            {invoice && invoice.length > 0
+              ? `${invoice.length} invoices`
+              : "No invoices"}
           </p>
         </div>
 

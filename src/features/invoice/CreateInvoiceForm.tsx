@@ -40,7 +40,6 @@ interface InvoiceFormData {
   description?: string;
   status: string;
 
-  // instead of single fields, use an array
   items: InvoiceItem[];
 }
 
@@ -84,11 +83,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         }
       );
     } else {
-      // Creating a new invoice → assign generated invoice_id
+      // Creating a new invoice
       const newInvoice = {
         ...data,
-        invoice_id: generateInvoiceId(), // 👈 Generate here
-        status: data.status || "pending", // fallback to pending
+        invoice_id: generateInvoiceId(),
+        status: data.status || "Pending",
       };
 
       createInvoice(
@@ -105,12 +104,19 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="font-bold text-[2.1rem] mb-10">
-        {isEditSession ? `Edit #XXXXX` : "New Invoice"}
-      </h2>
+      {isEditSession ? (
+        <h2 className="font-bold text-[2.1rem] mb-10">
+          Edit <span className="text-[#7E88C3]">#</span>
+          {invoiceToEdit?.invoice_id}
+        </h2>
+      ) : (
+        <h2 className="font-bold text-[2.1rem] mb-10">New Invoice</h2>
+      )}
       {/* BILL FROM */}
       <div className="my-6">
         <FormSubTitle>Bill From</FormSubTitle>
+
+        {/* Street Adress */}
 
         <FormColumn label="Street Adress" error={errors.street_address}>
           <input
@@ -207,6 +213,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           />
         </FormColumn>
         <div className="grid grid-cols-3 gap-6">
+          {/* Client's City */}
           <FormColumn label="City" error={errors.client_city}>
             <input
               type="text"
@@ -219,6 +226,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
+
+          {/* Client's Post Code */}
           <FormColumn label="Post Code" error={errors.client_post_code}>
             <input
               type="text"
@@ -231,6 +240,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
+
+          {/* Client's Country */}
           <FormColumn label="Country" error={errors.client_country}>
             <input
               type="text"
@@ -245,6 +256,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </FormColumn>
         </div>
         <div className="grid grid-cols-2 gap-6">
+          {/* Invoice Date */}
           <FormColumn label="Invoice Date" error={errors.invoice_date}>
             <input
               type="date"
@@ -257,6 +269,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
+
+          {/* Payment Terms */}
           <FormColumn label="Payment Terms" error={errors.payment_terms}>
             <input
               type="text"
@@ -271,6 +285,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </FormColumn>
         </div>
 
+        {/* Description */}
         <FormColumn label="Project Description" error={errors.description}>
           <input
             type="text"

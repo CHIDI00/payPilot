@@ -16,8 +16,8 @@ export async function createEditInvoice(
   id: string,
   newInvoice: Invoice
 ): Promise<Invoice[] | null> {
-  // 1. Create/edit Invoice
-  // A) CREATE
+  //  Create/edit Invoice
+  // CREATE
   if (!id) {
     const { data, error } = await supabase
       .from("invoices")
@@ -33,7 +33,7 @@ export async function createEditInvoice(
     return data ? [data as Invoice] : null;
   }
 
-  // B) EDIT
+  // EDIT
   if (id) {
     const { data, error } = await supabase
       .from("invoices")
@@ -58,7 +58,7 @@ export async function getInvoiceById(id: string) {
   const { data, error } = await supabase
     .from("invoices")
     .select("*")
-    .eq("id", id) // or .eq("invoice_id", id) if you want to use custom code
+    .eq("id", id)
     .single();
 
   if (error) {
@@ -67,4 +67,15 @@ export async function getInvoiceById(id: string) {
   }
 
   return data as Invoice;
+}
+
+// Delete Invoice
+export async function deleteInvoice(id: string) {
+  const { data, error } = await supabase.from("invoices").delete().eq("id", id);
+
+  if (error) {
+    throw new Error("Invoice could not be Deleted");
+  }
+
+  return data;
 }

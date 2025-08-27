@@ -22,7 +22,7 @@ const Invoices: React.FC = () => {
   return (
     <>
       <div className="w-full h-full  flex flex-col justify-center items-center lg:px-0 px-6 pb-8">
-        <InvoiceHeading setIsModalOpen={setIsModalOpen} />
+        <InvoiceHeading invoice={Invoice} setIsModalOpen={setIsModalOpen} />
 
         {isPending ? "Loading..." : <InvoiceContainer invoice={Invoice} />}
       </div>

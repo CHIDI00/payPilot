@@ -184,28 +184,22 @@ const InvoiceDetail: React.FC = () => {
               ))}
             </div>
 
-            <div className="px-10 py-8 md:hidden flex flex-col gap-4 justify-between items-center bg-primary-gray100 rounded-[1rem]">
-              <div className="flex w-full justify-between items-center py-1">
-                <div className="flex flex-col justify-center items-start">
-                  <p className="font-bold text-[1.6rem]">Email Design</p>
-                  <p className="font-bold text-[#7E88C3] text-[1.6rem] ">
-                    1 x $ 150.00
+            {invoice.items?.map((item) => (
+              <div className="px-10 py-8 md:hidden flex flex-col gap-4 justify-between items-center bg-primary-gray100 rounded-[1rem]">
+                <div className="flex w-full justify-between items-center py-1">
+                  <div className="flex flex-col justify-center items-start">
+                    <p className="font-bold text-[1.6rem]">{item.name}</p>
+                    <p className="font-bold text-[#7E88C3] text-[1.6rem] ">
+                      {item.quantity} x $ {item.price.toFixed(2)}
+                    </p>
+                  </div>
+
+                  <p className="font-bold text-[1.6rem]">
+                    $ {(item.quantity * item.price).toFixed(2)}
                   </p>
                 </div>
-
-                <p className="font-bold text-[1.6rem]">$ 150.00</p>
               </div>
-              <div className="flex w-full justify-between items-center py-3">
-                <div className="flex flex-col justify-center items-start">
-                  <p className="font-bold text-[1.6rem]">Email Design</p>
-                  <p className="font-bold text-[#7E88C3] text-[1.6rem] ">
-                    1 x $ 150.00
-                  </p>
-                </div>
-
-                <p className="font-bold text-[1.6rem]">$ 150.00</p>
-              </div>
-            </div>
+            ))}
 
             <div className="w-full flex justify-between items-center px-10 py-10 bg-[#252945] rounded-b-[1rem]">
               <p className="text-primary-gray text-[1.4rem]">Amount Due</p>
