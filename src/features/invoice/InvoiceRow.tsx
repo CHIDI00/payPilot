@@ -1,11 +1,12 @@
-import { ChevronRight } from "lucide-react";
 import React from "react";
 import EmptyInvoice from "../../ui/EmptyInvoice";
+
 import { useNavigate } from "react-router-dom";
 import type { Invoice } from "../../helper/types";
+import { ChevronRight } from "lucide-react";
 
 type InvoiceContainerProps = {
-  invoice: Invoice; // or Invoice[] if you're sure it's always an array
+  invoice: Invoice;
 };
 
 const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {

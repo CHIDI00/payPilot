@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../ui/Button";
 import addIcon from "../../assets/addIcon.svg";
+
 import { ChevronDown } from "lucide-react";
 import type { Invoice } from "../../helper/types";
 
@@ -8,6 +9,7 @@ interface ModalProp {
   setIsModalOpen: (open: boolean) => void;
   invoice: Invoice[] | undefined;
 }
+
 const InvoiceHeading: React.FC<ModalProp> = ({ setIsModalOpen, invoice }) => {
   const [menuIsOpen, setMenueIsOpen] = useState(false);
 

@@ -1,13 +1,15 @@
-import { ChevronLeft } from "lucide-react";
 import React, { useState } from "react";
-import { useMoveBack } from "../../hooks/useMoveBack";
+
 import Button from "../../ui/Button";
 import DeleteModal from "../../ui/DeleteModal";
 import Modal from "../../ui/Modal";
 import CreateInvoiceForm from "./CreateInvoiceForm";
 import useInvoice from "./useInvoice";
 import Loader from "../../ui/Loader";
-// import { useParams } from "react-router-dom";
+
+import { ChevronLeft } from "lucide-react";
+import { useMoveBack } from "../../hooks/useMoveBack";
+import { useDeleteInvoice } from "./useDeleteInvoice";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -15,6 +17,7 @@ const InvoiceDetail: React.FC = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { invoice, isLoading } = useInvoice();
+  const { deleteInvoice, isDeleting } = useDeleteInvoice();
 
   const onClose = () => setIsDeleteModalOpen(false);
 
@@ -22,6 +25,7 @@ const InvoiceDetail: React.FC = () => {
   if (!invoice) return <div>No invoice found</div>;
 
   const {
+    id,
     invoice_id,
     street_address,
     post_code,
@@ -78,12 +82,15 @@ const InvoiceDetail: React.FC = () => {
               variant="secondary"
               onClick={() => {
                 setIsModalOpen(true);
-                console.log("clicked");
               }}
             >
               Edit
             </Button>
-            <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
+            <Button
+              variant="danger"
+              disabled={isDeleting}
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
               Delete
             </Button>
             <Button>Mark as Paid</Button>
@@ -209,6 +216,8 @@ const InvoiceDetail: React.FC = () => {
         {isDeleteModalOpen && (
           <DeleteModal
             onClose={onClose}
+            resourceName={invoice_id}
+            onConfirm={() => deleteInvoice(id)}
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
         )}
