@@ -1,4 +1,3 @@
-// src/types/invoice.ts
 export interface InvoiceItem {
   name: string;
   quantity: number;
@@ -22,7 +21,7 @@ export interface Invoice {
   payment_terms?: string;
   description?: string;
   status: string;
-  items: InvoiceItem[]; // <-- not optional if your db always has []
+  items: InvoiceItem[];
   created_at?: string;
   user_id?: string;
 }

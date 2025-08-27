@@ -3,13 +3,45 @@ import React, { useState } from "react";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import Button from "../../ui/Button";
 import DeleteModal from "../../ui/DeleteModal";
+import Modal from "../../ui/Modal";
+import CreateInvoiceForm from "./CreateInvoiceForm";
+import useInvoice from "./useInvoice";
+// import { useParams } from "react-router-dom";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const { invoice, isLoading } = useInvoice();
+
+  // const { id } = useParams<{ id: string }>(); // /invoices/:id
+
+  // find the invoice that matches the clicked id
+  // const invoice = invoices?.find((inv) => inv.id === id);
+
   const onClose = () => setIsDeleteModalOpen(false);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!invoice) return <div>No invoice found</div>;
+
+  const {
+    invoice_id,
+    street_address,
+    post_code,
+    city,
+    country,
+    client_name,
+    client_email,
+    client_street_address,
+    client_city,
+    client_post_code,
+    client_country,
+    invoice_date,
+    // payment_terms,
+    description,
+    status,
+  } = invoice;
 
   return (
     <>
@@ -30,31 +62,31 @@ const InvoiceDetail: React.FC = () => {
         <div className="w-full flex justify-between items-center py-8 md:px-12 px-10 bg-primary-gray md:rounded-lg rounded-[1rem] shadow-sm mb-10">
           <div className="md:w-1/2 w-full flex gap-7 md:justify-start justify-between items-center">
             <p className="text-[1.4rem] text-gray-400">Status</p>
-            <div
-              className={`px-6 py-1 font-bold text-[1.6rem] rounded-xl flex justify-center items-center gap-1
-                
-                   text-orange-400 bg-orange-50
-                  `}
-            >
-              <span className="text-[2.5rem]">•</span> Pending
-            </div>
 
-            {/* <div
+            <div
               className={`px-4 py-2 font-bold text-[1.6rem] rounded-xl flex justify-center items-center gap-1
                 ${
-                  invoice.status === "Paid"
+                  status?.toLowerCase() === "paid"
                     ? "text-green-500 bg-green-50"
-                    : invoice.status === "Pending"
+                    : status?.toLowerCase() === "pending"
                     ? "text-orange-400 bg-orange-50"
                     : "text-[#252945] bg-[#DFE3FA]"
                 }`}
             >
-              <span className="text-[2.5rem]">•</span> {invoice.status}
-            </div> */}
+              <span className="text-[2.5rem]">•</span> {status}
+            </div>
           </div>
 
           <div className="hidden w-1/2 md:flex justify-end items-center gap-4">
-            <Button variant="secondary">Edit</Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsModalOpen(true);
+                console.log("clicked");
+              }}
+            >
+              Edit
+            </Button>
             <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
               Delete
             </Button>
@@ -68,23 +100,30 @@ const InvoiceDetail: React.FC = () => {
             <div className="flex flex-col gap-1">
               <div className="font-bold text-[1.6rem]">
                 <span className="text-[#7E88C3]">#</span>
-                XM9414
+                {invoice_id}
               </div>
-              <p className="text-[#7E88C3] text-[1.4rem]">Graphic Design</p>
+              <p className="text-[#7E88C3] text-[1.4rem]">{description}</p>
             </div>
 
             <div className="flex flex-col justify-end items-end">
-              <p className="text-[#7E88C3] text-[1.4rem]">19 Union Terrace</p>
-              <p className="text-[#7E88C3] text-[1.4rem]">London</p>
-              <p className="text-[#7E88C3] text-[1.4rem]">E1 3EZ</p>
-              <p className="text-[#7E88C3] text-[1.4rem]">United Kingdom</p>
+              <p className="text-[#7E88C3] text-[1.4rem]">{street_address}</p>
+              <p className="text-[#7E88C3] text-[1.4rem]">{city}</p>
+              <p className="text-[#7E88C3] text-[1.4rem]">{post_code}</p>
+              <p className="text-[#7E88C3] text-[1.4rem]">{country}</p>
             </div>
           </div>
           <div className="w-full grid md:grid-cols-3 grid-cols-2 justify-between items-start gap-y-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-1">
-                <p className="text-[#7E88C3] text-[1.4rem]">Invoice Date</p>
-                <p className="font-bold text-[1.6rem]">21 Aug 2025</p>
+                <p className="text-[#7E88C3] text-[1.4rem]">Payment Date</p>
+                <p className="font-bold text-[1.6rem]">
+                  {invoice_date &&
+                    new Date(invoice_date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                </p>
               </div>
               <div className="flex flex-col gap-1">
                 <p className="text-[#7E88C3] text-[1.4rem]">Payment Due</p>
@@ -94,19 +133,25 @@ const InvoiceDetail: React.FC = () => {
 
             <div className="flex flex-col gap-1">
               <p className="text-[#7E88C3] text-[1.4rem] capitalize">Bill to</p>
-              <p className="font-bold text-[1.6rem] capitalize">alex Grim</p>
+              <p className="font-bold text-[1.6rem] capitalize">
+                {client_name}
+              </p>
 
               <div className="flex flex-col justify-start items-start">
-                <p className="text-[#7E88C3] text-[1.4rem]">84 Church Way</p>
-                <p className="text-[#7E88C3] text-[1.4rem]">Bradford</p>
-                <p className="text-[#7E88C3] text-[1.4rem]">BD1 9PB</p>
-                <p className="text-[#7E88C3] text-[1.4rem]">United Kingdom</p>
+                <p className="text-[#7E88C3] text-[1.4rem]">
+                  {client_street_address}
+                </p>
+                <p className="text-[#7E88C3] text-[1.4rem]">{client_city}</p>
+                <p className="text-[#7E88C3] text-[1.4rem]">
+                  {client_post_code}
+                </p>
+                <p className="text-[#7E88C3] text-[1.4rem]">{client_country}</p>
               </div>
             </div>
 
             <div className="">
               <p className="text-[#7E88C3] text-[1.4rem]">Send to</p>
-              <p className="font-bold text-[1.6rem]">alexgrim@mail.com</p>
+              <p className="font-bold text-[1.6rem]">{client_email}</p>
             </div>
           </div>
 
@@ -120,26 +165,23 @@ const InvoiceDetail: React.FC = () => {
                 <p className="text-[#7E88C3] text-[1.4rem] text-right">Total</p>
               </div>
 
-              <div className="grid grid-cols-[1.6fr_1fr_1fr_1fr]">
-                <p className="font-bold text-[1.6rem]">Banner Design</p>
-                <p className="font-bold text-[#7E88C3] text-[1.6rem] text-right">
-                  2
-                </p>
-                <p className="font-bold text-[#7E88C3] text-[1.6rem] text-right">
-                  $ 400.00
-                </p>
-                <p className="font-bold text-[1.6rem] text-right">$ 400.00</p>
-              </div>
-              <div className="grid grid-cols-[1.6fr_1fr_1fr_1fr]">
-                <p className="font-bold text-[1.6rem]">Email Design</p>
-                <p className="font-bold text-[#7E88C3] text-[1.6rem] text-right">
-                  1
-                </p>
-                <p className="font-bold text-[#7E88C3] text-[1.6rem] text-right">
-                  $ 150.00
-                </p>
-                <p className="font-bold text-[1.6rem] text-right">$ 150.00</p>
-              </div>
+              {invoice.items?.map((item) => (
+                <div
+                  key={item.name}
+                  className="grid grid-cols-[1.6fr_1fr_1fr_1fr] mb-2"
+                >
+                  <p className="font-bold text-[1.6rem]">{item.name}</p>
+                  <p className="font-bold text-[#7E88C3] text-[1.6rem] text-right">
+                    {item.quantity}
+                  </p>
+                  <p className="font-bold text-[#7E88C3] text-[1.6rem] text-right">
+                    ${item.price.toFixed(2)}
+                  </p>
+                  <p className="font-bold text-[1.6rem] text-right">
+                    ${(item.quantity * item.price).toFixed(2)}
+                  </p>
+                </div>
+              ))}
             </div>
 
             <div className="px-10 py-8 md:hidden flex flex-col gap-4 justify-between items-center bg-primary-gray100 rounded-[1rem]">
@@ -183,7 +225,14 @@ const InvoiceDetail: React.FC = () => {
       </div>
 
       <div className="md:hidden w-full bg-white flex justify-between items-center gap-4 px-10 py-16">
-        <Button variant="secondary" className="text-[1.5rem] font-bold px-16">
+        <Button
+          variant="secondary"
+          className="text-[1.5rem] font-bold px-16"
+          onClick={() => {
+            setIsModalOpen(true);
+            console.log("clicked");
+          }}
+        >
           Edit
         </Button>
         <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
@@ -191,6 +240,12 @@ const InvoiceDetail: React.FC = () => {
         </Button>
         <Button>Mark as Paid</Button>
       </div>
+
+      {isModalOpen && (
+        <Modal onClose={onClose} isModalOpen={isModalOpen}>
+          <CreateInvoiceForm invoiceToEdit={invoice} onCloseModal={onClose} />
+        </Modal>
+      )}
     </>
   );
 };

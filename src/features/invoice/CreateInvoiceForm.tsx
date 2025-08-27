@@ -9,6 +9,7 @@ import { Plus, Trash } from "lucide-react";
 import { useCreateInvoice } from "./useCreateInvoice";
 import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../helper/types";
+import { generateInvoiceId } from "../../helper/generateInvoiceId";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
@@ -71,7 +72,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   function onSubmit(data: InvoiceFormData) {
     console.log(data);
 
-    if (isEditSession && editId)
+    if (isEditSession && editId) {
+      // Editing an existing invoice, keep its invoice_id
       editInvoice(
         { newInvoiceData: { ...data }, id: editId! },
         {
@@ -81,9 +83,16 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           },
         }
       );
-    else
+    } else {
+      // Creating a new invoice → assign generated invoice_id
+      const newInvoice = {
+        ...data,
+        invoice_id: generateInvoiceId(), // 👈 Generate here
+        status: data.status || "pending", // fallback to pending
+      };
+
       createInvoice(
-        { id: data.id, newInvoice: { ...data } },
+        { id: data.id, newInvoice },
         {
           onSuccess: () => {
             reset();
@@ -91,11 +100,14 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           },
         }
       );
+    }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="font-bold text-[2.1rem] mb-10">New Invoice</h2>
+      <h2 className="font-bold text-[2.1rem] mb-10">
+        {isEditSession ? `Edit #XXXXX` : "New Invoice"}
+      </h2>
       {/* BILL FROM */}
       <div className="my-6">
         <FormSubTitle>Bill From</FormSubTitle>
@@ -258,6 +270,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             />
           </FormColumn>
         </div>
+
         <FormColumn label="Project Description" error={errors.description}>
           <input
             type="text"
@@ -358,26 +371,42 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </button>
       </div>
 
-      <div className="flex justify-between items-center">
-        <div className="">
+      {isEditSession ? (
+        <div className="flex gap-4">
           <Button
             variant="secondary"
-            className="font-bold px-7 text-[1.2rem]"
+            className="font-bold"
+            type="submit"
             onClick={onCloseModal}
           >
-            Discard
-          </Button>
-        </div>
-
-        <div className="flex gap-4">
-          <Button variant="dark" className="font-bold" type="submit">
-            Save as Draft
+            Cancel
           </Button>
           <Button className="font-bold" type="submit" disabled={isWorking}>
-            Save & Send
+            Save changes
           </Button>
         </div>
-      </div>
+      ) : (
+        <div className="flex justify-between items-center">
+          <div className="">
+            <Button
+              variant="secondary"
+              className="font-bold px-7 text-[1.2rem]"
+              onClick={onCloseModal}
+            >
+              Discard
+            </Button>
+          </div>
+
+          <div className="flex gap-4">
+            <Button variant="dark" className="font-bold" type="submit">
+              Save as Draft
+            </Button>
+            <Button className="font-bold" type="submit" disabled={isWorking}>
+              Save & Send
+            </Button>
+          </div>
+        </div>
+      )}
     </form>
   );
 };

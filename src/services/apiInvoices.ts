@@ -52,3 +52,19 @@ export async function createEditInvoice(
 
   return null;
 }
+
+// fetch single invoice by `id`
+export async function getInvoiceById(id: string) {
+  const { data, error } = await supabase
+    .from("invoices")
+    .select("*")
+    .eq("id", id) // or .eq("invoice_id", id) if you want to use custom code
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error("Invoice could not be loaded");
+  }
+
+  return data as Invoice;
+}

@@ -1,6 +1,5 @@
 import { ChevronRight } from "lucide-react";
 import React from "react";
-// import invoice from "../../data/invoiceData";
 import EmptyInvoice from "../../ui/EmptyInvoice";
 import { useNavigate } from "react-router-dom";
 import type { Invoice } from "../../helper/types";
@@ -12,8 +11,9 @@ type InvoiceContainerProps = {
 const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
   const navigate = useNavigate();
 
-  const { id, client_name, invoice_date, items, status } = invoice;
+  const { id, invoice_id, client_name, invoice_date, items, status } = invoice;
 
+  // TOTAL PRICE
   const totalPrice = items?.reduce(
     (acc, item) => acc + item.price * (item.quantity ?? 1),
     0
@@ -33,7 +33,7 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
         >
           <div className="font-bold text-[1.6rem]">
             <span className="text-[#7E88C3]">#</span>
-            {id}
+            {invoice_id}
           </div>
           <div className="text-[#888EB0]">
             Due{" "}
@@ -53,9 +53,9 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
           <div
             className={`px-4 py-2 font-bold text-[1.6rem] rounded-xl flex justify-center items-center gap-1
                 ${
-                  status === "Paid"
+                  status.toLowerCase() === "paid"
                     ? "text-green-500 bg-green-50"
-                    : status === "Pending"
+                    : status.toLowerCase() === "pending"
                     ? "text-orange-400 bg-orange-50"
                     : "text-[#252945] bg-[#DFE3FA]"
                 }`}
@@ -72,10 +72,8 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
             </button>
           </div>
         </div>
-        {/* ))} */}
 
         {/* Mobile layout */}
-        {/* {invoice.map((invoice2) => ( */}
         <div
           key={id}
           onClick={() => navigate(`/invoice/view_invoice/${id}`)}
