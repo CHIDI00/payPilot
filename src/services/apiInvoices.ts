@@ -81,3 +81,18 @@ export async function deleteInvoice(id: string) {
 
   return data;
 }
+
+export async function markInvoiceAsPaid(id: string) {
+  const { data, error } = await supabase
+    .from("invoices")
+    .update({ status: "Paid" })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}

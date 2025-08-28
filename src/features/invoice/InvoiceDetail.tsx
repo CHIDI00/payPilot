@@ -11,16 +11,21 @@ import { ChevronLeft } from "lucide-react";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useDeleteInvoice } from "./useDeleteInvoice";
 import { formatCurrency } from "../../utils/helper";
+import { markInvoiceAsPaid } from "../../services/apiInvoices";
+import toast from "react-hot-toast";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { invoice, isLoading } = useInvoice();
   const { deleteInvoice, isDeleting } = useDeleteInvoice();
 
   const onClose = () => setIsDeleteModalOpen(false);
+
+  const [isStatus, setIsStatus] = useState(invoice?.status || "Pending");
 
   if (isLoading) return <Loader />;
   if (!invoice) return <div>No invoice found</div>;
@@ -41,13 +46,25 @@ const InvoiceDetail: React.FC = () => {
     invoice_date,
     // payment_terms,
     description,
-    status,
+    // status,
   } = invoice;
 
   const total = invoice.items?.reduce(
     (acc, item) => acc + item.quantity * item.price,
     0
   );
+
+  const handleMarkPaid = async () => {
+    setLoading(true);
+    try {
+      const updated = await markInvoiceAsPaid(invoice.id);
+      setIsStatus(updated.status);
+    } catch (err) {
+      toast.error(`Error updating invoice: ${err}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -71,15 +88,15 @@ const InvoiceDetail: React.FC = () => {
 
             <div
               className={`px-4 py-2 font-bold text-[1.6rem] rounded-xl flex justify-center items-center gap-1
-                ${
-                  status?.toLowerCase() === "paid"
-                    ? "text-green-500 bg-green-50"
-                    : status?.toLowerCase() === "pending"
-                    ? "text-orange-400 bg-orange-50"
-                    : "text-[#252945] bg-[#DFE3FA]"
-                }`}
+    ${
+      isStatus?.toLowerCase() === "paid"
+        ? "text-green-500 bg-green-50"
+        : isStatus?.toLowerCase() === "pending"
+        ? "text-orange-400 bg-orange-50"
+        : "text-[#252945] bg-[#DFE3FA]"
+    }`}
             >
-              <span className="text-[2.5rem]">•</span> {status}
+              <span className="text-[2.5rem]">•</span> {isStatus}
             </div>
           </div>
 
@@ -99,12 +116,16 @@ const InvoiceDetail: React.FC = () => {
             >
               Delete
             </Button>
-            <Button>Mark as Paid</Button>
+            {isStatus !== "Paid" && (
+              <Button onClick={handleMarkPaid}>
+                {loading ? "Marking..." : "Mark as Paid"}
+              </Button>
+            )}
           </div>
         </div>
 
         {/* INVOICE INFO */}
-        <div className="w-full flex flex-col justify-between items-center py-14 md:px-16 px-10 bg-primary-gray md:rounded-lg rounded-[1rem] gap-12 mb-10">
+        <div className="w-full flex flex-col justify-between items-center md:py-14 py-6 md:px-16 px-5 bg-primary-gray md:rounded-lg rounded-[1rem] gap-12 md:mb-10 mb-5">
           <div className="w-full flex justify-between items-start">
             <div className="flex flex-col gap-1">
               <div className="font-bold text-[1.6rem]">
@@ -196,13 +217,12 @@ const InvoiceDetail: React.FC = () => {
             </div>
 
             {invoice.items?.map((item) => (
-              <div className="px-10 py-8 md:hidden flex flex-col gap-4 justify-between items-center bg-primary-gray100 rounded-[1rem]">
-                <div className="flex w-full justify-between items-center py-1">
+              <div className="px-6 py-6 md:hidden flex flex-col justify-between items-center bg-primary-gray100 rounded-[1rem]">
+                <div className="flex w-full justify-between items-center">
                   <div className="flex flex-col justify-center items-start">
                     <p className="font-bold text-[1.6rem]">{item.name}</p>
                     <p className="font-bold text-[#7E88C3] text-[1.6rem] ">
-                      {item.quantity} x ${" "}
-                      {formatCurrency(Number(item.price.toFixed(2)))}
+                      {item.quantity} x {item.price.toFixed(2)}
                     </p>
                   </div>
 
