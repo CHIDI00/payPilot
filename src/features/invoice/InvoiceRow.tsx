@@ -49,7 +49,7 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
 
           <div className="text-[#888EB0]">{client_name}</div>
           <div className="font-bold text-[1.6rem] w-full flex justify-end items-center">
-            $ {totalPrice}
+            {formatCurrency(Number(totalPrice))}
           </div>
 
           <div
