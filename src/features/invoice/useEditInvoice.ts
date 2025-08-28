@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createEditInvoice } from "../../services/apiInvoices";
 import type { Invoice } from "../../helper/types";
+import toast from "react-hot-toast";
 
 export function useEditInvoice() {
   const queryClient = useQueryClient();
@@ -14,13 +15,14 @@ export function useEditInvoice() {
       newInvoiceData: Invoice;
     }) => createEditInvoice(id, newInvoiceData),
     onSuccess: () => {
+      toast.success("Changes have been saved");
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
     onError: (err: unknown) => {
       if (err instanceof Error) {
-        console.log(err.message);
+        toast.error(err.message);
       } else {
-        console.log(String(err));
+        toast.error(String(err));
       }
     },
   });
