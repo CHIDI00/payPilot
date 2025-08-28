@@ -4,6 +4,7 @@ import EmptyInvoice from "../../ui/EmptyInvoice";
 import { useNavigate } from "react-router-dom";
 import type { Invoice } from "../../utils/types";
 import { ChevronRight } from "lucide-react";
+import { formatCurrency } from "../../utils/helper";
 
 type InvoiceContainerProps = {
   invoice: Invoice;
@@ -82,7 +83,7 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
         >
           <div className="font-bold text-[16px]">
             <span className="text-[#7E88C3]">#</span>
-            {id}
+            {invoice_id}
           </div>
           <div className="text-[#888EB0] flex justify-end items-center">
             {client_name}
@@ -99,7 +100,7 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
                 })}
             </div>
             <div className="font-bold text-[1.7rem] w-full flex justify-start items-center">
-              $ {totalPrice}
+              {formatCurrency(Number(totalPrice))}
             </div>
           </div>
           <div className="w-full flex justify-end items-center">

@@ -184,10 +184,12 @@ const InvoiceDetail: React.FC = () => {
                     {item.quantity}
                   </p>
                   <p className="font-bold text-[#7E88C3] text-[1.6rem] text-right">
-                    ${item.price.toFixed(2)}
+                    {formatCurrency(Number(item.price.toFixed(2)))}
                   </p>
                   <p className="font-bold text-[1.6rem] text-right">
-                    ${(item.quantity * item.price).toFixed(2)}
+                    {formatCurrency(
+                      Number((item.quantity * item.price).toFixed(2))
+                    )}
                   </p>
                 </div>
               ))}
@@ -199,7 +201,8 @@ const InvoiceDetail: React.FC = () => {
                   <div className="flex flex-col justify-center items-start">
                     <p className="font-bold text-[1.6rem]">{item.name}</p>
                     <p className="font-bold text-[#7E88C3] text-[1.6rem] ">
-                      {item.quantity} x $ {item.price.toFixed(2)}
+                      {item.quantity} x ${" "}
+                      {formatCurrency(Number(item.price.toFixed(2)))}
                     </p>
                   </div>
 
