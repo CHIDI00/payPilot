@@ -2,7 +2,7 @@ import React from "react";
 import EmptyInvoice from "../../ui/EmptyInvoice";
 
 import { useNavigate } from "react-router-dom";
-import type { Invoice } from "../../helper/types";
+import type { Invoice } from "../../utils/types";
 import { ChevronRight } from "lucide-react";
 
 type InvoiceContainerProps = {

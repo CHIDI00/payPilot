@@ -10,6 +10,7 @@ import Loader from "../../ui/Loader";
 import { ChevronLeft } from "lucide-react";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useDeleteInvoice } from "./useDeleteInvoice";
+import { formatCurrency } from "../../utils/helper";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -42,6 +43,11 @@ const InvoiceDetail: React.FC = () => {
     description,
     status,
   } = invoice;
+
+  const total = invoice.items?.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
 
   return (
     <>
@@ -198,7 +204,9 @@ const InvoiceDetail: React.FC = () => {
                   </div>
 
                   <p className="font-bold text-[1.6rem]">
-                    $ {(item.quantity * item.price).toFixed(2)}
+                    {formatCurrency(
+                      Number((item.quantity * item.price).toFixed(2))
+                    )}
                   </p>
                 </div>
               </div>
@@ -207,7 +215,7 @@ const InvoiceDetail: React.FC = () => {
             <div className="w-full flex justify-between items-center px-10 py-10 bg-[#252945] rounded-b-[1rem]">
               <p className="text-primary-gray text-[1.4rem]">Amount Due</p>
               <p className="font-bold text-primary-gray text-[2.3rem]">
-                $ 556.00
+                {formatCurrency(Number(total.toFixed(2)))}
               </p>
             </div>
           </div>

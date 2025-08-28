@@ -1,11 +1,12 @@
-import type { Invoice } from "../helper/types";
+import toast from "react-hot-toast";
+import type { Invoice } from "../utils/types";
 import supabase from "./supabase";
 
 export async function getInvoice() {
   const { data, error } = await supabase.from("invoices").select("*");
 
   if (error) {
-    console.log(error);
+    toast.error("Invoice could not be loaded.\n Check connection!");
     throw new Error("Invoice could not be loaded");
   }
 
@@ -26,7 +27,7 @@ export async function createEditInvoice(
       .single();
 
     if (error) {
-      console.log(error);
+      toast.error("Invoice could not be created");
       throw new Error("Invoice could not be created");
     }
 
@@ -43,7 +44,7 @@ export async function createEditInvoice(
       .single();
 
     if (error) {
-      console.log(error);
+      toast.error("Invoice could not be Edited");
       throw new Error("Invoice could not be Editted");
     }
 
@@ -62,8 +63,8 @@ export async function getInvoiceById(id: string) {
     .single();
 
   if (error) {
-    console.log(error);
-    throw new Error("Invoice could not be loaded");
+    toast.error("Invoice detail could not be loaded");
+    throw new Error("Invoice detail could not be loaded");
   }
 
   return data as Invoice;
@@ -74,6 +75,7 @@ export async function deleteInvoice(id: string) {
   const { data, error } = await supabase.from("invoices").delete().eq("id", id);
 
   if (error) {
+    toast.error("Failed to delete invoice");
     throw new Error("Invoice could not be Deleted");
   }
 

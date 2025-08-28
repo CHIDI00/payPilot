@@ -3,7 +3,7 @@ import Button from "../../ui/Button";
 import addIcon from "../../assets/addIcon.svg";
 
 import { ChevronDown } from "lucide-react";
-import type { Invoice } from "../../helper/types";
+import type { Invoice } from "../../utils/types";
 
 interface ModalProp {
   setIsModalOpen: (open: boolean) => void;

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createEditInvoice } from "../../services/apiInvoices";
-import type { Invoice } from "../../helper/types";
+import type { Invoice } from "../../utils/types";
 import toast from "react-hot-toast";
 
 export function useCreateInvoice() {

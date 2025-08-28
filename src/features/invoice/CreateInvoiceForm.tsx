@@ -8,8 +8,8 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { Plus, Trash } from "lucide-react";
 import { useCreateInvoice } from "./useCreateInvoice";
 import { useEditInvoice } from "./useEditInvoice";
-import type { Invoice } from "../../helper/types";
-import { generateInvoiceId } from "../../helper/generateInvoiceId";
+import type { Invoice } from "../../utils/types";
+import { generateInvoiceId } from "../../utils/helper";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
@@ -72,7 +72,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     console.log(data);
 
     if (isEditSession && editId) {
-      // Editing an existing invoice, keep its invoice_id
+      // Editing an existing invoice
       editInvoice(
         { newInvoiceData: { ...data }, id: editId! },
         {
@@ -269,6 +269,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
+          {/* <Calendar
+    mode="single"
+    selected={date}
+    onSelect={setDate}
+    className="rounded-lg border"
+  /> */}
 
           {/* Payment Terms */}
           <FormColumn label="Payment Terms" error={errors.payment_terms}>

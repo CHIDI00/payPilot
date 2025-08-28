@@ -1,6 +1,6 @@
 import React from "react";
 import InvoiceRow from "./InvoiceRow";
-import type { Invoice } from "../../helper/types";
+import type { Invoice } from "../../utils/types";
 
 type InvoiceContainerProps = {
   invoice: Invoice[] | undefined;
