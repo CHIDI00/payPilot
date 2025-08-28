@@ -237,7 +237,7 @@ const InvoiceDetail: React.FC = () => {
 
             <div className="w-full flex justify-between items-center px-10 py-10 bg-[#252945] rounded-b-[1rem]">
               <p className="text-primary-gray text-[1.4rem]">Amount Due</p>
-              <p className="font-bold text-primary-gray text-[2.3rem]">
+              <p className="font-bold text-primary-gray md:text-[2.3rem] text-[2rem]">
                 {formatCurrency(Number(total.toFixed(2)))}
               </p>
             </div>
