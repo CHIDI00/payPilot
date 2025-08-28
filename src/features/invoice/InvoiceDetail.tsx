@@ -260,7 +260,6 @@ const InvoiceDetail: React.FC = () => {
           className="text-[1.5rem] font-bold px-16"
           onClick={() => {
             setIsModalOpen(true);
-            console.log("clicked");
           }}
         >
           Edit
@@ -268,7 +267,11 @@ const InvoiceDetail: React.FC = () => {
         <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
           Delete
         </Button>
-        <Button>Mark as Paid</Button>
+        {isStatus !== "Paid" && (
+          <Button onClick={handleMarkPaid}>
+            {loading ? "Marking..." : "Mark as Paid"}
+          </Button>
+        )}
       </div>
 
       {isModalOpen && (
