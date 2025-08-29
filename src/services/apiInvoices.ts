@@ -3,6 +3,11 @@ import type { Invoice } from "../utils/types";
 import supabase from "./supabase";
 
 export async function getInvoice() {
+  // let query = supabase.from("invoices").select("*");
+
+  // FILTER
+  // if (filter) query = query.eq(filter.field, filter.value);
+
   const { data, error } = await supabase.from("invoices").select("*");
 
   if (error) {
@@ -17,16 +22,17 @@ export async function createEditInvoice(
   id: string,
   newInvoice: Invoice
 ): Promise<Invoice[] | null> {
-  //  Create/edit Invoice
   // CREATE
   if (!id) {
     const { data, error } = await supabase
       .from("invoices")
-      .insert([{ ...newInvoice }])
+      .insert([{ ...newInvoice, status: "Draft" }])
       .select()
       .single();
 
     if (error) {
+      console.log(error);
+
       toast.error("Invoice could not be created");
       throw new Error("Invoice could not be created");
     }
@@ -101,7 +107,7 @@ export async function saveInvoiceDraft(data: Invoice) {
   const { error } = await supabase.from("invoices").insert([
     {
       ...data,
-      status: "draft",
+      status: "Draft",
     },
   ]);
   if (error) throw error;

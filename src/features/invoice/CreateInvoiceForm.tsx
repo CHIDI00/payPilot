@@ -10,6 +10,8 @@ import { useCreateInvoice } from "./useCreateInvoice";
 import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../utils/types";
 import { generateInvoiceId } from "../../utils/helper";
+// import { useSaveAsDraft } from "./useSaveAsDraft";
+import toast from "react-hot-toast";
 // import supabase from "../../services/supabase";
 // import { saveInvoiceDraft } from "../../services/apiInvoices";
 
@@ -51,6 +53,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 }) => {
   const { createInvoice, isCreating } = useCreateInvoice();
   const { editInvoice, isEditing } = useEditInvoice();
+  // const {saveAsDraft, isSaving} = useSaveAsDraft()
+
   const isWorking = isCreating || isEditing;
 
   const { id: editId, ...editValue } = invoiceToEdit ?? {};
@@ -106,22 +110,6 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     }
   }
 
-  // const onSaveDraft = async () => {
-  //   const draftData = getValues(); // grab everything, even if incomplete
-
-  //   await supabase.from("invoices").insert([
-  //     {
-  //       ...draftData,
-  //       status: "draft",
-  //     },
-  //   ]);
-  // };
-
-  // const onSaveDraft = async () => {
-  //   const draftData = getValues(); // no validation
-  //   await saveInvoiceDraft(draftData);
-  // };
-
   function onSaveDraft() {
     // Grab form values without running validation
     const draftData = getValues();
@@ -136,8 +124,13 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       { id: draftData.id, newInvoice },
       {
         onSuccess: () => {
+          toast.success("Invoice saved as draft");
+
           reset();
           onCloseModal?.();
+        },
+        onError: () => {
+          toast.error("Please Select a date");
         },
       }
     );
