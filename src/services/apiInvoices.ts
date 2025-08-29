@@ -96,3 +96,13 @@ export async function markInvoiceAsPaid(id: string) {
 
   return data;
 }
+
+export async function saveInvoiceDraft(data: Invoice) {
+  const { error } = await supabase.from("invoices").insert([
+    {
+      ...data,
+      status: "draft",
+    },
+  ]);
+  if (error) throw error;
+}

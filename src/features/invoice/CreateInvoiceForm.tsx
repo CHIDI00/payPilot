@@ -10,6 +10,8 @@ import { useCreateInvoice } from "./useCreateInvoice";
 import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../utils/types";
 import { generateInvoiceId } from "../../utils/helper";
+// import supabase from "../../services/supabase";
+// import { saveInvoiceDraft } from "../../services/apiInvoices";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
@@ -54,13 +56,15 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   const { id: editId, ...editValue } = invoiceToEdit ?? {};
   const isEditSession = Boolean(editId);
 
-  const { register, handleSubmit, formState, control, reset } =
+  const { register, handleSubmit, formState, control, reset, getValues } =
     useForm<InvoiceFormData>({
-      defaultValues: {
-        ...(isEditSession ? editValue : {}),
-        items: [{ name: "", quantity: 0, price: 0 }],
-      },
+      defaultValues: isEditSession
+        ? { ...editValue }
+        : {
+            items: [{ name: "", quantity: 0, price: 0 }],
+          },
     });
+
   const { errors } = formState;
 
   const { fields, append, remove } = useFieldArray({
@@ -100,6 +104,43 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         }
       );
     }
+  }
+
+  // const onSaveDraft = async () => {
+  //   const draftData = getValues(); // grab everything, even if incomplete
+
+  //   await supabase.from("invoices").insert([
+  //     {
+  //       ...draftData,
+  //       status: "draft",
+  //     },
+  //   ]);
+  // };
+
+  // const onSaveDraft = async () => {
+  //   const draftData = getValues(); // no validation
+  //   await saveInvoiceDraft(draftData);
+  // };
+
+  function onSaveDraft() {
+    // Grab form values without running validation
+    const draftData = getValues();
+
+    const newInvoice = {
+      ...draftData,
+      invoice_id: generateInvoiceId(),
+      status: "Draft",
+    };
+
+    createInvoice(
+      { id: draftData.id, newInvoice },
+      {
+        onSuccess: () => {
+          reset();
+          onCloseModal?.();
+        },
+      }
+    );
   }
 
   return (
@@ -269,12 +310,6 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
-          {/* <Calendar
-    mode="single"
-    selected={date}
-    onSelect={setDate}
-    className="rounded-lg border"
-  /> */}
 
           {/* Payment Terms */}
           <FormColumn label="Payment Terms" error={errors.payment_terms}>
@@ -395,9 +430,9 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       {isEditSession ? (
         <div className="flex gap-4">
           <Button
+            type="button"
             variant="secondary"
             className="font-bold"
-            type="submit"
             onClick={onCloseModal}
           >
             Cancel
@@ -410,6 +445,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         <div className="flex justify-between items-center">
           <div className="">
             <Button
+              type="button"
               variant="secondary"
               className="font-bold px-7 text-[1.2rem]"
               onClick={onCloseModal}
@@ -419,7 +455,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </div>
 
           <div className="flex gap-4">
-            <Button variant="dark" className="font-bold" type="submit">
+            <Button
+              variant="dark"
+              className="font-bold"
+              type="button"
+              onClick={onSaveDraft}
+            >
               Save as Draft
             </Button>
             <Button className="font-bold" type="submit" disabled={isWorking}>
