@@ -125,7 +125,7 @@ const InvoiceDetail: React.FC = () => {
         </div>
 
         {/* INVOICE INFO */}
-        <div className="w-full flex flex-col justify-between items-center md:py-14 py-6 md:px-16 px-5 bg-primary-gray md:rounded-lg rounded-[1rem] gap-12 md:mb-10 mb-5">
+        <div className="w-full flex flex-col justify-between items-center md:py-14 py-6 md:px-16 px-5 bg-primary-gray md:rounded-lg rounded-[1rem] gap-12 md:mb-10 mb-14">
           <div className="w-full flex justify-between items-start">
             <div className="flex flex-col gap-1">
               <div className="font-bold text-[1.6rem]">
@@ -236,7 +236,9 @@ const InvoiceDetail: React.FC = () => {
             ))}
 
             <div className="w-full flex justify-between items-center px-10 py-10 bg-[#252945] rounded-b-[1rem]">
-              <p className="text-primary-gray text-[1.4rem]">Amount Due</p>
+              <p className="text-primary-gray md:text-[1.4rem] text-[1.6rem]">
+                Amount Due
+              </p>
               <p className="font-bold text-primary-gray md:text-[2.3rem] text-[2rem]">
                 {formatCurrency(Number(total.toFixed(2)))}
               </p>
@@ -254,21 +256,25 @@ const InvoiceDetail: React.FC = () => {
         )}
       </div>
 
-      <div className="md:hidden w-full bg-white flex justify-between items-center gap-4 px-10 py-16">
+      <div className="fixed bottom-0 left-0 md:hidden w-full bg-white flex justify-between items-center gap-4 px-10 py-14 shadow-[0_-17px_10px_rgba(0,0,0,0.1)]">
         <Button
           variant="secondary"
-          className="text-[1.5rem] font-bold px-16"
+          className="text-[2rem] font-bold w-full"
           onClick={() => {
             setIsModalOpen(true);
           }}
         >
           Edit
         </Button>
-        <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
+        <Button
+          variant="danger"
+          onClick={() => setIsDeleteModalOpen(true)}
+          className="w-full text-[2rem]"
+        >
           Delete
         </Button>
         {isStatus !== "Paid" && (
-          <Button onClick={handleMarkPaid}>
+          <Button onClick={handleMarkPaid} className="w-full py-6">
             {loading ? "Marking..." : "Mark as Paid"}
           </Button>
         )}
