@@ -256,7 +256,7 @@ const InvoiceDetail: React.FC = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 md:hidden w-full bg-white flex justify-between items-center gap-4 px-10 py-14 shadow-[0_-17px_10px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 md:hidden w-full bg-white flex justify-between items-center gap-4 px-10 py-14 shadow-[0_-8px_7px_rgba(0,0,0,0.1)]">
         <Button
           variant="secondary"
           className="text-[2rem] font-bold w-full"
