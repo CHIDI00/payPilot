@@ -26,7 +26,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center gap-5 rounded-full font-semigold leading-none " +
+    "flex items-center justify-center gap-5 rounded-full font-semigold leading-none " +
     "transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed " +
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 " +
     "focus-visible:ring-[#7C5DFA]";

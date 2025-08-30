@@ -5,14 +5,14 @@ import FormSubTitle from "../../ui/FormSubTitle";
 import Button from "../../ui/Button";
 
 import { useForm, useFieldArray } from "react-hook-form";
-import { Plus, Trash } from "lucide-react";
+import { ChevronLeft, Plus, Trash } from "lucide-react";
 import { useCreateInvoice } from "./useCreateInvoice";
 import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../utils/types";
 import { generateInvoiceId } from "../../utils/helper";
 // import { useSaveAsDraft } from "./useSaveAsDraft";
 import toast from "react-hot-toast";
-// import supabase from "../../services/supabase";
+// import MiniLoader from "@/ui/MiniLoader";
 // import { saveInvoiceDraft } from "../../services/apiInvoices";
 
 interface ClosesModalProp {
@@ -138,6 +138,21 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="w-full mb-10">
+        {isEditSession && (
+          // (window.innerWidth <= 500 && (
+          <button
+            type="button"
+            onClick={onCloseModal}
+            className="flex justify-between items-center gap-7 text-[1.7rem]"
+          >
+            <span>
+              <ChevronLeft size={18} />
+            </span>{" "}
+            Go back
+          </button>
+        )}
+      </div>
       {isEditSession ? (
         <h2 className="font-bold text-[2.1rem] mb-10">
           Edit <span className="text-[#7E88C3]">#</span>
@@ -326,6 +341,26 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
+
+          {/* <Select>
+            <SelectTrigger
+              className={`${
+                window.innerWidth > 500 ? "w-[180px]" : "w-full"
+              } text-black border-[1px]`}
+            >
+              <SelectValue
+                placeholder={
+                  window.innerWidth > 500 ? "Filter by status" : "Filter"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="paid">Paid</SelectItem>
+              <SelectItem value="pending">Pending</SelectItem>
+              <SelectItem value="draft">Draft</SelectItem>
+            </SelectContent>
+          </Select> */}
         </div>
 
         {/* Description */}
@@ -442,7 +477,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       </div>
 
       {isEditSession ? (
-        <div className="flex gap-4">
+        <div className="flex justify-end items-center gap-4">
           <Button
             type="button"
             variant="secondary"
@@ -473,6 +508,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               variant="dark"
               className="font-bold"
               type="button"
+              disabled={isWorking}
               onClick={onSaveDraft}
             >
               Save as Draft

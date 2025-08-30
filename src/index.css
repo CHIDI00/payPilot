@@ -291,6 +291,17 @@ FOR DARK MODE
   animation: rotation 1s linear infinite;
 }
 
+.mini-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -299,8 +310,6 @@ FOR DARK MODE
     transform: rotate(360deg);
   }
 }
-
-
 
 @layer base {
   :root {
@@ -357,8 +366,6 @@ FOR DARK MODE
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
