@@ -12,11 +12,21 @@ interface FormColumnProps extends PropsWithChildren {
     | FieldError
     | Merge<FieldError, FieldErrorsImpl<FieldValues>>
     | undefined;
+  className?: string;
 }
 
-const FormColumn: React.FC<FormColumnProps> = ({ label, error, children }) => {
+const FormColumn: React.FC<FormColumnProps> = ({
+  label,
+  error,
+  children,
+  className,
+}) => {
   return (
-    <div className="flex flex-col justify-center items-start gap-2 w-full mb-7 font-medium">
+    <div
+      className={`flex flex-col justify-center items-start gap-2 w-full mb-7 font-medium ${
+        className || ""
+      }`}
+    >
       <div className="w-full flex justify-between items-center">
         {label && (
           <label

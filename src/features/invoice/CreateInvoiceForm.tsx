@@ -189,7 +189,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
-          <FormColumn label="Country" error={errors.country}>
+          <FormColumn
+            label="Country"
+            error={errors.country}
+            className="col-span-2 md:col-span-1"
+          >
             <input
               type="text"
               id="country"
@@ -246,7 +250,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             })}
           />
         </FormColumn>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
           {/* Client's City */}
           <FormColumn label="City" error={errors.client_city}>
             <input
@@ -276,7 +280,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </FormColumn>
 
           {/* Client's Country */}
-          <FormColumn label="Country" error={errors.client_country}>
+          <FormColumn
+            label="Country"
+            error={errors.client_country}
+            className="col-span-2 md:col-span-1"
+          >
             <input
               type="text"
               id="client_country"
@@ -289,7 +297,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             />
           </FormColumn>
         </div>
-        <div className="grid grid-cols-2 gap-6">
+
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
           {/* Invoice Date */}
           <FormColumn label="Invoice Date" error={errors.invoice_date}>
             <input
@@ -337,7 +346,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       <div className="my-14">
         <FormSubTitle>Item List</FormSubTitle>
 
-        <div className="grid grid-cols-[3fr_.8fr_1.3fr_1fr_.4fr] gap-7 mb-5">
+        <div className="hidden md:grid grid-cols-[3fr_.8fr_1.3fr_1fr_.4fr] gap-7 mb-5">
           <p className="text-[#7E88C3] text-[1.4rem]">Item Name</p>
           <p className="text-[#7E88C3] text-[1.4rem] text-left">QTY.</p>
           <p className="text-[#7E88C3] text-[1.4rem] text-left">Price</p>
@@ -348,10 +357,14 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         {fields.map((field, index) => (
           <div
             key={field.id}
-            className="grid grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] gap-7 mb-4"
+            className="grid md:grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] grid-cols-[1.5fr_1.5fr_.7fr_.3fr] justify-center items-center gap-7 mb-4"
           >
             {/* Item Name */}
-            <FormColumn error={errors.items?.[index]?.name}>
+            <FormColumn
+              label={`${window.innerWidth <= 480 ? `Item` : ""}`}
+              error={errors.items?.[index]?.name}
+              className="col-span-5 md:col-span-1"
+            >
               <input
                 type="text"
                 className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
@@ -366,7 +379,10 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             </FormColumn>
 
             {/* Quantity */}
-            <FormColumn error={errors.items?.[index]?.quantity}>
+            <FormColumn
+              label={`${window.innerWidth <= 480 ? `QTY` : ""}`}
+              error={errors.items?.[index]?.quantity}
+            >
               <input
                 type="number"
                 className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
@@ -382,7 +398,10 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             </FormColumn>
 
             {/* Price */}
-            <FormColumn error={errors.items?.[index]?.price}>
+            <FormColumn
+              label={`${window.innerWidth <= 480 ? `Price` : ""}`}
+              error={errors.items?.[index]?.price}
+            >
               <input
                 type="number"
                 step="0.01"
@@ -399,7 +418,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             </FormColumn>
 
             {/* Total (read-only) */}
-            <p className="text-[#000] py-3 font-bold text-[1.7rem] mb-5">
+            <p className="text-[#000] font-bold text-[1.7rem] ">
               {(field.quantity ?? 0) * (field.price ?? 0)}
             </p>
 
@@ -409,6 +428,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             </div>
           </div>
         ))}
+
+        <div className="md:hidden flex flex-col justify-start items-start"></div>
 
         {/* Add New Item */}
         <button

@@ -49,15 +49,6 @@ export const formatCurrency = (
         }).format(value / 1_000_000) + "M"
       );
     }
-    // else if (Math.abs(value) >= 1_000) {
-    //   return (
-    //     new Intl.NumberFormat(userLocale, {
-    //       style: "currency",
-    //       currency,
-    //       maximumFractionDigits: 1,
-    //     }).format(value / 1_000) + "K"
-    //   );
-    // }
   }
 
   // Fallback: normal formatting
