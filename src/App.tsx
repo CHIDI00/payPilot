@@ -6,6 +6,7 @@ import AppLayout from "./ui/AppLayout";
 import Invoices from "./pages/Invoices";
 import InvoiceDetail from "./features/invoice/InvoiceDetail";
 import { Toaster } from "react-hot-toast";
+import { DarkModeProvider } from "./context/DarkModeProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,43 +18,45 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="invoices" />} />
-            <Route path="invoices" element={<Invoices />} />
-            <Route
-              path="invoice/view_invoice/:invoiceId"
-              element={<InvoiceDetail />}
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+    <DarkModeProvider>
+      <QueryClientProvider client={queryClient}>
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route index element={<Navigate replace to="invoices" />} />
+              <Route path="invoices" element={<Invoices />} />
+              <Route
+                path="invoice/view_invoice/:invoiceId"
+                element={<InvoiceDetail />}
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
 
-      <Toaster
-        position="bottom-right"
-        gutter={12}
-        containerStyle={{ margin: "8px" }}
-        toastOptions={{
-          success: {
-            duration: 5000,
-          },
-          error: {
-            duration: 5000,
-          },
-          style: {
-            fontSize: "14px",
-            maxWidth: "400px",
-            padding: "10px 20px",
-            // backgroundColor: "green",
-            backdropFilter: "blur(8px)",
-            color: "black",
-          },
-        }}
-      />
-    </QueryClientProvider>
+        <Toaster
+          position="bottom-right"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: {
+              duration: 5000,
+            },
+            error: {
+              duration: 5000,
+            },
+            style: {
+              fontSize: "14px",
+              maxWidth: "400px",
+              padding: "10px 20px",
+              // backgroundColor: "green",
+              backdropFilter: "blur(8px)",
+              color: "black",
+            },
+          }}
+        />
+      </QueryClientProvider>
+    </DarkModeProvider>
   );
 }
 

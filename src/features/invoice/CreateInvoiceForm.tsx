@@ -144,7 +144,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <button
             type="button"
             onClick={onCloseModal}
-            className="flex justify-between items-center gap-7 text-[1.7rem]"
+            className="flex justify-between items-center gap-7 text-[1.7rem] dark:text-[#FFF]"
           >
             <span>
               <ChevronLeft size={18} />
@@ -154,12 +154,14 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         )}
       </div>
       {isEditSession ? (
-        <h2 className="font-bold text-[2.1rem] mb-10">
+        <h2 className="font-bold text-[2.1rem] dark:text-[#FFF] mb-10">
           Edit <span className="text-[#7E88C3]">#</span>
           {invoiceToEdit?.invoice_id}
         </h2>
       ) : (
-        <h2 className="font-bold text-[2.1rem] mb-10">New Invoice</h2>
+        <h2 className="font-bold text-[2.1rem] dark:text-[#FFF] mb-10">
+          New Invoice
+        </h2>
       )}
       {/* BILL FROM */}
       <div className="my-6">
@@ -171,7 +173,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <input
             type="text"
             id="street_address"
-            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+            className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
               errors.street_address ? "border-red-600" : "border-gray-300"
             }`}
             {...register("street_address", {
@@ -184,7 +186,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="city"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.city ? "border-red-600" : "border-gray-300"
               }`}
               {...register("city", {
@@ -196,7 +198,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="post_code"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.post_code ? "border-red-600" : "border-gray-300"
               }`}
               {...register("post_code", {
@@ -212,7 +214,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="country"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.country ? "border-red-600" : "border-gray-300"
               }`}
               {...register("country", {
@@ -231,7 +233,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <input
             type="text"
             id="client_name"
-            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+            className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
               errors.client_name ? "border-red-600" : "border-gray-300"
             }`}
             {...register("client_name", {
@@ -243,7 +245,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <input
             type="email"
             id="client_email"
-            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+            className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
               errors.client_email ? "border-red-600" : "border-gray-300"
             }`}
             {...register("client_email", {
@@ -255,7 +257,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <input
             type="text"
             id="client_street_address"
-            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+            className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
               errors.client_street_address
                 ? "border-red-600"
                 : "border-gray-300"
@@ -271,7 +273,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="client_city"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.client_city ? "border-red-600" : "border-gray-300"
               }`}
               {...register("client_city", {
@@ -285,7 +287,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="client_post_code"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.client_post_code ? "border-red-600" : "border-gray-300"
               }`}
               {...register("client_post_code", {
@@ -303,7 +305,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="client_country"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.client_country ? "border-red-600" : "border-gray-300"
               }`}
               {...register("client_country", {
@@ -319,7 +321,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="date"
               id="invoice_date"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.invoice_date ? "border-red-600" : "border-gray-300"
               }`}
               {...register("invoice_date", {
@@ -333,7 +335,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="payment_terms"
-              className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.payment_terms ? "border-red-600" : "border-gray-300"
               }`}
               {...register("payment_terms", {
@@ -341,26 +343,6 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               })}
             />
           </FormColumn>
-
-          {/* <Select>
-            <SelectTrigger
-              className={`${
-                window.innerWidth > 500 ? "w-[180px]" : "w-full"
-              } text-black border-[1px]`}
-            >
-              <SelectValue
-                placeholder={
-                  window.innerWidth > 500 ? "Filter by status" : "Filter"
-                }
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="paid">Paid</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-            </SelectContent>
-          </Select> */}
         </div>
 
         {/* Description */}
@@ -368,7 +350,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <input
             type="text"
             id="description"
-            className={`w-full bg-transparent text-[1.3rem] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+            className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
               errors.description ? "border-red-600" : "border-gray-300"
             }`}
             {...register("description", {
@@ -402,7 +384,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             >
               <input
                 type="text"
-                className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
+                className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] py-3 px-6 font-bold rounded-md ${
                   errors.items?.[index]?.name
                     ? "border-red-600"
                     : "border-gray-300"
@@ -420,7 +402,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             >
               <input
                 type="number"
-                className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
+                className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] py-3 px-6 font-bold rounded-md ${
                   errors.items?.[index]?.quantity
                     ? "border-red-600"
                     : "border-gray-300"
@@ -440,7 +422,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               <input
                 type="number"
                 step="0.01"
-                className={`w-full bg-transparent text-[1.3rem] border-[1px] py-3 px-6 font-bold rounded-md ${
+                className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#141625] border-[1px] py-3 px-6 font-bold rounded-md ${
                   errors.items?.[index]?.price
                     ? "border-red-600"
                     : "border-gray-300"
@@ -453,24 +435,25 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             </FormColumn>
 
             {/* Total (read-only) */}
-            <p className="text-[#000] font-bold text-[1.7rem] ">
+            <p className="text-[#000] dark:text-white font-bold text-[1.7rem] ">
               {(field.quantity ?? 0) * (field.price ?? 0)}
             </p>
 
             {/* Delete Item */}
-            <div className="py-3 cursor-pointer" onClick={() => remove(index)}>
+            <div
+              className="cursor-pointer dark:text-white"
+              onClick={() => remove(index)}
+            >
               <Trash />
             </div>
           </div>
         ))}
 
-        <div className="md:hidden flex flex-col justify-start items-start"></div>
-
         {/* Add New Item */}
         <button
           type="button"
           onClick={() => append({ name: "", quantity: 0, price: 0 })}
-          className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 py-7 mt-5 text-[#7C5DFA] font-bold bg-primary-gray100 rounded-full"
+          className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 py-7 mt-5 text-[#7C5DFA] dark:text-[#DFE3FA] font-bold bg-primary-gray100 dark:bg-[#252945] rounded-full"
         >
           <Plus size={15} /> Add New Item
         </button>

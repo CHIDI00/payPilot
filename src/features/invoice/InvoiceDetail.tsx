@@ -82,19 +82,20 @@ const InvoiceDetail: React.FC = () => {
         </div>
 
         {/* INVOICE STATUS */}
-        <div className="w-full flex justify-between items-center py-8 md:px-12 px-10 bg-primary-gray md:rounded-lg rounded-[1rem] shadow-sm mb-10">
+        <div className="w-full flex justify-between items-center py-8 md:px-12 px-10 bg-primary-gray dark:bg-[#1e2139] md:rounded-lg rounded-[1rem] shadow-sm mb-10">
           <div className="md:w-1/2 w-full flex gap-7 md:justify-start justify-between items-center">
-            <p className="text-[1.4rem] text-gray-400">Status</p>
+            <p className="text-[1.4rem] text-gray-400 dark:text-gray-300">
+              Status
+            </p>
 
             <div
-              className={`px-4 py-2 font-bold text-[1.6rem] rounded-xl flex justify-center items-center gap-1
-    ${
-      isStatus?.toLowerCase() === "paid"
-        ? "text-green-500 bg-green-50"
-        : isStatus?.toLowerCase() === "pending"
-        ? "text-orange-400 bg-orange-50"
-        : "text-[#252945] bg-[#DFE3FA]"
-    }`}
+              className={`px-4 py-2 font-bold text-[1.6rem] rounded-xl flex justify-center items-center gap-1 ${
+                isStatus.toLowerCase() === "paid"
+                  ? "text-green-500 bg-green-50 dark:bg-[#889f8530]"
+                  : isStatus.toLowerCase() === "pending"
+                  ? "text-orange-400 bg-orange-50 dark:bg-[#aa7e4330]"
+                  : "text-[#252945] dark:text-[#DFE3FA] bg-[#DFE3FA] dark:bg-[#c4c4f316]"
+              }`}
             >
               <span className="text-[2.5rem]">•</span> {isStatus}
             </div>
@@ -125,21 +126,31 @@ const InvoiceDetail: React.FC = () => {
         </div>
 
         {/* INVOICE INFO */}
-        <div className="w-full flex flex-col justify-between items-center md:py-14 py-6 md:px-16 px-5 bg-primary-gray md:rounded-lg rounded-[1rem] gap-12 md:mb-10 mb-14">
+        <div className="w-full flex flex-col justify-between items-center md:py-14 py-6 md:px-16 px-5 bg-primary-gray dark:bg-[#1e2139] md:rounded-lg rounded-[1rem] gap-12 md:mb-10 mb-40">
           <div className="w-full flex justify-between items-start">
             <div className="flex flex-col gap-1">
               <div className="font-bold text-[1.6rem]">
                 <span className="text-[#7E88C3]">#</span>
                 {invoice_id}
               </div>
-              <p className="text-[#7E88C3] text-[1.4rem]">{description}</p>
+              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                {description}
+              </p>
             </div>
 
             <div className="flex flex-col justify-end items-end">
-              <p className="text-[#7E88C3] text-[1.4rem]">{street_address}</p>
-              <p className="text-[#7E88C3] text-[1.4rem]">{city}</p>
-              <p className="text-[#7E88C3] text-[1.4rem]">{post_code}</p>
-              <p className="text-[#7E88C3] text-[1.4rem]">{country}</p>
+              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                {street_address}
+              </p>
+              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                {city}
+              </p>
+              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                {post_code}
+              </p>
+              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                {country}
+              </p>
             </div>
           </div>
           <div className="w-full grid md:grid-cols-3 grid-cols-2 justify-between items-start gap-y-8">
@@ -156,7 +167,12 @@ const InvoiceDetail: React.FC = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-1">
-                <p className="text-[#7E88C3] text-[1.4rem]">Payment Due</p>
+                <p
+                  className="text-[#7E88C3] dark:text-gray-300
+ text-[1.4rem]"
+                >
+                  Payment Due
+                </p>
                 <p className="font-bold text-[1.6rem]">31 Aug 2025</p>
               </div>
             </div>
@@ -168,31 +184,45 @@ const InvoiceDetail: React.FC = () => {
               </p>
 
               <div className="flex flex-col justify-start items-start">
-                <p className="text-[#7E88C3] text-[1.4rem]">
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
                   {client_street_address}
                 </p>
-                <p className="text-[#7E88C3] text-[1.4rem]">{client_city}</p>
-                <p className="text-[#7E88C3] text-[1.4rem]">
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                  {client_city}
+                </p>
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
                   {client_post_code}
                 </p>
-                <p className="text-[#7E88C3] text-[1.4rem]">{client_country}</p>
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                  {client_country}
+                </p>
               </div>
             </div>
 
             <div className="">
-              <p className="text-[#7E88C3] text-[1.4rem]">Send to</p>
+              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                Send to
+              </p>
               <p className="font-bold text-[1.6rem]">{client_email}</p>
             </div>
           </div>
 
           {/* INVOICE PAYMENT */}
-          <div className="w-full bg-primary-gray100 mb-10 md:rounded-lg rounded-[1rem]">
-            <div className="px-10 py-8 hidden md:flex flex-col bg-primary-gray100 rounded-[1rem] gap-4">
+          <div className="w-full bg-primary-gray100 dark:bg-[#252945]  md:rounded-lg rounded-[1rem]">
+            <div className="px-10 py-8 hidden md:flex flex-col bg-primary-gray100 dark:bg-[#252945] rounded-[1rem] gap-4">
               <div className="grid grid-cols-[1.6fr_1fr_1fr_1fr] mb-5">
-                <p className="text-[#7E88C3] text-[1.4rem]">Item Name</p>
-                <p className="text-[#7E88C3] text-[1.4rem] text-right">QTY.</p>
-                <p className="text-[#7E88C3] text-[1.4rem] text-right">Price</p>
-                <p className="text-[#7E88C3] text-[1.4rem] text-right">Total</p>
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                  Item Name
+                </p>
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem] text-right">
+                  QTY.
+                </p>
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem] text-right">
+                  Price
+                </p>
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem] text-right">
+                  Total
+                </p>
               </div>
 
               {invoice.items?.map((item) => (
@@ -217,7 +247,7 @@ const InvoiceDetail: React.FC = () => {
             </div>
 
             {invoice.items?.map((item) => (
-              <div className="px-6 py-6 md:hidden flex flex-col justify-between items-center bg-primary-gray100 rounded-[1rem]">
+              <div className="px-6 py-4 md:hidden flex flex-col justify-between items-center bg-primary-gray100 dark:bg-[#252945] rounded-[1rem]">
                 <div className="flex w-full justify-between items-center">
                   <div className="flex flex-col justify-center items-start">
                     <p className="font-bold text-[1.6rem]">{item.name}</p>
@@ -235,7 +265,7 @@ const InvoiceDetail: React.FC = () => {
               </div>
             ))}
 
-            <div className="w-full flex justify-between items-center px-10 py-10 bg-[#252945] rounded-b-[1rem]">
+            <div className="w-full flex justify-between items-center px-10 py-10 bg-[#252945] dark:bg-[#0C0E16] rounded-b-[1rem]">
               <p className="text-primary-gray md:text-[1.4rem] text-[1.6rem]">
                 Amount Due
               </p>
@@ -256,7 +286,7 @@ const InvoiceDetail: React.FC = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-0 md:hidden w-full bg-white flex justify-between items-center gap-4 px-10 py-14 shadow-[0_-8px_7px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 md:hidden w-full bg-white dark:bg-[#252945] flex justify-between items-center gap-4 px-10 py-12 shadow-[0_-8px_7px_rgba(0,0,0,0.1)]">
         <Button
           variant="secondary"
           className="text-[2rem] font-bold w-full"

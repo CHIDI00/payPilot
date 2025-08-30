@@ -23,6 +23,16 @@ const Invoices: React.FC = () => {
     filter === "all" ? true : inv.status.toLowerCase() === filter
   );
 
+  // const [darkMode, setDarkMode] = useState(false);
+
+  // useEffect(() => {
+  //   if (darkMode) {
+  //     document.documentElement.classList.add("dark");
+  //   } else {
+  //     document.documentElement.classList.remove("dark");
+  //   }
+  // }, [darkMode]);
+
   return (
     <>
       <div className="w-full h-full flex flex-col justify-center items-center lg:px-0 px-6 pb-8">
@@ -38,6 +48,13 @@ const Invoices: React.FC = () => {
           <InvoiceContainer invoice={filteredInvoices} /> // 👈 use filtered list
         )}
       </div>
+      {/* <button
+        onClick={() => setDarkMode(!darkMode)}
+        className="p-2 rounded-lg border bg-gray-200 dark:bg-gray-800 dark:text-white"
+      >
+        {darkMode ? "☀️ Light" : "🌙 Dark"}
+      </button> */}
+
       {isModalOpen && (
         <Modal onClose={onClose} isModalOpen={isModalOpen}>
           <CreateInvoiceForm invoiceToEdit={null} onCloseModal={onClose} />

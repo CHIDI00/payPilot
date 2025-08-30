@@ -24,7 +24,7 @@ const InvoiceHeading: React.FC<ModalProp> = ({
 }) => {
   return (
     <div className="w-full md:h-[20rem] h-[10rem] py-[2rem] flex justify-between items-center">
-      <div className="w-1/2 text-primary-text">
+      <div className="w-1/2 text-primary-text dark:text-white">
         <h2 className="md:text-[4rem] text-[2.7rem] font-bold leading-tight">
           Invoices
         </h2>

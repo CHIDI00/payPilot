@@ -31,13 +31,13 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
         {/* Large screen layout */}
         <div
           key={id}
-          className="hidden md:grid w-full px-8 py-4 rounded-2xl bg-primary-gray justify-between items-center grid-cols-[1.3fr_2.3fr_2.3fr_1.9fr_1.7fr_.6fr] gap-16 shadow-sm"
+          className="hidden md:grid w-full px-8 py-4 rounded-2xl bg-primary-gray dark:bg-[#1E2139] justify-between items-center grid-cols-[1.3fr_2.3fr_2.3fr_1.9fr_1.7fr_.6fr] gap-16 shadow-sm"
         >
           <div className="font-bold text-[1.6rem]">
             <span className="text-[#7E88C3]">#</span>
             {invoice_id}
           </div>
-          <div className="text-[#888EB0]">
+          <div className="text-[#888EB0] dark:text-[#DFE3FA]">
             Due{" "}
             {invoice_date &&
               new Date(invoice_date).toLocaleDateString("en-GB", {
@@ -47,7 +47,9 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
               })}
           </div>
 
-          <div className="text-[#888EB0]">{client_name}</div>
+          <div className="text-[#888EB0] dark:text-[#FFFFFF]">
+            {client_name}
+          </div>
           <div className="font-bold text-[1.6rem] w-full flex justify-end items-center">
             {formatCurrency(Number(totalPrice))}
           </div>
@@ -56,10 +58,10 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
             className={`px-4 py-2 font-bold text-[1.6rem] rounded-xl flex justify-center items-center gap-1
                 ${
                   status.toLowerCase() === "paid"
-                    ? "text-green-500 bg-green-50"
+                    ? "text-green-500 bg-green-50 dark:bg-[#889f8530]"
                     : status.toLowerCase() === "pending"
-                    ? "text-orange-400 bg-orange-50"
-                    : "text-[#252945] bg-[#DFE3FA]"
+                    ? "text-orange-400 bg-orange-50 dark:bg-[#aa7e4330]"
+                    : "text-[#252945] dark:text-[#DFE3FA] bg-[#DFE3FA] dark:bg-[#c4c4f316]"
                 }`}
           >
             <span className="text-[2.5rem]">•</span> {status}
@@ -79,18 +81,18 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
         <div
           key={id}
           onClick={() => navigate(`/invoice/view_invoice/${id}`)}
-          className="grid md:hidden w-full px-12 py-8 rounded-2xl bg-primary-gray justify-between items-center grid-cols-2 gap-x-10 gap-y-14"
+          className="grid md:hidden w-full px-12 py-8 rounded-2xl bg-primary-gray dark:bg-[#1E2139] justify-between items-center grid-cols-2 gap-x-10 gap-y-14"
         >
           <div className="font-bold text-[16px]">
             <span className="text-[#7E88C3]">#</span>
             {invoice_id}
           </div>
-          <div className="text-[#888EB0] flex justify-end items-center">
+          <div className="text-[#888EB0] dark:text-[#FFFFFF] flex justify-end items-center">
             {client_name}
           </div>
 
           <div className="flex flex-col gap-3">
-            <div className="text-[#888EB0]">
+            <div className="text-[#888EB0] dark:text-[#DFE3FA]">
               Due{" "}
               {invoice_date &&
                 new Date(invoice_date).toLocaleDateString("en-GB", {
@@ -107,11 +109,11 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
             <div
               className={`px-4 py-2 w-[90%] font-bold text-[1.3rem] rounded-xl flex justify-center items-center gap-1
                 ${
-                  status === "Paid"
-                    ? "text-green-500 bg-green-50"
-                    : status === "Pending"
-                    ? "text-orange-400 bg-orange-50"
-                    : "text-[#252945] bg-[#DFE3FA]"
+                  status.toLowerCase() === "paid"
+                    ? "text-green-500 bg-green-50 dark:bg-[#889f8530]"
+                    : status.toLowerCase() === "pending"
+                    ? "text-orange-400 bg-orange-50 dark:bg-[#aa7e4330]"
+                    : "text-[#252945] dark:text-[#DFE3FA] bg-[#DFE3FA] dark:bg-[#c4c4f316]"
                 }`}
             >
               <span className="text-[2.5rem]">•</span> {status}
