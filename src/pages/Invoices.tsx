@@ -12,6 +12,7 @@ const Invoices: React.FC = () => {
   const [filter, setFilter] = useState<string>("all"); // 👈 add filter state
 
   const onClose = () => setIsModalOpen(false);
+  // const onCloseEdit = () => setIsModalOpen(false);
 
   const { isPending, data: invoices } = useQuery({
     queryKey: ["invoices"],
@@ -22,16 +23,6 @@ const Invoices: React.FC = () => {
   const filteredInvoices = invoices?.filter((inv) =>
     filter === "all" ? true : inv.status.toLowerCase() === filter
   );
-
-  // const [darkMode, setDarkMode] = useState(false);
-
-  // useEffect(() => {
-  //   if (darkMode) {
-  //     document.documentElement.classList.add("dark");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //   }
-  // }, [darkMode]);
 
   return (
     <>
@@ -48,16 +39,18 @@ const Invoices: React.FC = () => {
           <InvoiceContainer invoice={filteredInvoices} /> // 👈 use filtered list
         )}
       </div>
-      {/* <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="p-2 rounded-lg border bg-gray-200 dark:bg-gray-800 dark:text-white"
-      >
-        {darkMode ? "☀️ Light" : "🌙 Dark"}
-      </button> */}
 
       {isModalOpen && (
-        <Modal onClose={onClose} isModalOpen={isModalOpen}>
-          <CreateInvoiceForm invoiceToEdit={null} onCloseModal={onClose} />
+        <Modal
+          onClose={onClose}
+          // onCloseEdit={onCloseEdit}
+          isModalOpen={isModalOpen}
+        >
+          <CreateInvoiceForm
+            invoiceToEdit={null}
+            onCloseEdit={onClose}
+            onCloseModal={onClose}
+          />
         </Modal>
       )}
     </>

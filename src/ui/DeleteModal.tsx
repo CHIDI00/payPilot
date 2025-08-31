@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Button from "./Button";
-// import { motion } from "framer-motion";
 
 interface DeleteModalProp {
   resourceName: string;
@@ -16,44 +16,56 @@ const DeleteModal: React.FC<DeleteModalProp> = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  useEffect(
-    function () {
-      function handleClick(e: MouseEvent) {
-        if (ref.current && !ref.current.contains(e.target as Node)) {
-          onClose();
-        }
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onClose();
       }
-
-      document.addEventListener("click", handleClick, true);
-
-      return () => document.removeEventListener("click", handleClick, true);
-    },
-    [onClose]
-  );
+    }
+    document.addEventListener("click", handleClick, true);
+    return () => document.removeEventListener("click", handleClick, true);
+  }, [onClose]);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-[100vh]  text-black transition-all duration-300 z-[20] bg-[#9797976f] flex justify-center items-center">
-      <div className="bg-white m-auto lg:w-[30%] w-[90%] lg:p-12 p-6 flex flex-col gap-4 rounded-lg">
-        <h2 className="text-[2rem] font-bold">Confirm deletion</h2>
-        <div className="text-[1.4rem]">
-          <p>
-            Are you sure you wwant to delete invoice{" "}
-            <span className="font-bold text-[1.6rem] text-[#7E88C3]">#</span>
-            <span className="font-bold text-[1.6rem]">{resourceName}</span>?
-            This action cannot the undone.
-          </p>
-        </div>
+    <AnimatePresence>
+      <motion.div
+        className="fixed top-0 left-0 w-full h-[100vh] z-[20] flex justify-center items-center bg-[#9797976f] dark:bg-[#1a191971]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
+      >
+        <motion.div
+          ref={ref}
+          className="bg-white m-auto dark:bg-[#141625] lg:w-[30%] md:w-[50%] w-[90%] lg:p-12 p-6 flex flex-col gap-4 rounded-lg"
+          initial={{ opacity: 0, scale: 0.9, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          transition={{ duration: 0.1, ease: "easeInOut" }}
+        >
+          <h2 className="text-[2rem] text-black dark:text-[#FFFF] font-bold">
+            Confirm deletion
+          </h2>
+          <div className="text-[1.4rem] text-black dark:text-[#FFFF]">
+            <p>
+              Are you sure you want to delete invoice{" "}
+              <span className="font-bold text-[1.6rem] text-[#7E88C3]">#</span>
+              <span className="font-bold text-[1.6rem]">{resourceName}</span>?
+              This action cannot be undone.
+            </p>
+          </div>
 
-        <div className="w-full flex justify-end items-end gap-4">
-          <Button variant="secondary" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={onConfirm}>
-            Delete
-          </Button>
-        </div>
-      </div>
-    </div>
+          <div className="w-full flex justify-end items-end gap-4">
+            <Button variant="secondary" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={onConfirm}>
+              Delete
+            </Button>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

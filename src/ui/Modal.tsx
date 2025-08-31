@@ -9,19 +9,6 @@ interface ModalProp extends PropsWithChildren {
 const Modal: React.FC<ModalProp> = ({ children, isModalOpen, onClose }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   if (isModalOpen) {
-  //     document.body.classList.add("overflow-hidden");
-  //   } else {
-  //     document.body.classList.remove("overflow-hidden");
-  //   }
-
-  //   // Cleanup if modal unmounts
-  //   return () => {
-  //     document.body.classList.remove("overflow-hidden");
-  //   };
-  // }, [isModalOpen]);
-
   useEffect(
     function () {
       function handleClick(e: MouseEvent) {

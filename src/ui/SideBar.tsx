@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import themeIcon from "../assets/themeIcon.svg";
 import profilePic from "../assets/profilePic.png";
 import { useDarkMode } from "@/context/useDarkMode";
+import { SunDim } from "lucide-react";
 
 const SideBar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -19,7 +20,7 @@ const SideBar: React.FC = () => {
           onClick={toggleDarkMode}
         >
           {isDarkMode ? (
-            "☀"
+            <SunDim />
           ) : (
             <img src={themeIcon} alt="" className=" cursor-pointer" />
           )}
@@ -28,7 +29,7 @@ const SideBar: React.FC = () => {
           <img
             src={profilePic}
             alt=""
-            className="lg:w-auto w-[5rem] cursor-pointer"
+            className="lg:w-auto w-full cursor-pointer"
           />
         </div>
       </div>

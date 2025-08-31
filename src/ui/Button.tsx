@@ -41,7 +41,8 @@ export default function Button({
     // Purple (New Invoice / Mark as Paid)
     primary: "bg-[#7C5DFA] text-white hover:bg-[#9277FF]",
     // Light (Add New Item, light Edit)
-    secondary: "bg-[#F9FAFE] text-[#7E88C3] hover:bg-[#DFE3FA]",
+    secondary:
+      "bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA]  bg-primary-gray100 dark:bg-[#252945] hover:bg-[#DFE3FA]",
     light: "bg-[#F9FAFE] text-[#7E88C3] hover:bg-[#DFE3FA]",
     // Dark (Save as Draft)
     dark: "bg-[#252945] text-[#888EB0] hover:bg-[#0C0E16]",
