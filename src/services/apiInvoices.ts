@@ -3,11 +3,6 @@ import type { Invoice } from "../utils/types";
 import supabase from "./supabase";
 
 export async function getInvoice() {
-  // let query = supabase.from("invoices").select("*");
-
-  // FILTER
-  // if (filter) query = query.eq(filter.field, filter.value);
-
   const { data, error } = await supabase.from("invoices").select("*");
 
   if (error) {

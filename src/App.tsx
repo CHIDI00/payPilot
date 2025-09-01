@@ -7,6 +7,8 @@ import Invoices from "./pages/Invoices";
 import InvoiceDetail from "./features/invoice/InvoiceDetail";
 import { Toaster } from "react-hot-toast";
 import { DarkModeProvider } from "./context/DarkModeProvider";
+import LogIn from "./features/authentication/LogIn";
+import SignUp from "./features/authentication/SignUp";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +33,8 @@ function App() {
                 element={<InvoiceDetail />}
               />
             </Route>
+            <Route path="login" element={<LogIn />} />
+            <Route path="signup" element={<SignUp />} />
           </Routes>
         </BrowserRouter>
 

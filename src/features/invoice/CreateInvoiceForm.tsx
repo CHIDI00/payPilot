@@ -52,7 +52,6 @@ interface InvoiceFormData {
 const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   invoiceToEdit,
   onCloseModal,
-  onCloseEdit,
 }) => {
   const { createInvoice, isCreating } = useCreateInvoice();
   const { editInvoice, isEditing } = useEditInvoice();
@@ -89,7 +88,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         {
           onSuccess: () => {
             reset();
-            onCloseEdit?.();
+            onCloseModal?.();
           },
         }
       );
@@ -405,7 +404,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             >
               <input
                 type="number"
-                className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] py-3 px-6 font-bold rounded-md ${
+                className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] py-3 px-2 font-bold rounded-md ${
                   errors.items?.[index]?.quantity
                     ? "border-red-600"
                     : "border-gray-300"
@@ -425,7 +424,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               <input
                 type="number"
                 step="0.01"
-                className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] py-3 px-6 font-bold rounded-md ${
+                className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] py-3 px-2 font-bold rounded-md ${
                   errors.items?.[index]?.price
                     ? "border-red-600"
                     : "border-gray-300"
@@ -469,7 +468,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             variant="secondary"
             className="font-bold"
             onClick={() => {
-              onCloseEdit();
+              onCloseModal();
               console.log("Clicked");
             }}
           >
