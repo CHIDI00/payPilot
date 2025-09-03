@@ -17,8 +17,6 @@ import toast from "react-hot-toast";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
-  onCloseEdit: () => void;
-
   invoiceToEdit: Invoice | null;
 }
 
@@ -55,7 +53,6 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 }) => {
   const { createInvoice, isCreating } = useCreateInvoice();
   const { editInvoice, isEditing } = useEditInvoice();
-  // const {saveAsDraft, isSaving} = useSaveAsDraft()
 
   const isWorking = isCreating || isEditing;
 

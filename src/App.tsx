@@ -33,8 +33,8 @@ function App() {
                 element={<InvoiceDetail />}
               />
             </Route>
-            <Route path="login" element={<LogIn />} />
-            <Route path="signup" element={<SignUp />} />
+            <Route path="auth/login" element={<LogIn />} />
+            <Route path="auth/signup" element={<SignUp />} />
           </Routes>
         </BrowserRouter>
 
