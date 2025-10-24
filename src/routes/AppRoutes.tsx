@@ -6,6 +6,7 @@ import Invoices from "../pages/Invoices";
 import InvoiceDetail from "../features/invoice/InvoiceDetail";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppRoutes() {
   const location = useLocation();
@@ -13,7 +14,13 @@ function AppRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route element={<AppLayout />}>
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate replace to="invoices" />} />
           <Route path="invoices" element={<Invoices />} />
           <Route
