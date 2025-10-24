@@ -1,14 +1,9 @@
+// App.tsx
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-import AppLayout from "./ui/AppLayout";
-import Invoices from "./pages/Invoices";
-import InvoiceDetail from "./features/invoice/InvoiceDetail";
+import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { DarkModeProvider } from "./context/DarkModeProvider";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import AppRoutes from "./routes/AppRoutes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,38 +17,20 @@ function App() {
   return (
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route index element={<Navigate replace to="invoices" />} />
-              <Route path="invoices" element={<Invoices />} />
-              <Route
-                path="invoice/view_invoice/:invoiceId"
-                element={<InvoiceDetail />}
-              />
-            </Route>
-            <Route path="auth/login" element={<Login />} />
-            <Route path="auth/signup" element={<Signup />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
-
         <Toaster
           position="bottom-right"
           gutter={12}
           containerStyle={{ margin: "8px" }}
           toastOptions={{
-            success: {
-              duration: 5000,
-            },
-            error: {
-              duration: 5000,
-            },
+            success: { duration: 5000 },
+            error: { duration: 5000 },
             style: {
               fontSize: "14px",
               maxWidth: "400px",
               padding: "10px 20px",
-              // backgroundColor: "green",
               backdropFilter: "blur(8px)",
               color: "black",
             },

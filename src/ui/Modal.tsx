@@ -6,7 +6,7 @@ interface ModalProp extends PropsWithChildren {
   onClose: () => void;
 }
 
-const Modal: React.FC<ModalProp> = ({ children, isModalOpen, onClose }) => {
+const Modal: React.FC<ModalProp> = ({ children, onClose }) => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(
@@ -24,15 +24,17 @@ const Modal: React.FC<ModalProp> = ({ children, isModalOpen, onClose }) => {
     [onClose]
   );
 
-  if (!isModalOpen) return null;
+  // Remove the "if (!isModalOpen) return null"! Let outer AnimatePresence handle it.
+
   return (
-    <div className="fixed top-0 left-0 w-full h-[100vh]  text-black transition-all duration-300 z-[20] flex lg:flex-row flex-col">
+    <div className="fixed top-0 left-0 w-full h-[100vh] text-black transition-all duration-300 z-[20] flex lg:flex-row flex-col">
       <div className="bg-primary-gray dark:bg-[#141625] lg:w-[5.5%] lg:h-full md:w-full h-[7%] z-[-100]"></div>
       <div className="w-full lg:h-full h-[93%] bg-[#4645454f] dark:bg-[#1a191971]">
         <motion.div
           ref={ref}
           initial={{ x: "-100%" }}
-          animate={{ x: isModalOpen ? 0 : "-100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "-100%" }}
           transition={{ duration: 0.2, ease: "easeIn" }}
           className="lg:w-[33%] md:w-[70%] w-full h-full md:rounded-r-[2rem] bg-primary-gray dark:bg-[#141625] px-1 py-6"
         >

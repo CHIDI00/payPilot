@@ -10,10 +10,7 @@ import { useCreateInvoice } from "./useCreateInvoice";
 import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../utils/types";
 import { generateInvoiceId } from "../../utils/helper";
-// import { useSaveAsDraft } from "./useSaveAsDraft";
 import toast from "react-hot-toast";
-// import MiniLoader from "@/ui/MiniLoader";
-// import { saveInvoiceDraft } from "../../services/apiInvoices";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
@@ -148,7 +145,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <span>
               <ChevronLeft size={18} />
             </span>{" "}
-            Go back
+            Close
           </button>
         )}
       </div>

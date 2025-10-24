@@ -6,10 +6,11 @@ import CreateInvoiceForm from "../features/invoice/CreateInvoiceForm";
 import { getInvoice } from "../services/apiInvoices";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../ui/Loader";
+import { AnimatePresence } from "framer-motion";
 
 const Invoices: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filter, setFilter] = useState<string>("all"); // 👈 add filter state
+  const [filter, setFilter] = useState<string>("all");
 
   const onClose = () => setIsModalOpen(false);
   // const onCloseEdit = () => setIsModalOpen(false);
@@ -30,29 +31,23 @@ const Invoices: React.FC = () => {
         <InvoiceHeading
           invoice={invoices}
           setIsModalOpen={setIsModalOpen}
-          setFilter={setFilter} // 👈 pass down setFilter
+          setFilter={setFilter}
         />
 
         {isPending ? (
           <Loader />
         ) : (
-          <InvoiceContainer invoice={filteredInvoices} /> // 👈 use filtered list
+          <InvoiceContainer invoice={filteredInvoices} />
         )}
       </div>
 
-      {isModalOpen && (
-        <Modal
-          onClose={onClose}
-          // onCloseEdit={onCloseEdit}
-          isModalOpen={isModalOpen}
-        >
-          <CreateInvoiceForm
-            invoiceToEdit={null}
-            onCloseEdit={onClose}
-            onCloseModal={onClose}
-          />
-        </Modal>
-      )}
+      <AnimatePresence>
+        {isModalOpen && (
+          <Modal onClose={onClose} isModalOpen={isModalOpen}>
+            <CreateInvoiceForm invoiceToEdit={null} onCloseModal={onClose} />
+          </Modal>
+        )}
+      </AnimatePresence>
     </>
   );
 };

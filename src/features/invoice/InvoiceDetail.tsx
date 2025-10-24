@@ -1,18 +1,21 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 
 import Button from "../../ui/Button";
-import DeleteModal from "../../ui/DeleteModal";
 import Modal from "../../ui/Modal";
-import CreateInvoiceForm from "./CreateInvoiceForm";
-import useInvoice from "./useInvoice";
 import Loader from "../../ui/Loader";
+import DeleteModal from "../../ui/DeleteModal";
+import useInvoice from "./useInvoice";
+import CreateInvoiceForm from "./CreateInvoiceForm";
 
-import { ChevronLeft } from "lucide-react";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useDeleteInvoice } from "./useDeleteInvoice";
 import { formatCurrency } from "../../utils/helper";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
-import toast from "react-hot-toast";
+import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -24,11 +27,12 @@ const InvoiceDetail: React.FC = () => {
   const { deleteInvoice, isDeleting } = useDeleteInvoice();
 
   const onClose = () => setIsDeleteModalOpen(false);
+  const closeEditModal = () => setIsModalOpen(false);
 
   const [isStatus, setIsStatus] = useState(invoice?.status || "Pending");
 
   if (isLoading) return <Loader />;
-  if (!invoice) return <div>No invoice found</div>;
+  if (!invoice) return <FailedToLoadInvoiceDetails />;
 
   const {
     id,
@@ -68,7 +72,13 @@ const InvoiceDetail: React.FC = () => {
 
   return (
     <>
-      <div className="relative w-full py-20 lg:px-0 px-6">
+      <motion.div
+        initial={{ opacity: 0, y: 0 }}
+        animate={{ opacity: 1, y: 10 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="relative w-full py-20 lg:px-0 px-6"
+      >
         <div className="w-full mb-10">
           <button
             className="flex justify-between items-center gap-7 text-[1.7rem]"
@@ -284,8 +294,9 @@ const InvoiceDetail: React.FC = () => {
             setIsDeleteModalOpen={setIsDeleteModalOpen}
           />
         )}
-      </div>
+      </motion.div>
 
+      {/* Mobile button display */}
       <div className="fixed bottom-0 left-0 md:hidden w-full bg-white dark:bg-[#252945] flex justify-between items-center gap-4 px-10 py-12 shadow-[0_-8px_7px_rgba(0,0,0,0.1)]">
         <Button
           variant="secondary"
@@ -310,11 +321,16 @@ const InvoiceDetail: React.FC = () => {
         )}
       </div>
 
-      {isModalOpen && (
-        <Modal onClose={onClose} isModalOpen={isModalOpen}>
-          <CreateInvoiceForm invoiceToEdit={invoice} onCloseModal={onClose} />
-        </Modal>
-      )}
+      <AnimatePresence>
+        {isModalOpen && (
+          <Modal onClose={onClose} isModalOpen={isModalOpen}>
+            <CreateInvoiceForm
+              invoiceToEdit={invoice}
+              onCloseModal={closeEditModal}
+            />
+          </Modal>
+        )}
+      </AnimatePresence>
     </>
   );
 };
