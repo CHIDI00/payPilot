@@ -3,9 +3,11 @@ import logo from "../assets/logo.png";
 import profilePic from "../assets/profilePic.png";
 import { useDarkMode } from "@/context/useDarkMode";
 import { Moon, SunDim } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const SideBar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const navigate = useNavigate();
 
   return (
     <div className="w-full h-full flex lg:flex-col justify-between items-center">
@@ -21,11 +23,16 @@ const SideBar: React.FC = () => {
           {isDarkMode ? <SunDim /> : <Moon />}
         </div>
         <div className="w-full lg:h-auto h-full flex justify-center items-center lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500">
-          <img
-            src={profilePic}
-            alt=""
-            className="lg:w-auto w-full cursor-pointer"
-          />
+          <div
+            onClick={() => navigate("/account")}
+            className=" border-2 border-purple-400 rounded-full w-14 h-14"
+          >
+            <img
+              src={profilePic}
+              alt=""
+              className="w-full cursor-pointer rounded-full"
+            />
+          </div>
         </div>
       </div>
     </div>

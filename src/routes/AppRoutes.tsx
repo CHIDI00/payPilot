@@ -7,6 +7,7 @@ import InvoiceDetail from "../features/invoice/InvoiceDetail";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import UserAccount from "../pages/UserAccount";
 
 function AppRoutes() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function AppRoutes() {
             path="invoice/view_invoice/:invoiceId"
             element={<InvoiceDetail />}
           />
+          <Route path="account" element={<UserAccount />} />
         </Route>
         <Route path="auth/login" element={<Login />} />
         <Route path="auth/signup" element={<Signup />} />
