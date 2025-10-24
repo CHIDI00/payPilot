@@ -1,5 +1,4 @@
 import React from "react";
-import EmptyInvoice from "../../ui/EmptyInvoice";
 
 import { useNavigate } from "react-router-dom";
 import type { Invoice } from "../../utils/types";
@@ -20,10 +19,6 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
     (acc, item) => acc + item.price * (item.quantity ?? 1),
     0
   );
-
-  if (!invoice) {
-    return <EmptyInvoice />;
-  }
 
   if (invoice) {
     return (

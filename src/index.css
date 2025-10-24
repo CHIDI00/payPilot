@@ -59,10 +59,10 @@ button {
   cursor: not-allowed;
 }
 
-select:disabled,
+/* select:disabled,
 input:disabled {
   background-color: transparent;
-}
+} */
 
 input:focus,
 button:focus,

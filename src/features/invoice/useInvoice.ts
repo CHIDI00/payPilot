@@ -9,7 +9,7 @@ const useInvoice = () => {
   const { isLoading, data: invoice } = useQuery<Invoice>({
     queryKey: ["invoice", invoiceId],
     queryFn: () => getInvoiceById(invoiceId!),
-    enabled: !!invoiceId, // only run if invoiceId exists
+    enabled: !!invoiceId,
   });
 
   return { invoice, isLoading };
