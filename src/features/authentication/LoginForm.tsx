@@ -58,13 +58,13 @@ const LoginForm: React.FC = () => {
         {/* EMAIL */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Email</label>
-          <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg">
-            <Mail className="dark:text-gray-700" />
+          <div className="relative flex items-center justify-start w-full  border-2 border-gray-300 dark:border-gray-700 rounded-lg">
+            <Mail className="absolute left-3 top-2 dark:text-gray-700" />
             <input
               id="email"
               type="text"
               placeholder="Enter your Email"
-              className="w-full px-4 py-3 bg-transparent"
+              className="w-full pl-14 py-3 bg-transparent"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -78,19 +78,19 @@ const LoginForm: React.FC = () => {
         {/* PASSWORD */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Password</label>
-          <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg">
-            <Lock className="dark:text-gray-700" />
+          <div className="relative flex items-center justify-start w-full border-2 border-gray-300 dark:border-gray-700 rounded-lg">
+            <Lock className="absolute left-3 top-2 dark:text-gray-700" />
             <input
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Create a password"
-              className="w-full px-4 py-3 bg-transparent"
+              className="w-full px-14 py-3 bg-transparent"
               {...register("password", { required: "Enter your password" })}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="text-gray-500 hover:text-gray-800"
+              className="absolute right-3 top-2 text-gray-500 hover:text-gray-800"
             >
               {showPassword ? (
                 <EyeOff className="w-9 h-9" />

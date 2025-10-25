@@ -35,7 +35,7 @@ const InvoiceContainer: React.FC<InvoiceContainerProps> = ({ invoice }) => {
       className="w-full flex flex-col justify-start items-start gap-6"
     >
       {invoice?.map((invoice) => (
-        <motion.div key={invoice.id} variants={itemVariants}>
+        <motion.div key={invoice.id} variants={itemVariants} className="w-full">
           <InvoiceRow invoice={invoice} />{" "}
         </motion.div>
       ))}

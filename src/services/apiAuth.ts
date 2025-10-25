@@ -68,3 +68,9 @@ export async function signInWithGoogle() {
   if (error) throw new Error(error.message);
   return data;
 }
+
+// LOGOUT
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw new Error(error.message);
+}
