@@ -4,6 +4,10 @@ import { Toaster } from "react-hot-toast";
 import { DarkModeProvider } from "./context/DarkModeProvider";
 import AppRoutes from "./routes/AppRoutes";
 
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import supabase from "./services/supabase";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -13,6 +17,20 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        navigate("/invoices");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <DarkModeProvider>
       <QueryClientProvider client={queryClient}>

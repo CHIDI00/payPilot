@@ -61,9 +61,9 @@ export async function getCurrentUser() {
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: {
-      redirectTo: `${import.meta.env.VITE_SITE_URL}/invoices`,
-    },
+    // options: {
+    //   redirectTo: `${import.meta.env.VITE_SITE_URL}/invoices`,
+    // },
   });
   if (error) throw new Error(error.message);
   return data;
