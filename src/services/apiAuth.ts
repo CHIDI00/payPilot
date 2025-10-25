@@ -57,6 +57,7 @@ export async function getCurrentUser() {
   return data?.user;
 }
 
+// GOOGLE SIGNIN/LOGIN
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",

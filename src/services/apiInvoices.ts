@@ -55,7 +55,7 @@ export async function createEditInvoice(
   return null;
 }
 
-// fetch single invoice by `id`
+// FETCH SINGLE INVOICE BY ID'
 export async function getInvoiceById(id: string) {
   const { data, error } = await supabase
     .from("invoices")
@@ -71,7 +71,7 @@ export async function getInvoiceById(id: string) {
   return data as Invoice;
 }
 
-// Delete Invoice
+// DELETE INVOICE
 export async function deleteInvoice(id: string) {
   const { data, error } = await supabase.from("invoices").delete().eq("id", id);
 

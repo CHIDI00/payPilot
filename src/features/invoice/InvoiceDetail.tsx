@@ -296,7 +296,7 @@ const InvoiceDetail: React.FC = () => {
         )}
       </motion.div>
 
-      {/* Mobile button display */}
+      {/* MOBILE BUTTON DISPLAY */}
       <div className="fixed bottom-0 left-0 md:hidden w-full bg-white dark:bg-[#252945] flex justify-between items-center gap-4 px-10 py-12 shadow-[0_-8px_7px_rgba(0,0,0,0.1)]">
         <Button
           variant="secondary"

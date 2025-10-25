@@ -55,7 +55,7 @@ const LoginForm: React.FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-center w-full gap-5 p-3"
       >
-        {/* Email */}
+        {/* EMAIL */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Email</label>
           <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg">
@@ -75,7 +75,7 @@ const LoginForm: React.FC = () => {
             />
           </div>
         </div>{" "}
-        {/* Password */}
+        {/* PASSWORD */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Password</label>
           <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg">
@@ -103,10 +103,6 @@ const LoginForm: React.FC = () => {
             <p className="text-red-800">{errors.password.message as string}</p>
           )}
         </div>{" "}
-        {/* <div className="">
-            Don't have an account yet?{" "}
-            <NavLink to="">Create an account</NavLink>
-          </div> */}
         <motion.div
           whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(0,0,0,0.15)" }}
           whileTap={{ scale: 0.95, rotate: -1 }}
@@ -121,7 +117,7 @@ const LoginForm: React.FC = () => {
             {isPending ? "Loading" : "Login"}
           </Button>
         </motion.div>
-        {/* Google Signup */}
+        {/* GOOGLE LOGIN */}
         <button
           onClick={signInWithGoogle}
           className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"

@@ -24,8 +24,6 @@ const Modal: React.FC<ModalProp> = ({ children, onClose }) => {
     [onClose]
   );
 
-  // Remove the "if (!isModalOpen) return null"! Let outer AnimatePresence handle it.
-
   return (
     <div className="fixed top-0 left-0 w-full h-[100vh] text-black transition-all duration-300 z-[20] flex lg:flex-row flex-col">
       <div className="bg-primary-gray dark:bg-[#141625] lg:w-[5.5%] lg:h-full md:w-full h-[7%] z-[-100]"></div>

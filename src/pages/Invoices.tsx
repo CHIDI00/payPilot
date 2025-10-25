@@ -20,7 +20,7 @@ const Invoices: React.FC = () => {
     queryFn: () => getInvoice(),
   });
 
-  // 👇 filter invoices based on filter state
+  // FILTER INVOICE
   const filteredInvoices = invoices?.filter((inv) =>
     filter === "all" ? true : inv.status.toLowerCase() === filter
   );

@@ -23,7 +23,7 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
   if (invoice) {
     return (
       <>
-        {/* Large screen layout */}
+        {/* LARGE SCREEN LAYOUT */}
         <div
           key={id}
           className="hidden md:grid w-full px-8 py-4 rounded-2xl bg-primary-gray dark:bg-[#1E2139] justify-between items-center grid-cols-[1.3fr_2.3fr_2.3fr_1.9fr_1.7fr_.6fr] gap-16 shadow-sm "
@@ -72,7 +72,7 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
           </div>
         </div>
 
-        {/* Mobile layout */}
+        {/* MOBILE LAYOUT */}
         <div
           key={id}
           onClick={() => navigate(`/invoice/view_invoice/${id}`)}

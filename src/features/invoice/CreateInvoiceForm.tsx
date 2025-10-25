@@ -76,7 +76,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     console.log(data);
 
     if (isEditSession && editId) {
-      // Editing an existing invoice
+      // EDITING AND EXISTING INVOICE
       editInvoice(
         { newInvoiceData: { ...data }, id: editId! },
         {
@@ -87,7 +87,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         }
       );
     } else {
-      // Creating a new invoice
+      // CREATE A NEW INVOICE
       const newInvoice = {
         ...data,
         invoice_id: generateInvoiceId(),
@@ -107,7 +107,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   }
 
   function onSaveDraft() {
-    // Grab form values without running validation
+    // SAVE FORM VALUES WITHOUT RUNNING VALIDATION
     const draftData = getValues();
 
     const newInvoice = {
@@ -163,7 +163,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       <div className="my-6">
         <FormSubTitle>Bill From</FormSubTitle>
 
-        {/* Street Adress */}
+        {/* STREET ADDRESS */}
 
         <FormColumn label="Street Adress" error={errors.street_address}>
           <input
@@ -264,7 +264,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           />
         </FormColumn>
         <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-          {/* Client's City */}
+          {/* CLIENT'S CITY */}
           <FormColumn label="City" error={errors.client_city}>
             <input
               type="text"
@@ -278,7 +278,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             />
           </FormColumn>
 
-          {/* Client's Post Code */}
+          {/* CLIENT'S POST CODE */}
           <FormColumn label="Post Code" error={errors.client_post_code}>
             <input
               type="text"
@@ -292,7 +292,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             />
           </FormColumn>
 
-          {/* Client's Country */}
+          {/* CLIENT'S COUNTRY */}
           <FormColumn
             label="Country"
             error={errors.client_country}
@@ -312,7 +312,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </div>
 
         <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
-          {/* Invoice Date */}
+          {/* INVOICE DATA */}
           <FormColumn label="Invoice Date" error={errors.invoice_date}>
             <input
               type="date"
@@ -326,7 +326,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             />
           </FormColumn>
 
-          {/* Payment Terms */}
+          {/* PAYMENT TERMS */}
           <FormColumn label="Payment Terms" error={errors.payment_terms}>
             <input
               type="text"
@@ -341,7 +341,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </FormColumn>
         </div>
 
-        {/* Description */}
+        {/* DESCRIPTION */}
         <FormColumn label="Project Description" error={errors.description}>
           <input
             type="text"
@@ -372,7 +372,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             key={field.id}
             className="grid md:grid-cols-[3fr_1fr_1.3fr_1fr_.4fr] grid-cols-[1.5fr_1.5fr_.7fr_.3fr] justify-center items-center gap-7 mb-4"
           >
-            {/* Item Name */}
+            {/* ITEM NAME */}
             <FormColumn
               label={`${window.innerWidth <= 480 ? `Item` : ""}`}
               error={errors.items?.[index]?.name}
@@ -391,7 +391,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               />
             </FormColumn>
 
-            {/* Quantity */}
+            {/* QUANTITY */}
             <FormColumn
               label={`${window.innerWidth <= 480 ? `QTY` : ""}`}
               error={errors.items?.[index]?.quantity}
@@ -410,7 +410,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               />
             </FormColumn>
 
-            {/* Price */}
+            {/* PRICE */}
             <FormColumn
               label={`${window.innerWidth <= 480 ? `Price` : ""}`}
               error={errors.items?.[index]?.price}
@@ -430,12 +430,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               />
             </FormColumn>
 
-            {/* Total (read-only) */}
+            {/* TOTAL PRICE */}
             <p className="text-[#000] dark:text-white font-bold text-[1.7rem] ">
               {(field.quantity ?? 0) * (field.price ?? 0)}
             </p>
 
-            {/* Delete Item */}
+            {/* DELETE ITEM */}
             <div
               className="cursor-pointer dark:text-white"
               onClick={() => remove(index)}
@@ -445,7 +445,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </div>
         ))}
 
-        {/* Add New Item */}
+        {/* ADD NEW ITEM */}
         <button
           type="button"
           onClick={() => append({ name: "", quantity: 0, price: 0 })}

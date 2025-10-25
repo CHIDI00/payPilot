@@ -41,7 +41,7 @@ const SignupForm: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col items-center w-full gap-5 p-4"
     >
-      {/* Full Name */}
+      {/* FULL NAME */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Full Name</label>
         <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
@@ -59,7 +59,7 @@ const SignupForm: React.FC = () => {
         )}
       </div>
 
-      {/* Email */}
+      {/* EMAIL */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Email</label>
         <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
@@ -83,7 +83,7 @@ const SignupForm: React.FC = () => {
         )}
       </div>
 
-      {/* Password */}
+      {/* PASSWORD */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Password</label>
         <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
@@ -111,7 +111,7 @@ const SignupForm: React.FC = () => {
         )}
       </div>
 
-      {/* Confirm Password */}
+      {/* CONFIRM PASSWORD */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Confirm Password</label>
         <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
@@ -142,7 +142,6 @@ const SignupForm: React.FC = () => {
         )}
       </div>
 
-      {/* Animated Submit Button */}
       <motion.div
         whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(0,0,0,0.15)" }}
         whileTap={{ scale: 0.95, rotate: -1 }}
@@ -157,7 +156,7 @@ const SignupForm: React.FC = () => {
         </Button>
       </motion.div>
 
-      {/* Divider */}
+      {/* DIVIDER */}
       <div className="relative flex items-center w-full">
         <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
         <span className="px-3 text-xl text-gray-600 dark:text-white uppercase">
@@ -166,7 +165,7 @@ const SignupForm: React.FC = () => {
         <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
       </div>
 
-      {/* Google Signup */}
+      {/* GOOGLE SIGNUP */}
       <button
         onClick={signInWithGoogle}
         className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"
