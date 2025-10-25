@@ -4,8 +4,8 @@ import React from "react";
 
 const Login: React.FC = () => {
   return (
-    <div className="w-screen h-[100dvh] flex justify-center items-center bg-primary-bg dark:bg-[£141625]">
-      <div className="min-w-[40rem] p-4 flex flex-col justify-center items-start">
+    <div className="w-screen h-[100dvh] flex justify-center items-center bg-primary-bg dark:bg-[#141625]">
+      <div className="min-w-[40rem] p-4 flex flex-col justify-center items-start bg-white dark:bg-[#0d0e18] rounded-[2rem]">
         <FormHeader />
         <LoginForm />
       </div>

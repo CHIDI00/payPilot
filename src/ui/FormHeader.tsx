@@ -15,7 +15,7 @@ const FormHeader: React.FC = () => {
 
       <div className="w-full flex flex-col items-center  p-3  rounded-lg my-2">
         {/* <h2 className="text-[2.4rem] font-bold ">Get Started</h2> */}
-        <div className="grid grid-cols-2 w-full justify-center items-center gap-1 bg-primary-gray100 p-1 rounded-xl my-6">
+        <div className="grid grid-cols-2 w-full justify-center items-center gap-1 bg-primary-gray100 dark:bg-[#141625] p-1 rounded-xl my-6">
           <div
             onClick={() => navigate("/auth/login")}
             className="w-full  flex items-center justify-center rounded-lg p-3  font-semibold cursor-pointer"
@@ -24,7 +24,7 @@ const FormHeader: React.FC = () => {
           </div>
           <div
             onClick={() => navigate("/auth/signup")}
-            className="w-full bg-white flex items-center justify-center rounded-lg p-3 font-semibold cursor-pointer"
+            className="w-full bg-white dark:bg-[#191c2f] flex items-center justify-center rounded-lg p-3 font-semibold cursor-pointer"
           >
             Sign Up
           </div>

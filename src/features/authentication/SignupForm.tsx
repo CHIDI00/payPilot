@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Button from "@/ui/Button";
 import google from "../../assets/google.svg";
 import { useSignup } from "./useSignup";
+import { signInWithGoogle } from "../../services/apiAuth";
 
 interface InvoiceSignupData {
   fullName: string;
@@ -43,7 +44,7 @@ const SignupForm: React.FC = () => {
       {/* Full Name */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Full Name</label>
-        <div className="flex items-center px-4 transition-all border-2 border-gray-300 rounded-lg focus-within:border-blue-500">
+        <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
           <User className="text-gray-500" />
           <input
             type="text"
@@ -54,14 +55,14 @@ const SignupForm: React.FC = () => {
           />
         </div>
         {errors.fullName && (
-          <p className="text-sm text-red-600">{errors.fullName.message}</p>
+          <p className="text-xl text-red-600">{errors.fullName.message}</p>
         )}
       </div>
 
       {/* Email */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Email</label>
-        <div className="flex items-center px-4 transition-all border-2 border-gray-300 rounded-lg focus-within:border-blue-500">
+        <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
           <Mail className="text-gray-500" />
           <input
             type="email"
@@ -78,14 +79,14 @@ const SignupForm: React.FC = () => {
           />
         </div>
         {errors.email && (
-          <p className="text-sm text-red-600">{errors.email.message}</p>
+          <p className="text-xl text-red-600">{errors.email.message}</p>
         )}
       </div>
 
       {/* Password */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Password</label>
-        <div className="flex items-center px-4 transition-all border-2 border-gray-300 rounded-lg focus-within:border-blue-500">
+        <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
           <Lock className="text-gray-500" />
           <input
             type={showPassword ? "text" : "password"}
@@ -106,14 +107,14 @@ const SignupForm: React.FC = () => {
           </button>
         </div>
         {errors.password && (
-          <p className="text-sm text-red-600">{errors.password.message}</p>
+          <p className="text-xl text-red-600">{errors.password.message}</p>
         )}
       </div>
 
       {/* Confirm Password */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Confirm Password</label>
-        <div className="flex items-center px-4 transition-all border-2 border-gray-300 rounded-lg focus-within:border-blue-500">
+        <div className="flex items-center px-4 transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
           <Lock className="text-gray-500" />
           <input
             type={showConfirmPassword ? "text" : "password"}
@@ -135,7 +136,7 @@ const SignupForm: React.FC = () => {
           </button>
         </div>
         {errors.confirmPassword && (
-          <p className="text-sm text-red-600">
+          <p className="text-xl text-red-600">
             {errors.confirmPassword.message}
           </p>
         )}
@@ -150,7 +151,7 @@ const SignupForm: React.FC = () => {
       >
         <Button
           disabled={isPending}
-          className="w-full py-3 text-lg transition-all bg-blue-600 rounded-lg hover:bg-blue-700"
+          className="w-full py-3 text-3xl transition-all rounded-lg"
         >
           {isPending ? "Getting ready" : "Sign Up"}
         </Button>
@@ -158,16 +159,23 @@ const SignupForm: React.FC = () => {
 
       {/* Divider */}
       <div className="relative flex items-center w-full">
-        <div className="flex-grow h-[0.15rem] bg-gray-300"></div>
-        <span className="px-3 text-sm text-gray-600 uppercase">or</span>
-        <div className="flex-grow h-[0.15rem] bg-gray-300"></div>
+        <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
+        <span className="px-3 text-xl text-gray-600 dark:text-white uppercase">
+          or
+        </span>
+        <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
       </div>
 
       {/* Google Signup */}
-      <div className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md">
+      <button
+        onClick={signInWithGoogle}
+        className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"
+      >
         <img src={google} alt="google" className="w-7 h-7" />
-        <p className="font-medium text-gray-700">Sign up with Google</p>
-      </div>
+        <p className="font-medium text-3xl text-gray-700 dark:text-white">
+          Sign up with Google
+        </p>
+      </button>
     </form>
   );
 };

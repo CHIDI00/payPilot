@@ -2,6 +2,7 @@ import Button from "@/ui/Button";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import React, { useState } from "react";
 import { useLogin } from "./useLogin";
+import { motion } from "framer-motion";
 import {
   useForm,
   type FieldError,
@@ -9,6 +10,8 @@ import {
   type FieldValues,
   type Merge,
 } from "react-hook-form";
+import { signInWithGoogle } from "../../services/apiAuth";
+import google from "../../assets/google.svg";
 
 interface InvoiceLoginData {
   email: string;
@@ -42,7 +45,7 @@ const LoginForm: React.FC = () => {
       }
     );
 
-    reset(); // clear form after success (optional)
+    reset();
   }
 
   return (
@@ -55,8 +58,8 @@ const LoginForm: React.FC = () => {
         {/* Email */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Email</label>
-          <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 rounded-lg">
-            <Mail />
+          <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg">
+            <Mail className="dark:text-gray-700" />
             <input
               id="email"
               type="text"
@@ -75,8 +78,8 @@ const LoginForm: React.FC = () => {
         {/* Password */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Password</label>
-          <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 rounded-lg">
-            <Lock />
+          <div className="flex items-center justify-start w-full px-4 border-2 border-gray-300 dark:border-gray-700 rounded-lg">
+            <Lock className="dark:text-gray-700" />
             <input
               id="password"
               type={showPassword ? "text" : "password"}
@@ -104,13 +107,30 @@ const LoginForm: React.FC = () => {
             Don't have an account yet?{" "}
             <NavLink to="">Create an account</NavLink>
           </div> */}
-        <Button
-          type="submit"
-          disabled={isPending}
-          className="w-full rounded-lg"
+        <motion.div
+          whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(0,0,0,0.15)" }}
+          whileTap={{ scale: 0.95, rotate: -1 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          className="w-full"
         >
-          {isPending ? "Loading" : "Login"}
-        </Button>
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="w-full text-4xl rounded-lg"
+          >
+            {isPending ? "Loading" : "Login"}
+          </Button>
+        </motion.div>
+        {/* Google Signup */}
+        <button
+          onClick={signInWithGoogle}
+          className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"
+        >
+          <img src={google} alt="google" className="w-7 h-7" />
+          <p className="font-medium text-3xl text-gray-700 dark:text-white">
+            Continue with Google
+          </p>
+        </button>
       </form>
     </>
   );
