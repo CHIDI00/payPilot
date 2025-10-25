@@ -39,13 +39,10 @@ const LoginForm: React.FC = () => {
       { email, password },
       {
         onSettled: () => {
-          // setEmail("");
-          // setPassword("");
+          reset();
         },
       }
     );
-
-    reset();
   }
 
   return (
