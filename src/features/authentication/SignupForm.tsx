@@ -167,6 +167,7 @@ const SignupForm: React.FC = () => {
 
       {/* GOOGLE SIGNUP */}
       <button
+        type="button"
         onClick={signInWithGoogle}
         className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"
       >

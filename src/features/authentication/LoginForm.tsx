@@ -39,8 +39,8 @@ const LoginForm: React.FC = () => {
       { email, password },
       {
         onSettled: () => {
-          setEmail("");
-          setPassword("");
+          // setEmail("");
+          // setPassword("");
         },
       }
     );
@@ -120,6 +120,7 @@ const LoginForm: React.FC = () => {
         {/* GOOGLE LOGIN */}
         <button
           onClick={signInWithGoogle}
+          type="button"
           className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"
         >
           <img src={google} alt="google" className="w-7 h-7" />

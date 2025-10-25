@@ -2,8 +2,9 @@ import React from "react";
 import logo from "../assets/logo.png";
 import profilePic from "../assets/profilePic.png";
 import { useDarkMode } from "@/context/useDarkMode";
-import { Moon, SunDim, LogOut } from "lucide-react";
+import { Moon, SunDim } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Logout from "../features/authentication/Logout";
 
 const SideBar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -24,7 +25,7 @@ const SideBar: React.FC = () => {
         </div>
 
         <div>
-          <LogOut />
+          <Logout />
         </div>
         <div className="w-full  flex justify-center items-center lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500">
           <div
