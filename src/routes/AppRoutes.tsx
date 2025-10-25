@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 
 import { AnimatePresence } from "framer-motion";
 import Loader from "@/ui/Loader";
+
 const AppLayout = lazy(() => import("../ui/AppLayout"));
 const Invoices = lazy(() => import("../pages/Invoices"));
 const InvoiceDetail = lazy(() => import("../features/invoice/InvoiceDetail"));
