@@ -79,7 +79,7 @@ const InvoiceDetail: React.FC = () => {
         transition={{ duration: 0.2, ease: "easeOut" }}
         className="relative w-full py-20 lg:px-0 px-6"
       >
-        <div className="w-full mb-10">
+        <div className="w-full mb-10 flex justify-between items-center">
           <button
             className="flex justify-between items-center gap-7 text-[1.7rem]"
             onClick={moveBack}
@@ -89,6 +89,8 @@ const InvoiceDetail: React.FC = () => {
             </span>{" "}
             Go back
           </button>
+
+          <Button variant="secondary">Download invoice (.pdf)</Button>
         </div>
 
         {/* INVOICE STATUS */}

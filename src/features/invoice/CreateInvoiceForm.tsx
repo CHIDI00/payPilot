@@ -382,11 +382,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
                 type="text"
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] py-3 px-6 font-bold rounded-md ${
                   errors.items?.[index]?.name
-                    ? "border-red-600"
+                    ? "border-red-600 dark:border-red-600"
                     : "border-gray-300"
                 }`}
                 {...register(`items.${index}.name` as const, {
-                  required: "Required",
+                  required: "Item name",
                 })}
               />
             </FormColumn>

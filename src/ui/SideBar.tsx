@@ -16,21 +16,21 @@ const SideBar: React.FC = () => {
         <img src={logo} alt="logo" className="lg:w-full lg:h-auto h-full" />
       </div>
 
-      <div className="h-full w-full flex lg:flex-col lg:justify-end justify-center items-center">
+      <div className="h-full w-full flex lg:flex-col lg:justify-end justify-end items-center">
         <div
-          className="w-full text-white p-10 flex justify-center items-center"
+          className="lg:w-full text-white p-10 flex justify-center items-center"
           onClick={toggleDarkMode}
         >
           {isDarkMode ? <SunDim /> : <Moon />}
         </div>
 
-        <div>
+        <div className="lg:w-full text-white pr-4 flex justify-center items-center">
           <Logout />
         </div>
-        <div className="w-full  flex justify-center items-center lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500">
+        <div className="lg:w-full lg:h-auto z-[30] h-full flex justify-center items-center lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500">
           <div
             onClick={() => navigate("/account")}
-            className=" border-2 border-purple-400 rounded-full min-w-full max-h-14"
+            className=" border-2 border-purple-400 rounded-full lg:min-w-full max-h-14"
           >
             <img
               src={profilePic}

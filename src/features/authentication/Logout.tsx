@@ -5,10 +5,12 @@ const Logout = () => {
   const { logout, isPoading } = useLogout();
 
   return (
-    <button disabled={isPoading} onClick={logout} className="pointer-cursor">
+    <button
+      disabled={isPoading}
+      onClick={logout}
+      className="pointer-cursor lg:mb-4 text-white"
+    >
       <LogOut />
-
-      {/* {!isLoading ? <HiArrowRightEndOnRectangle /> : <SpinnerMini />} */}
     </button>
   );
 };

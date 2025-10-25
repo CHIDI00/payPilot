@@ -2,10 +2,11 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "../services/supabase";
 
 import { AnimatePresence } from "framer-motion";
 import Loader from "@/ui/Loader";
+
+import supabase from "../services/supabase";
 
 const AppLayout = lazy(() => import("../ui/AppLayout"));
 const Invoices = lazy(() => import("../pages/Invoices"));
@@ -17,7 +18,6 @@ const UserAccount = lazy(() => import("../pages/UserAccount"));
 
 function AppRoutes() {
   const location = useLocation();
-
   const navigate = useNavigate();
 
   useEffect(() => {
