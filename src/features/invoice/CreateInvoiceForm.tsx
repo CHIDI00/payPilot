@@ -449,7 +449,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         <button
           type="button"
           onClick={() => append({ name: "", quantity: 0, price: 0 })}
-          className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 py-7 mt-5 text-[#7C5DFA] dark:text-[#DFE3FA] font-bold bg-primary-gray100 dark:bg-[#252945] rounded-full"
+          className="flex justify-center items-center gap-3 w-full px-10 lg:py-7 py-5 mt-5 text-[#7C5DFA] dark:text-[#DFE3FA] font-bold bg-primary-gray100 dark:bg-[#252945] rounded-full"
         >
           <Plus size={15} /> Add New Item
         </button>

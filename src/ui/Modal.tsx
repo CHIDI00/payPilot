@@ -36,7 +36,7 @@ const Modal: React.FC<ModalProp> = ({ children, onClose }) => {
           transition={{ duration: 0.2, ease: "easeIn" }}
           className="lg:w-[33%] md:w-[70%] w-full h-full md:rounded-r-[2rem] bg-primary-gray dark:bg-[#141625] px-1 py-6"
         >
-          <div className="px-14 py-16 w-full h-full rounded-r-[2rem] overflow-y-scroll">
+          <div className="md:px-14 px-5 md:py-16 py-4 w-full h-full rounded-r-[2rem] overflow-y-scroll">
             {children}
           </div>
         </motion.div>
