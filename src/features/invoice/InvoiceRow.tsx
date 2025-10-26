@@ -76,18 +76,18 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
         <div
           key={id}
           onClick={() => navigate(`/invoice/view_invoice/${id}`)}
-          className="grid md:hidden w-full px-12 py-8 rounded-2xl bg-primary-gray dark:bg-[#1E2139] justify-between items-center grid-cols-2 gap-x-10 gap-y-14"
+          className="grid md:hidden w-full px-12 py-8 rounded-2xl bg-primary-gray dark:bg-[#1E2139] justify-between items-center grid-cols-2 gap-x-10 gap-y-8"
         >
-          <div className="font-bold text-[16px]">
+          <div className="font-bold text-[14px]">
             <span className="text-[#7E88C3]">#</span>
             {invoice_id}
           </div>
-          <div className="text-[#888EB0] dark:text-[#FFFFFF] flex justify-end items-center">
+          <div className="text-[#888EB0] text-[14px] dark:text-[#FFFFFF] flex justify-end items-center">
             {client_name}
           </div>
 
           <div className="flex flex-col gap-3">
-            <div className="text-[#888EB0] dark:text-[#DFE3FA]">
+            <div className="text-[#888EB0] text-[14px] dark:text-[#DFE3FA]">
               Due{" "}
               {invoice_date &&
                 new Date(invoice_date).toLocaleDateString("en-GB", {

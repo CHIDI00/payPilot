@@ -25,7 +25,7 @@ const InvoiceHeading: React.FC<ModalProp> = ({
   return (
     <div className="w-full md:h-[20rem] h-[10rem] py-[2rem] flex justify-between items-center">
       <div className="w-1/2 text-primary-text dark:text-white">
-        <h2 className="md:text-[4rem] text-[2.7rem] font-bold leading-tight">
+        <h2 className="md:text-[4rem] text-[2.3rem] font-bold leading-tight">
           Invoices
         </h2>
         <p className="hidden md:flex text-[1.5rem] text-gray-400 leading-tight">
@@ -38,7 +38,7 @@ const InvoiceHeading: React.FC<ModalProp> = ({
       </div>
 
       <div className="md:w-1/2 flex justify-end items-center md:gap-6 gap-2 text-primary-text">
-        <div className="relative px-16 py-3">
+        <div className="relative lg:px-16 px-5 py-3">
           <Select onValueChange={(value) => setFilter(value)}>
             {" "}
             {/* 👈 call setFilter */}
@@ -69,11 +69,11 @@ const InvoiceHeading: React.FC<ModalProp> = ({
         )}
 
         <button
+          title="Add new invoice"
           onClick={() => setIsModalOpen(true)}
-          className="md:hidden bg-[#7C5DFA] rounded-full text-[1.5rem] text-white py-3 px-9 gap-3 flex justify-center items-center hover:bg-[#9277FF]"
+          className="md:hidden w-28 bg-[#7C5DFA] rounded-full text-[1.5rem] text-white px-2 py-1 gap-2 flex justify-start items-center hover:bg-[#9277FF]"
         >
-          {" "}
-          <img src={addIcon} alt="" className="w-10 h-10" /> New{" "}
+          <img src={addIcon} alt="" className="w-7 h-7" /> <span>New</span>
         </button>
       </div>
     </div>
