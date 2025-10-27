@@ -16,6 +16,7 @@ const Login = lazy(() => import("../pages/Login"));
 const ProtectedRoute = lazy(() => import("./ProtectedRoute"));
 const Settings = lazy(() => import("../pages/Settings"));
 const UserAccount = lazy(() => import("../pages/UserAccount"));
+const CompanyInfo = lazy(() => import("../pages/CompanyInfo"));
 
 function AppRoutes() {
   const location = useLocation();
@@ -50,8 +51,9 @@ function AppRoutes() {
               path="invoice/view_invoice/:invoiceId"
               element={<InvoiceDetail />}
             />
-            <Route path="account" element={<UserAccount />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="settings/profile" element={<UserAccount />} />
+            <Route path="settings/company_profile" element={<CompanyInfo />} />
           </Route>
           <Route path="auth/login" element={<Login />} />
           <Route path="auth/signup" element={<Signup />} />

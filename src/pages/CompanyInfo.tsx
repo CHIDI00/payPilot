@@ -2,10 +2,9 @@ import { useMoveBack } from "@/hooks/useMoveBack";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
-import Profile from "@/features/acount/Profile";
-import AccountSetting from "@/features/acount/AccountSetting";
+import CompanyInfor from "@/features/acount/CompanyInfor";
 
-const UserAccount: React.FC = () => {
+const CompanyInfo: React.FC = () => {
   const moveBack = useMoveBack();
 
   return (
@@ -17,7 +16,7 @@ const UserAccount: React.FC = () => {
       className="relative w-full md:py-20 py-3 lg:px-0 px-6"
     >
       <div className="w-full mb-10 flex justify-between items-center">
-        <h2 className="text-[2.5rem] font-medium">Account</h2>
+        <h2 className="text-[2.5rem] font-medium">Company's profile</h2>
         <button
           className="flex justify-between items-center md:gap-7 gap-2 md:text-[1.7rem] text-[1.5rem]"
           onClick={moveBack}
@@ -30,11 +29,10 @@ const UserAccount: React.FC = () => {
       </div>
 
       <div className="flex w-full flex-col md:gap-10 gap-6">
-        <Profile />
-        <AccountSetting />
+        <CompanyInfor />
       </div>
     </motion.div>
   );
 };
 
-export default UserAccount;
+export default CompanyInfo;
