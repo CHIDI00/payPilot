@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import { AnimatePresence } from "framer-motion";
 import Loader from "@/ui/Loader";
@@ -18,14 +18,14 @@ const UserAccount = lazy(() => import("../pages/UserAccount"));
 
 function AppRoutes() {
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session) {
-        navigate("/invoices");
+        // navigate("/invoices");
       }
     });
 

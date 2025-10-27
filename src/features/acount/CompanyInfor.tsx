@@ -10,7 +10,7 @@ const CompanyInfor: React.FC = () => {
           <img
             src={avartar}
             alt="Company's logo"
-            className="md:w-32 md:h-32 w-24 h-24 rounded-lg ring-2 ring-[#e5e4ef]"
+            className="md:w-32 md:h-32 w-24 h-24 rounded-lg ring-2 ring-[#b853e7]"
           />
           <button className="absolute md:-bottom-3 md:-right-2 bottom-1 right-0 md:w-14 md:h-14 w-7 h-7 rounded-full flex items-center justify-center bg-[#a788fa] hover:bg-[#8257e6] border-2 border-[#e5e4ef] transition">
             <Pencil size={16} className="text-white" />
