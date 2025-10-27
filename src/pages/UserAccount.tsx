@@ -3,6 +3,8 @@ import { ChevronLeft } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
 import Profile from "@/features/acount/Profile";
+import AccountSetting from "@/features/acount/AccountSetting";
+import CompanyInfor from "@/features/acount/CompanyInfor";
 
 const UserAccount: React.FC = () => {
   const moveBack = useMoveBack();
@@ -28,7 +30,11 @@ const UserAccount: React.FC = () => {
         </button>
       </div>
 
-      <Profile />
+      <div className="flex w-full flex-col md:gap-10 gap-6">
+        <Profile />
+        <AccountSetting />
+        <CompanyInfor />
+      </div>
     </motion.div>
   );
 };

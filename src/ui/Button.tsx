@@ -5,15 +5,10 @@ type ButtonVariant = "primary" | "secondary" | "dark" | "danger" | "light";
 type ButtonSize = "sm" | "md";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Text inside the button */
   children?: ReactNode;
-  /** Icon component (ReactNode) or image/svg path string */
   icon?: ReactNode | string;
-  /** Color/style variant */
   variant?: ButtonVariant;
-  /** Size (sm for the small “Edit” style) */
   size?: ButtonSize;
-  /** Extra classes */
   className?: string;
 }
 
@@ -36,17 +31,12 @@ export default function Button({
     sm: "px-4 py-2 text-sm",
   };
 
-  // Colors taken from your design
   const variants: Record<ButtonVariant, string> = {
-    // Purple (New Invoice / Mark as Paid)
     primary: "bg-[#7C5DFA] text-white hover:bg-[#9277FF]",
-    // Light (Add New Item, light Edit)
     secondary:
       "bg-[#F9FAFE] text-[#7E88C3] dark:text-[#DFE3FA]  bg-primary-gray100 dark:bg-[#252945] hover:bg-[#DFE3FA]",
     light: "bg-[#F9FAFE] text-[#7E88C3] hover:bg-[#DFE3FA]",
-    // Dark (Save as Draft)
     dark: "bg-[#252945] text-[#888EB0] hover:bg-[#0C0E16]",
-    // Red (Delete)
     danger: "bg-[#EC5757] text-white hover:bg-[#FF9797]",
   };
 
