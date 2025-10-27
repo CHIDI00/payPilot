@@ -13,9 +13,6 @@ const AccountSetting = () => {
           <p className="md:text-[1.6rem] text-2xl leading-tight">
             Change username
           </p>
-          {/* <p className="md:text-[1.4rem] text-xl leading-tight text-gray-400">
-            Update your pasword for better security.
-          </p> */}
         </div>
         <div className="w-full grid md:grid-cols-3 grid-cols-1 justify-center items-center gap-x-5">
           <FormColumn label="New userame">

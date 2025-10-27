@@ -2,9 +2,9 @@ import React from "react";
 import logo from "../assets/logo.png";
 import profilePic from "../assets/profilePic.png";
 import { useDarkMode } from "@/context/useDarkMode";
-import { Moon, SunDim } from "lucide-react";
+import { Moon, SunDim, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import Logout from "../features/authentication/Logout";
+// import Logout from "../features/authentication/Logout";
 
 const SideBar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
@@ -18,14 +18,20 @@ const SideBar: React.FC = () => {
 
       <div className="h-full w-full flex lg:flex-col lg:justify-end justify-end items-center">
         <div
-          className="lg:w-full text-white p-10 flex justify-center items-center"
+          className="lg:w-full text-white p-5 flex justify-center items-center"
           onClick={toggleDarkMode}
         >
-          {isDarkMode ? <SunDim /> : <Moon />}
+          {isDarkMode ? <SunDim size={24} /> : <Moon size={24} />}
         </div>
 
-        <div className="lg:w-full text-white pr-4 flex justify-center items-center">
+        {/* <div className="lg:w-full text-white pr-4 flex justify-center items-center">
           <Logout />
+        </div> */}
+        <div
+          onClick={() => navigate("/settings")}
+          className="lg:w-full text-white  lg:p-5 pr-4 flex justify-center items-center"
+        >
+          <Settings size={24} />
         </div>
         <div className="lg:w-full lg:h-auto z-[30] h-full flex justify-center items-center lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500">
           <div
