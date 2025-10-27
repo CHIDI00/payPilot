@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/logo.png";
 import profilePic from "../assets/profilePic.png";
 import { Settings } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useDarkMode } from "@/context/useDarkMode";
 import { Moon, SunDim } from "lucide-react";
 
@@ -13,7 +13,9 @@ const SideBar: React.FC = () => {
   return (
     <div className="w-full h-full flex lg:flex-col justify-between items-center">
       <div className="lg:w-full w-[20%] h-full ">
-        <img src={logo} alt="logo" className="lg:w-full lg:h-auto h-full" />
+        <NavLink to="/invoices">
+          <img src={logo} alt="logo" className="lg:w-full lg:h-auto h-full" />
+        </NavLink>
       </div>
 
       <div className="h-full w-full flex lg:flex-col lg:justify-end justify-end items-center">
@@ -29,7 +31,7 @@ const SideBar: React.FC = () => {
         </div>
         <div className="lg:w-full lg:h-auto z-[30] h-full flex justify-center items-center lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500">
           <div
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/settings/profile")}
             className=" border-2 border-purple-400 rounded-full lg:min-w-full max-h-14"
           >
             <img
