@@ -77,7 +77,7 @@ const InvoiceDetail: React.FC = () => {
         animate={{ opacity: 1, y: 10 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className="relative w-full py-20 lg:px-0 px-6"
+        className="relative w-full md:py-20 py-3 lg:px-0 px-6"
       >
         <div className="w-full mb-10 flex justify-between items-center">
           <button
@@ -90,7 +90,9 @@ const InvoiceDetail: React.FC = () => {
             Go back
           </button>
 
-          <Button variant="secondary">Download invoice (.pdf)</Button>
+          <Button variant="secondary" className="text-[1.1rem]">
+            Download invoice (.pdf)
+          </Button>
         </div>
 
         {/* INVOICE STATUS */}
@@ -299,10 +301,10 @@ const InvoiceDetail: React.FC = () => {
       </motion.div>
 
       {/* MOBILE BUTTON DISPLAY */}
-      <div className="fixed bottom-0 left-0 md:hidden w-full bg-white dark:bg-[#252945] flex justify-between items-center gap-4 px-10 py-12 shadow-[0_-8px_7px_rgba(0,0,0,0.1)]">
+      <div className="fixed bottom-0 left-0 md:hidden w-full bg-white dark:bg-[#252945] flex justify-between items-center gap-4 px-5 py-8 shadow-[0_-8px_7px_rgba(0,0,0,0.1)]">
         <Button
           variant="secondary"
-          className="text-[2rem] font-bold w-full"
+          className="text-[1.5rem] font-bold w-full"
           onClick={() => {
             setIsModalOpen(true);
           }}
@@ -312,12 +314,15 @@ const InvoiceDetail: React.FC = () => {
         <Button
           variant="danger"
           onClick={() => setIsDeleteModalOpen(true)}
-          className="w-full text-[2rem]"
+          className="w-full text-[1.5rem]"
         >
           Delete
         </Button>
         {isStatus !== "Paid" && (
-          <Button onClick={handleMarkPaid} className="w-full py-6">
+          <Button
+            onClick={handleMarkPaid}
+            className="w-full py-6 text-[1.2rem] px-[10px]"
+          >
             {loading ? "Marking..." : "Mark as Paid"}
           </Button>
         )}

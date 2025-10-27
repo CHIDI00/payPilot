@@ -478,7 +478,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <Button
               type="button"
               variant="secondary"
-              className="font-bold px-7 text-[1.2rem]"
+              className="font-bold px-7 text-[13px]"
               onClick={onCloseModal}
             >
               Discard
@@ -488,14 +488,18 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <div className="flex gap-4">
             <Button
               variant="dark"
-              className="font-bold"
+              className="font-bold text-[13px]"
               type="button"
               disabled={isWorking}
               onClick={onSaveDraft}
             >
               Save as Draft
             </Button>
-            <Button className="font-bold" type="submit" disabled={isWorking}>
+            <Button
+              className="font-bold text-[13px]"
+              type="submit"
+              disabled={isWorking}
+            >
               Save & Send
             </Button>
           </div>
