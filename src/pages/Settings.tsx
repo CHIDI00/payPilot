@@ -66,6 +66,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             </button>
           </div>
         </div>
+
         {/* COMPANY */}
         <div
           onClick={() => navigate("/settings/company_profile")}
@@ -91,6 +92,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             </button>
           </div>
         </div>
+
         {/* NOTIFICATION */}
         <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
@@ -150,6 +152,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             </label>
           </div>
         </div>
+
         {/* THEME */}
         <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
@@ -163,6 +166,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             <ThemeToggle />
           </div>
         </div>
+
         {/* LOGOUT */}
         <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
@@ -176,7 +180,8 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             <Logout />
           </div>
         </div>
-        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+
+        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 rounded-b-2xl hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
             <p className="md:text-[2rem] text-2xl leading-tight">
               Delete account
