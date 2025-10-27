@@ -46,7 +46,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
         {/* ACCOUNT */}
         <div
           onClick={() => navigate("/settings/profile")}
-          className="w-full flex justify-between rounded-t-2xl items-center md:px-10 px-5 border-b-[1px] border-gray-100 dark:
+          className="w-full flex justify-between rounded-t-2xl items-center md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700
          py-6 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer"
         >
           <div className="flex flex-col">
@@ -69,7 +69,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
         {/* COMPANY */}
         <div
           onClick={() => navigate("/settings/company_profile")}
-          className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:
+          className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700
          hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer"
         >
           <div className="flex flex-col">
