@@ -39,8 +39,8 @@ export function useSignup() {
         navigate("auth/login", { replace: true });
       }
     },
-    onError: (error) => {
-      toast.error(`Signup failed: ${error.message}`);
+    onError: () => {
+      toast.error(`Signup failed`);
     },
   });
 

@@ -22,7 +22,7 @@ export function useEditInvoice() {
       if (err instanceof Error) {
         toast.error(err.message);
       } else {
-        toast.error(String(err));
+        toast.error(String("An error occured, failed to save edit."));
       }
     },
   });

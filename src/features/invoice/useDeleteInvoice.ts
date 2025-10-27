@@ -16,7 +16,7 @@ export function useDeleteInvoice() {
       });
       navigate("/invoices");
     },
-    onError: (err) => toast.error(err.message),
+    onError: () => toast.error("There was an error deleting this invoice"),
   });
 
   return { deleteInvoice, isDeleting };

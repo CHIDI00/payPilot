@@ -74,8 +74,7 @@ select:focus {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  min-width: 100vw;
   min-height: 100vh;
   transition: color 0.3s, background-color 0.3s;
   line-height: 1.5;

@@ -13,7 +13,7 @@ export function useCreateInvoice() {
       toast.success("An invoice have be created");
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
-    onError: (err) => toast.error(err.message),
+    onError: () => toast.error("Connection Error, failed to create invoice"),
   });
 
   return { createInvoice, isCreating };

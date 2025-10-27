@@ -17,6 +17,7 @@ const ProtectedRoute = lazy(() => import("./ProtectedRoute"));
 const Settings = lazy(() => import("../pages/Settings"));
 const UserAccount = lazy(() => import("../pages/UserAccount"));
 const CompanyInfo = lazy(() => import("../pages/CompanyInfo"));
+const PageNotFound = lazy(() => import("../pages/PageNotFound"));
 
 function AppRoutes() {
   const location = useLocation();
@@ -66,6 +67,7 @@ function AppRoutes() {
           </Route>
           <Route path="auth/login" element={<Login />} />
           <Route path="auth/signup" element={<Signup />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
     </AnimatePresence>

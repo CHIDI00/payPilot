@@ -49,8 +49,8 @@ export function useLogin() {
       toast.success("Login successful!");
     },
 
-    onError: (err) => {
-      toast.error(`Login failed: ${err.message}`);
+    onError: () => {
+      toast.error(`Login failed. Check your connection. `);
     },
   });
 
