@@ -8,7 +8,7 @@ const Logout = () => {
     <button
       disabled={isPoading}
       onClick={logout}
-      className="pointer-cursor lg:mb-4 text-white"
+      className="pointer-cursor lg:mb-4 text-black dark:text-white hover:text-red-600"
     >
       <LogOut />
     </button>

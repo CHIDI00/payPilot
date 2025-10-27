@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import ThemeToggle from "@/ui/ThemeToggle";
+import Button from "@/ui/Button";
+import Logout from "../features/authentication/Logout";
 
 type ToggleSwitchProps = {
   checked: boolean;
@@ -39,7 +41,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
 
       <div className="w-full flex flex-col justify-start items-start bg-primary-gray dark:bg-[#1E2139]   rounded-2xl">
         {/* ACCOUNT */}
-        <div className="w-full flex justify-between rounded-t-2xl items-center px-10 py-6 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+        <div className="w-full flex justify-between rounded-t-2xl items-center md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 py-6 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
             <p className="md:text-[2rem] text-2xl leading-tight">Account</p>
             <p className="md:text-[1.6rem] text-xl leading-tight text-gray-400">
@@ -58,7 +60,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
           </div>
         </div>
         {/* COMPANY */}
-        <div className="w-full flex justify-between items-center py-6 px-10 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
             <p className="md:text-[2rem] text-2xl leading-tight">
               Company's Profile
@@ -79,7 +81,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
           </div>
         </div>
         {/* NOTIFICATION */}
-        <div className="w-full flex justify-between items-center py-6 px-10 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
             <p className="md:text-[2rem] text-2xl leading-tight">
               Notification
@@ -137,8 +139,8 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             </label>
           </div>
         </div>
-        {/* COMPANY */}
-        <div className="w-full flex justify-between items-center py-6 px-10 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+        {/* THEME */}
+        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
             <p className="md:text-[2rem] text-2xl leading-tight">Theme mode</p>
             <p className="md:text-[1.6rem] text-xl leading-tight text-gray-400">
@@ -148,6 +150,41 @@ const Settings: React.FC<ToggleSwitchProps> = ({
 
           <div className="flex justify-end items-center text-[#7E88C3]">
             <ThemeToggle />
+          </div>
+        </div>
+        {/* LOGOUT */}
+        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+          <div className="flex flex-col">
+            <p className="md:text-[2rem] text-2xl leading-tight">Logout</p>
+            <p className="md:text-[1.6rem] text-xl leading-tight text-gray-400">
+              Logout from this account
+            </p>
+          </div>
+
+          <div className="flex justify-end items-center ">
+            <Logout />
+          </div>
+        </div>
+        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+          <div className="flex flex-col">
+            <p className="md:text-[2rem] text-2xl leading-tight">
+              Delete account
+            </p>
+            <p className="md:text-[1.6rem] text-xl leading-tight text-gray-400">
+              All data will be lost when this action is taken.
+            </p>
+          </div>
+
+          <div className="flex justify-end items-center text-[#7E88C3]">
+            <Button
+              type="button"
+              title="Delete account"
+              disabled="true"
+              variant="danger"
+              className="bg-red-700 p-1"
+            >
+              Delete Account
+            </Button>
           </div>
         </div>
       </div>

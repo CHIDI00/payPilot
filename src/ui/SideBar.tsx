@@ -3,10 +3,12 @@ import logo from "../assets/logo.png";
 import profilePic from "../assets/profilePic.png";
 import { Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import ThemeToggle from "@/ui/ThemeToggle";
+import { useDarkMode } from "@/context/useDarkMode";
+import { Moon, SunDim } from "lucide-react";
 
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   return (
     <div className="w-full h-full flex lg:flex-col justify-between items-center">
@@ -15,13 +17,13 @@ const SideBar: React.FC = () => {
       </div>
 
       <div className="h-full w-full flex lg:flex-col lg:justify-end justify-end items-center">
-        <ThemeToggle />
-        {/* <div className="lg:w-full text-white pr-4 flex justify-center items-center">
-          <Logout />
-        </div> */}
+        <div onClick={toggleDarkMode} className="p-5 text-white cursor-pointer">
+          {isDarkMode ? <SunDim size={24} /> : <Moon size={24} />}
+        </div>
+
         <div
           onClick={() => navigate("/settings")}
-          className="lg:w-full text-white  lg:p-5 pr-4 flex justify-center items-center"
+          className="lg:w-full text-white  lg:p-5 pr-4 flex justify-center items-center cursor-pointer"
         >
           <Settings size={24} />
         </div>
