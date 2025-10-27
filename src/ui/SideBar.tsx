@@ -1,13 +1,11 @@
 import React from "react";
 import logo from "../assets/logo.png";
 import profilePic from "../assets/profilePic.png";
-import { useDarkMode } from "@/context/useDarkMode";
-import { Moon, SunDim, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-// import Logout from "../features/authentication/Logout";
+import ThemeToggle from "@/ui/ThemeToggle";
 
 const SideBar: React.FC = () => {
-  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const navigate = useNavigate();
 
   return (
@@ -17,13 +15,7 @@ const SideBar: React.FC = () => {
       </div>
 
       <div className="h-full w-full flex lg:flex-col lg:justify-end justify-end items-center">
-        <div
-          className="lg:w-full text-white p-5 flex justify-center items-center"
-          onClick={toggleDarkMode}
-        >
-          {isDarkMode ? <SunDim size={24} /> : <Moon size={24} />}
-        </div>
-
+        <ThemeToggle />
         {/* <div className="lg:w-full text-white pr-4 flex justify-center items-center">
           <Logout />
         </div> */}
