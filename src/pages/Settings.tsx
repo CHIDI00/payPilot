@@ -195,7 +195,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             <Button
               type="button"
               title="Delete account"
-              disabled="true"
+              disabled={true}
               variant="danger"
               className="bg-red-700 p-1"
             >

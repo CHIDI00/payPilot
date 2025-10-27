@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 
@@ -20,6 +20,7 @@ const CompanyInfo = lazy(() => import("../pages/CompanyInfo"));
 
 function AppRoutes() {
   const location = useLocation();
+  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
   // const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,7 +52,15 @@ function AppRoutes() {
               path="invoice/view_invoice/:invoiceId"
               element={<InvoiceDetail />}
             />
-            <Route path="settings" element={<Settings />} />
+            <Route
+              path="settings"
+              element={
+                <Settings
+                  checked={isNotificationsEnabled}
+                  onChange={(e) => setIsNotificationsEnabled(e.target.checked)}
+                />
+              }
+            />
             <Route path="settings/profile" element={<UserAccount />} />
             <Route path="settings/company_profile" element={<CompanyInfo />} />
           </Route>
