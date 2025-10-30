@@ -13,7 +13,8 @@ const UserAccount: React.FC = () => {
   const { user } = useUser();
   console.log(user);
 
-  const userFullName = user?.user_metadata?.fullName ?? "No name";
+  const userFullName = user?.user_metadata?.fullName;
+  const userGoogleName = user?.user_metadata?.full_name;
   const email = user?.email ?? "No email";
   const avatarUrl = user?.user_metadata?.avatar;
   const userGoogleAvatar = user?.user_metadata?.avatar_url;
@@ -72,6 +73,7 @@ const UserAccount: React.FC = () => {
         <Profile
           email={email}
           userName={fullName}
+          userGoogleName={userGoogleName}
           avatar={avatar}
           setAvatar={setAvatar}
           isUpdating={isUpdating}

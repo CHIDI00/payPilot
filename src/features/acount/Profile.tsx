@@ -5,6 +5,7 @@ import { useUpdateUser } from "../authentication/useUpdateUserProfile";
 interface UserInfo {
   email: string;
   userName: string;
+  userGoogleName: string;
   avatar: File | undefined;
   isUpdating: boolean;
   setAvatar: (file: File | undefined) => void;
@@ -17,6 +18,7 @@ interface UserInfo {
 const Profile: React.FC<UserInfo> = ({
   email,
   userName,
+  userGoogleName,
   setAvatar,
   isUpdating,
   handleSubmit,
@@ -34,7 +36,7 @@ const Profile: React.FC<UserInfo> = ({
         <form onSubmit={handleSubmit} className="relative">
           <img
             src={avatarUrl ? avatarUrl : userGoogleAvatar}
-            alt="Avatar"
+            alt="profile image"
             className="md:w-32 md:h-32 w-24 h-24 rounded-full ring-4 ring-[#e5e4ef]"
           />
           <button
@@ -67,7 +69,7 @@ const Profile: React.FC<UserInfo> = ({
         {/* INFO SECTION */}
         <div className="ml-6 flex flex-col ">
           <span className="md:text-4xl text-2xl font-semibold text-black dark:text-white leading-tight">
-            {userName}
+            {userName ? userName : userGoogleName}
           </span>
           <span className="md:text-3xl text-xl text-gray-300 leading-tight">
             <a href={`mailto:${email}`}>{email}</a>
