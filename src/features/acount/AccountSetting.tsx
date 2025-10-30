@@ -1,7 +1,12 @@
 import Button from "@/ui/Button";
 import FormColumn from "@/ui/FormColumn";
+import type React from "react";
 
-const AccountSetting = () => {
+// interface userFormToUpdateProfile {
+//   setFullName: (e: <HTMLFormElement>) => void;
+// }
+
+const AccountSetting: React.FC = () => {
   return (
     <div className="w-full flex flex-col justify-start items-start bg-primary-gray dark:bg-[#1E2139] px-12 md:py-10 py-6 rounded-2xl gap-6">
       <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
@@ -19,6 +24,10 @@ const AccountSetting = () => {
             <input
               type="text"
               id="fullName"
+              // onChange={(e) => {
+              //   const fullName = (e.target as HTMLInputElement).value;
+              //   setFullName(fullName);
+              // }}
               className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
               // {...register("client_name", {
               //   required: "can't be empty",

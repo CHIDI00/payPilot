@@ -1,4 +1,5 @@
-import supabase from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
+import type { User } from "@supabase/supabase-js";
 
 // SIGNUP
 interface SignupParams {
@@ -61,9 +62,6 @@ export async function getCurrentUser() {
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    // options: {
-    //   redirectTo: `${import.meta.env.VITE_SITE_URL}/invoices`,
-    // },
   });
   if (error) throw new Error(error.message);
   return data;
@@ -73,4 +71,61 @@ export async function signInWithGoogle() {
 export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
+}
+
+// PROFILE UPDATE
+interface updateUserProfileProps {
+  password?: string;
+  fullName?: string;
+  avatar?: File;
+}
+
+export async function updateUserProfile({
+  password,
+  fullName,
+  avatar,
+}: updateUserProfileProps): Promise<User | null> {
+  let userData: User | null = null;
+
+  //  UPDATE PASSWORD
+  if (password) {
+    const { data, error } = await supabase.auth.updateUser({ password });
+    if (error) throw new Error(error.message);
+    userData = data?.user ?? null;
+  }
+
+  //  UPDATE FULLNAME
+  if (fullName) {
+    const { data, error } = await supabase.auth.updateUser({
+      data: { fullName },
+    });
+    if (error) throw new Error(error.message);
+    userData = data?.user ?? userData;
+  }
+
+  if (!avatar) return userData;
+
+  //  UPLOAD PROFILE IMAGE
+  const identifier =
+    userData?.id ||
+    (userData?.email
+      ? userData.email.replace(/[@.]/g, "_")
+      : `user-${Date.now()}`);
+
+  const fileName = `avatar-${identifier}-${Date.now()}`;
+  const { error: storageError } = await supabase.storage
+    .from("Avartar")
+    .upload(fileName, avatar);
+
+  if (storageError) throw new Error(storageError.message);
+
+  //  JOIN IMAGE TO URL
+  const avatarUrl = `${supabaseUrl}/storage/v1/object/public/Avartar/${fileName}`;
+  const { data: finalData, error: error2 } = await supabase.auth.updateUser({
+    data: { avatar: avatarUrl },
+  });
+
+  if (error2) throw new Error(error2.message);
+
+  return finalData?.user ?? null;
 }
