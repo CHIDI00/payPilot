@@ -11,13 +11,12 @@ interface UserInfo {
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
   avatarUrl?: string;
   userGoogleAvatar?: string;
-  dateJoined: string | undefined;
+  dateJoined: string | number;
 }
 
 const Profile: React.FC<UserInfo> = ({
   email,
   userName,
-  // avatar,
   setAvatar,
   isUpdating,
   handleSubmit,

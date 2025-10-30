@@ -18,7 +18,13 @@ const UserAccount: React.FC = () => {
   const avatarUrl = user?.user_metadata?.avatar;
   const userGoogleAvatar = user?.user_metadata?.avatar_url;
   console.log(userGoogleAvatar);
-  const dateJoined = user?.created_at;
+  const dateJoined = user?.created_at
+    ? new Date(user.created_at).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "Unknown";
 
   const { updateUser, isUpdating } = useUpdateUser();
 
@@ -74,7 +80,7 @@ const UserAccount: React.FC = () => {
           avatarUrl={avatarUrl}
           userGoogleAvatar={userGoogleAvatar}
         />
-        <AccountSetting />
+        <AccountSetting setFullName={setFullName} handleSubmit={handleSubmit} />
       </div>
     </motion.div>
   );

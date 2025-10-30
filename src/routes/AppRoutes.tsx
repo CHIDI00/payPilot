@@ -4,9 +4,9 @@ import { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 
 import { AnimatePresence } from "framer-motion";
-import Loader from "@/ui/Loader";
 
 import supabase from "../services/supabase";
+import AppLoader from "@/ui/appLoader";
 
 const AppLayout = lazy(() => import("../ui/AppLayout"));
 const Invoices = lazy(() => import("../pages/Invoices"));
@@ -38,7 +38,7 @@ function AppRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<AppLoader />}>
         <Routes location={location} key={location.pathname}>
           <Route
             element={

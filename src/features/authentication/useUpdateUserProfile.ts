@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { updateUserProfile } from "../../services/apiAuth";
 
-// Follows your existing type structure
 type UpdateUserArgs = Parameters<typeof updateUserProfile>[0];
 type UpdateUserReturn = Awaited<ReturnType<typeof updateUserProfile>>;
 
