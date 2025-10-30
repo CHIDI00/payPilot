@@ -1,7 +1,8 @@
 import React from "react";
+
 import logo from "../assets/logo.png";
 import { useNavigate, NavLink } from "react-router-dom";
-import { useDarkMode } from "@/context/useDarkMode";
+import { useDarkMode } from "../context/useDarkMode";
 import { Moon, SunDim } from "lucide-react";
 import { useUser } from "../features/authentication/useUser";
 

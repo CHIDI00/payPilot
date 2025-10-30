@@ -1,14 +1,18 @@
-import { useMoveBack } from "@/hooks/useMoveBack";
-import { ChevronLeft } from "lucide-react";
 import React, { useState } from "react";
+
+import { ChevronLeft } from "lucide-react";
 import { motion } from "framer-motion";
-import Profile from "@/features/acount/Profile";
-import AccountSetting from "@/features/acount/AccountSetting";
-import { useUpdateUser } from "@/features/authentication/useUpdateUserProfile";
-import { useUser } from "@/features/authentication/useUser";
+
+import Profile from "../features/acount/Profile";
+import AccountSetting from "../features/acount/AccountSetting";
+import { useUpdateUser } from "../features/authentication/useUpdateUserProfile";
+import { useUser } from "../features/authentication/useUser";
+import { useMoveBack } from "../hooks/useMoveBack";
 
 const UserAccount: React.FC = () => {
   const moveBack = useMoveBack();
+
+  const { updateUser, isUpdating } = useUpdateUser();
 
   const { user } = useUser();
   console.log(user);
@@ -26,8 +30,6 @@ const UserAccount: React.FC = () => {
         year: "numeric",
       })
     : "Unknown";
-
-  const { updateUser, isUpdating } = useUpdateUser();
 
   const [fullName, setFullName] = useState(userFullName);
   const [avatar, setAvatar] = useState<File | undefined>(undefined);
@@ -82,7 +84,10 @@ const UserAccount: React.FC = () => {
           avatarUrl={avatarUrl}
           userGoogleAvatar={userGoogleAvatar}
         />
-        <AccountSetting setFullName={setFullName} handleSubmit={handleSubmit} />
+        <AccountSetting
+          setFullName={setFullName}
+          handleAvatarUpdate={handleSubmit}
+        />
       </div>
     </motion.div>
   );

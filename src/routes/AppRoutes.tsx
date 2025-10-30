@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useState } from "react";
 import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
 
 import { AnimatePresence } from "framer-motion";
 

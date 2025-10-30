@@ -1,17 +1,40 @@
+import type React from "react";
+import { useForm } from "react-hook-form";
+import { type Dispatch, type SetStateAction, type FormEvent } from "react";
+
 import Button from "@/ui/Button";
 import FormColumn from "@/ui/FormColumn";
-import type { Dispatch, SetStateAction, FormEvent } from "react";
-import type React from "react";
+
+import { useUpdateUser } from "../authentication/useUpdateUserProfile";
 
 interface userFormToUpdateProfile {
   setFullName: Dispatch<SetStateAction<string>>;
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  handleAvatarUpdate: (e: FormEvent<HTMLFormElement>) => void;
+}
+
+interface PasswordFormFields {
+  newPassword: string;
+  confirmPassword: string;
 }
 
 const AccountSetting: React.FC<userFormToUpdateProfile> = ({
   setFullName,
-  handleSubmit,
+  handleAvatarUpdate,
 }) => {
+  const { updateUser, isUpdating } = useUpdateUser();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    reset,
+  } = useForm<PasswordFormFields>();
+
+  function handleUpdatePassword(data: PasswordFormFields) {
+    updateUser({ password: data.newPassword });
+    reset();
+  }
+
   return (
     <div className="w-full flex flex-col justify-start items-start bg-primary-gray dark:bg-[#1E2139] px-12 md:py-10 py-6 rounded-2xl gap-6">
       <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
@@ -24,8 +47,9 @@ const AccountSetting: React.FC<userFormToUpdateProfile> = ({
             Change username
           </p>
         </div>
+
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleAvatarUpdate}
           className="w-full grid md:grid-cols-3 grid-cols-1 justify-center items-center gap-x-5"
         >
           <FormColumn label="New userame">
@@ -39,41 +63,59 @@ const AccountSetting: React.FC<userFormToUpdateProfile> = ({
               className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
             />
           </FormColumn>
-
           <Button className="rounded-lg ">Update username</Button>
         </form>
-        <div className="flex flex-col">
-          <p className="md:text-[1.6rem] text-2xl leading-tight">
-            Change password
-          </p>
-          <p className="md:text-[1.4rem] text-xl leading-tight text-gray-400">
-            Update your pasword for better security.
-          </p>
-        </div>
-        <form className="w-full grid md:grid-cols-3 grid-cols-1 justify-center items-center gap-x-5">
-          <FormColumn label="Old password">
-            <input
-              type="text"
-              id="client_name"
-              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-              // {...register("client_name", {
-              //   required: "can't be empty",
-              // })}
-            />
-          </FormColumn>
-          <FormColumn label="New password">
-            <input
-              type="text"
-              id="client_name"
-              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-              // {...register("client_name", {
-              //   required: "can't be empty",
-              // })}
-            />
-          </FormColumn>
-          <Button className="rounded-lg ">Update password</Button>
-        </form>
       </div>
+      <div className="flex flex-col">
+        <p className="md:text-[1.6rem] text-2xl leading-tight">
+          Change password
+        </p>
+        <p className="md:text-[1.4rem] text-xl leading-tight text-gray-400">
+          Update your password for better security.
+        </p>
+      </div>
+      <form
+        onSubmit={handleSubmit(handleUpdatePassword)}
+        className="w-full grid md:grid-cols-3 grid-cols-1 justify-center items-center gap-x-5"
+      >
+        <FormColumn label="New password">
+          <input
+            type="password"
+            className="w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md"
+            {...register("newPassword", {
+              required: "This field is required",
+              minLength: {
+                value: 6,
+                message: "Password needs a min of 6 characters",
+              },
+            })}
+          />
+          {errors.newPassword && (
+            <span className="text-red-500">
+              {errors.newPassword.message as string}
+            </span>
+          )}
+        </FormColumn>
+        <FormColumn label="Confirm new password">
+          <input
+            type="password"
+            className="w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md"
+            {...register("confirmPassword", {
+              required: "This field is required",
+              validate: (value) =>
+                value === getValues("newPassword") || "Passwords need to match",
+            })}
+          />
+          {errors.confirmPassword && (
+            <span className="text-red-500">
+              {errors.confirmPassword.message as string}
+            </span>
+          )}
+        </FormColumn>
+        <Button className="rounded-lg " disabled={isUpdating}>
+          Update password
+        </Button>
+      </form>
     </div>
   );
 };
