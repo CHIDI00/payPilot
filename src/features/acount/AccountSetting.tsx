@@ -15,7 +15,7 @@ const AccountSetting: React.FC<userFormToUpdateProfile> = ({
   return (
     <div className="w-full flex flex-col justify-start items-start bg-primary-gray dark:bg-[#1E2139] px-12 md:py-10 py-6 rounded-2xl gap-6">
       <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
-        Account setting
+        Profile setting
       </h3>
 
       <div className="w-full flex flex-col gap-5">

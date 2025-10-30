@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import supabase from "../services/supabase";
-import AppLoader from "@/ui/appLoader";
+import AppLoader from "../ui/preloader";
 
 const AppLayout = lazy(() => import("../ui/AppLayout"));
 const Invoices = lazy(() => import("../pages/Invoices"));
