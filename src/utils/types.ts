@@ -24,4 +24,19 @@ export interface Invoice {
   items: InvoiceItem[];
   created_at?: string;
   user_id?: string;
+  company_id: string;
+}
+
+export interface CompanyInfo {
+  user_id: string;
+  company_id: string;
+  companyName: string;
+  companyEmail: string;
+  companyLine: number;
+  companyStreet: string;
+  companyCity: string;
+  companyState: string;
+  companyCountry: string;
+  companyTaxId: string;
+  companyWebsite: string;
 }

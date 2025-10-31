@@ -14,7 +14,6 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
 
   const { id, invoice_id, client_name, invoice_date, items, status } = invoice;
 
-  // TOTAL PRICE
   const totalPrice = items?.reduce(
     (acc, item) => acc + item.price * (item.quantity ?? 1),
     0

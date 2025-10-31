@@ -1,6 +1,7 @@
 import React, { type FormEvent } from "react";
 import { Camera } from "lucide-react";
 import { useUpdateUser } from "../authentication/useUpdateUserProfile";
+// import profilePic from "../../assets/profilePic.png";
 
 interface UserInfo {
   email: string;
@@ -26,6 +27,23 @@ const Profile: React.FC<UserInfo> = ({
   userGoogleAvatar,
   dateJoined,
 }) => {
+  //    function avatar () {
+  //   if (avatarUrl) {
+  //     return avatarUrl
+  //   }else if (!avatarUrl){
+  //     return userGoogleAvatar
+  // }else return profilePic;}}
+
+  // function avatar() {
+  //   if (avatarUrl) {
+  //     return avatarUrl
+  //   } else if (!avatarUrl) {
+  //     return userGoogleAvatar
+  //   } else {
+  //     return pro
+  //   }
+  // }
+
   const { updateUser } = useUpdateUser();
 
   return (
