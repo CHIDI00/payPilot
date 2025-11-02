@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import supabase from "./supabase";
-import type { CompanyInfo } from "../../utils/types";
+import type { CompanyInfo } from "../utils/types";
 
 const { data } = await supabase.auth.getUser();
 console.log(data);
@@ -24,10 +24,11 @@ export async function getCompanyInfo() {
 }
 
 interface AddCompany {
-  id: string;
+  id?: string;
   newCompany: CompanyInfo;
 }
 
+// ADD COMPANY INFO
 export async function addCompany({
   id,
   newCompany,
@@ -38,8 +39,25 @@ export async function addCompany({
     .select("*");
 
   if (error) {
-    console.error("Error adding company:", error.message);
-    return null;
+    toast.error("Company could not be created");
+    throw new Error("Company could not be created");
+  }
+
+  return data;
+}
+
+// EDIT COMPANY INFO
+export async function editCompany(rowId: string, updatedFields: CompanyInfo) {
+  const { data, error } = await supabase
+    .from("companyInfo")
+    .update(updatedFields)
+    .eq("id", rowId)
+    .select()
+    .single();
+
+  if (error) {
+    toast.error("Company could not be Edited");
+    throw new Error("Company could not be Editted");
   }
 
   return data;

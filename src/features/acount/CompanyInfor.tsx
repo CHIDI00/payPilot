@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import avartar from "../../assets/homedark.png";
 import { useCompanyInfo } from "./useCompanyInfo";
 import { useAddCompany } from "./useAddCompany";
+import { useEditCompany } from "./useEditCompany";
 import { useForm } from "react-hook-form";
 
 import type { CompanyInfo } from "@/utils/types";
@@ -35,6 +36,7 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
   const { companyInfo, isPending } = useCompanyInfo();
   const [showForm, setShowForm] = useState(false);
   const { addUserCompany, isAdding } = useAddCompany();
+  const { editUserCompany, isEditing } = useEditCompany();
 
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -46,15 +48,36 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
     fetchUserId();
   }, []);
 
-  const { register, handleSubmit, reset } = useForm<CompanyInfoData>();
+  const { register, handleSubmit, reset } = useForm<CompanyInfoData>({
+    defaultValues: companyInfo || undefined,
+  });
 
   // const { error } = formState;
 
   function onSubmitCompany(data: CompanyInfoData) {
-    console.log(data);
+    if (!userId) {
+      console.error("User ID is not available");
+      return;
+    }
     // ADD COMPANY
     addUserCompany(
       { id: userId, newCompany: data },
+      {
+        onSuccess: () => {
+          reset();
+        },
+      }
+    );
+  }
+
+  function onEditCompany(data: CompanyInfoData) {
+    if (!companyInfo?.id) {
+      console.error("Company ID is not available");
+      return;
+    }
+    // EDIT COMPANY
+    editUserCompany(
+      { id: companyInfo.id, newCompanyData: data },
       {
         onSuccess: () => {
           reset();
@@ -252,16 +275,16 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
                     })}
                   />
                 </FormColumn>
-                {/* <FormColumn label="VAT Number">
+                <FormColumn label="Website">
                   <input
                     type="text"
-                    id="client_name"
+                    id="companyWebsite"
                     className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                    {...register("client_name", {
+                    {...register("companyWebsite", {
                       required: "can't be empty",
                     })}
                   />
-                </FormColumn> */}
+                </FormColumn>
 
                 <Button
                   type="submit"
@@ -296,8 +319,6 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
           <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
             Company Info
           </h3>
-
-          {!companyInfo && <Button>Add details</Button>}
         </div>
         <div className="flex gap-3 justify-start items-center">
           <div className="relative">
@@ -377,7 +398,7 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
         </div>
       </div>
 
-      {/* ADD COMPANY FORM */}
+      {/* Edit COMPANY FORM */}
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
@@ -388,113 +409,118 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
         >
           <div className="">
             <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
-              Add your company's detail
+              Edit your company's detail
             </h3>
           </div>
-          <form className="w-full grid md:grid-cols-2 grid-cols-1 justify-center items-center  bg-primary-gray dark:bg-[#1E2139] gap-y-6 gap-x-5">
+          <form
+            onSubmit={handleSubmit(onEditCompany)}
+            className="w-full grid md:grid-cols-2 grid-cols-1 justify-center items-center  bg-primary-gray dark:bg-[#1E2139] gap-y-6 gap-x-5"
+          >
             <FormColumn label="Company's name">
               <input
                 type="text"
                 id="companyName"
                 defaultValue={companyName}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyName", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
 
             <FormColumn label="Email">
               <input
                 type="text"
-                id="client_name"
+                id="companyEmail"
                 defaultValue={companyEmail}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyEmail", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
 
             <FormColumn label="VAT/Tas ID Number">
               <input
                 type="text"
-                id="client_name"
+                id="companyTaxId"
                 defaultValue={companyTaxId}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyTaxId", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
             <FormColumn label="Phone Number">
               <input
                 type="text"
-                id="client_name"
+                id="companyLine"
                 defaultValue={companyLine}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyLine", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
             <FormColumn label="Street Address">
               <input
                 type="text"
-                id="client_name"
+                id="companyStreet"
                 defaultValue={companyStreet}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyStreet", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
             <FormColumn label="City">
               <input
                 type="text"
-                id="client_name"
+                id="companyCity"
                 defaultValue={companyCity}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyCity", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
             <FormColumn label="State">
               <input
                 type="text"
-                id="client_name"
+                id="companyState"
                 defaultValue={companyState}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyState", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
             <FormColumn label="Country">
               <input
                 type="text"
-                id="client_name"
+                id="companyCountry"
                 defaultValue={companyCountry}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyCountry", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
-            <FormColumn label="VAT Number">
+            <FormColumn label="Website">
               <input
                 type="text"
-                id="client_name"
+                id="companyWebsite"
                 defaultValue={companyWebsite}
                 className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md `}
-                // {...register("client_name", {
-                //   required: "can't be empty",
-                // })}
+                {...register("companyWebsite", {
+                  required: "can't be empty",
+                })}
               />
             </FormColumn>
 
-            <Button className="rounded-lg ">Update details</Button>
+            <Button type="submit" disabled={isEditing} className="rounded-lg ">
+              {isEditing ? "Updating" : "Update Info"}
+            </Button>
           </form>
         </motion.div>
       </AnimatePresence>
