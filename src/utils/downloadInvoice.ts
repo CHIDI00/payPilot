@@ -4,7 +4,6 @@ import html2canvas from "html2canvas";
 interface CompanyDetails {
   logoBase64: string;
   companyName: string;
-  companyAddress: string;
   companyPhone: string;
   companyWebsite: string;
 }
@@ -45,7 +44,6 @@ export async function downloadInvoiceAsPDF(
   pdf.setFont("helvetica", "normal");
   pdf.setFontSize(12);
   pdf.setTextColor(60);
-  pdf.text(company.companyAddress, padding, marginTop + 22);
   pdf.text(`Phone: ${company.companyPhone}`, padding, marginTop + 29);
   pdf.text(company.companyWebsite, padding, marginTop + 36);
   pdf.setTextColor(0);
@@ -66,15 +64,7 @@ export async function downloadInvoiceAsPDF(
   const maxHeight = pageHeight - contentY - padding;
   if (contentHeight > maxHeight) contentHeight = maxHeight;
 
-  pdf.addImage(
-    imgData,
-    "PNG",
-
-    padding, // left margin (creates right padding automatically)
-    contentY, // position below header
-    contentWidth,
-    contentHeight
-  );
+  pdf.addImage(imgData, "PNG", padding, contentY, contentWidth, contentHeight);
 
   pdf.save(fileName + ".pdf");
 }

@@ -57,16 +57,7 @@ const InvoiceDetail: React.FC = () => {
     // status,
   } = invoice;
 
-  const {
-    companyName,
-    // companyEmail,
-    companyLine,
-    companyCity,
-    companyStreet,
-    companyState,
-    companyCountry,
-    companyWebsite,
-  } = companyInfo;
+  const { companyName, companyLine, companyWebsite } = companyInfo;
 
   const total = invoice.items?.reduce(
     (acc, item) => acc + item.quantity * item.price,
@@ -110,7 +101,6 @@ const InvoiceDetail: React.FC = () => {
               downloadInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
                 logoBase64: homedark,
                 companyName: `${companyName}`,
-                companyAddress: `${companyStreet}, ${companyCity}, ${companyState}, ${companyCountry}`,
                 companyPhone: `${companyLine}`,
                 companyWebsite: `${companyWebsite}`,
               })
