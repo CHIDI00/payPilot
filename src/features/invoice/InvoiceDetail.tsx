@@ -18,6 +18,7 @@ import { formatCurrency } from "../../utils/helper";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
 import { downloadInvoiceAsPDF } from "@/utils/downloadInvoice";
+import { useCompanyInfo } from "../acount/useCompanyInfo";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -27,6 +28,7 @@ const InvoiceDetail: React.FC = () => {
 
   const { invoice, isLoading } = useInvoice();
   const { deleteInvoice, isDeleting } = useDeleteInvoice();
+  const { companyInfo } = useCompanyInfo();
 
   const onClose = () => setIsDeleteModalOpen(false);
   const closeEditModal = () => setIsModalOpen(false);
@@ -54,6 +56,17 @@ const InvoiceDetail: React.FC = () => {
     description,
     // status,
   } = invoice;
+
+  const {
+    companyName,
+    // companyEmail,
+    companyLine,
+    companyCity,
+    companyStreet,
+    companyState,
+    companyCountry,
+    companyWebsite,
+  } = companyInfo;
 
   const total = invoice.items?.reduce(
     (acc, item) => acc + item.quantity * item.price,
@@ -96,10 +109,10 @@ const InvoiceDetail: React.FC = () => {
             onClick={() =>
               downloadInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
                 logoBase64: homedark,
-                companyName: "Livestock Feeds PLC",
-                companyAddress: "No. 14 Henry Carr Street, Ikeja, Lagos State",
-                companyPhone: "+234 904 878 2864",
-                companyWebsite: "www.livestockfeedsplc.com",
+                companyName: `${companyName}`,
+                companyAddress: `${companyStreet}, ${companyCity}, ${companyState}, ${companyCountry}`,
+                companyPhone: `${companyLine}`,
+                companyWebsite: `${companyWebsite}`,
               })
             }
             variant="secondary"
