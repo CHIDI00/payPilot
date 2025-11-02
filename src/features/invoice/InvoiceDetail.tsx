@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
+import homedark from "../../assets/homedark.png";
 
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
@@ -16,6 +17,7 @@ import { useDeleteInvoice } from "./useDeleteInvoice";
 import { formatCurrency } from "../../utils/helper";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
+import { downloadInvoiceAsPDF } from "@/utils/downloadInvoice";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -90,7 +92,19 @@ const InvoiceDetail: React.FC = () => {
             Go back
           </button>
 
-          <Button variant="secondary" className="text-[1.1rem]">
+          <Button
+            onClick={() =>
+              downloadInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
+                logoBase64: homedark,
+                companyName: "Livestock Feeds PLC",
+                companyAddress: "No. 14 Henry Carr Street, Ikeja, Lagos State",
+                companyPhone: "+234 904 878 2864",
+                companyWebsite: "www.livestockfeedsplc.com",
+              })
+            }
+            variant="secondary"
+            className="text-[1.1rem]"
+          >
             Download invoice (.pdf)
           </Button>
         </div>
@@ -140,7 +154,10 @@ const InvoiceDetail: React.FC = () => {
         </div>
 
         {/* INVOICE INFO */}
-        <div className="w-full flex flex-col justify-between items-center md:py-14 py-6 md:px-16 px-5 bg-primary-gray dark:bg-[#1e2139] md:rounded-lg rounded-[1rem] gap-12 md:mb-10 mb-40">
+        <div
+          id="invoice-content"
+          className="w-full flex flex-col justify-between items-center md:py-14 py-6 md:px-16 px-5 bg-primary-gray dark:bg-[#1e2139] md:rounded-lg rounded-[1rem] gap-12 md:mb-10 mb-40"
+        >
           <div className="w-full flex justify-between items-start">
             <div className="flex flex-col gap-1">
               <div className="font-bold text-[1.6rem]">
