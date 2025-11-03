@@ -27,23 +27,6 @@ const Profile: React.FC<UserInfo> = ({
   userGoogleAvatar,
   dateJoined,
 }) => {
-  //    function avatar () {
-  //   if (avatarUrl) {
-  //     return avatarUrl
-  //   }else if (!avatarUrl){
-  //     return userGoogleAvatar
-  // }else return profilePic;}}
-
-  // function avatar() {
-  //   if (avatarUrl) {
-  //     return avatarUrl
-  //   } else if (!avatarUrl) {
-  //     return userGoogleAvatar
-  //   } else {
-  //     return pro
-  //   }
-  // }
-
   const { updateUser } = useUpdateUser();
 
   return (

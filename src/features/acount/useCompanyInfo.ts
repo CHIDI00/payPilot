@@ -8,5 +8,7 @@ export function useCompanyInfo() {
   });
 
   const companyInfo = Array.isArray(data) ? data[0] : null;
+  console.log(companyInfo);
+
   return { companyInfo, isPending };
 }

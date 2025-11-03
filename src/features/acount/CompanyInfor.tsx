@@ -13,6 +13,7 @@ import Loader from "@/ui/Loader";
 import { motion, AnimatePresence } from "framer-motion";
 
 import supabase from "../../services/supabase";
+import { useUpdateCompanyLogo } from "./useUpdateCompanyLogo";
 
 interface CompanyInfoProp {
   companyInfo: CompanyInfo;
@@ -37,6 +38,7 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
   const [showForm, setShowForm] = useState(false);
   const { addUserCompany, isAdding } = useAddCompany();
   const { editUserCompany, isEditing } = useEditCompany();
+  const { updateLogo, isUpdating } = useUpdateCompanyLogo();
 
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -86,6 +88,12 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
     );
   }
 
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (file && companyInfo?.id)
+      updateLogo({ companyId: companyInfo.id, logo: file });
+  };
+
   if (isPending) return <Loader />;
   if (!companyInfo)
     return (
@@ -98,16 +106,34 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
             <Button onClick={() => setShowForm(true)}>Add details</Button>{" "}
           </div>
           <div className="flex gap-3 justify-start items-center">
-            <div className="relative">
+            <form className="relative">
               <img
-                src={avartar}
+                src={companyInfo?.logo || avartar}
                 alt="Company's logo"
                 className="md:w-32 md:h-32 w-24 h-24 rounded-lg ring-2 ring-[#b853e7]"
               />
-              <button className="absolute md:-bottom-3 md:-right-2 -bottom-3 -right-4 md:w-14 md:h-14 w-12 h-12 rounded-full flex items-center justify-center bg-[#a788fa] hover:bg-[#8257e6] border-2 border-[#e5e4ef] transition">
+              <button
+                type="button"
+                disabled={isUpdating}
+                className="absolute md:-bottom-3 md:-right-2 bottom-1 right-0 md:w-14 md:h-14 w-7 h-7 rounded-full flex items-center justify-center bg-[#a788fa] hover:bg-[#8257e6] border-2 border-[#e5e4ef] transition"
+                style={{
+                  position: "absolute",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Camera size={16} className="text-white" />
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="avatar"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={handleLogoUpload}
+                />
               </button>
-            </div>
+            </form>
 
             {/* INFO SECTION */}
             <div className="ml-6 flex flex-col ">
@@ -323,12 +349,34 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
         <div className="flex gap-3 justify-start items-center">
           <div className="relative">
             <img
-              src={avartar}
+              src={companyInfo?.logo || avartar}
               alt="Company's logo"
               className="md:w-32 md:h-32 w-24 h-24 rounded-lg ring-2 ring-[#b853e7]"
             />
-            <button className="absolute md:-bottom-3 md:-right-2 -bottom-3 -right-4 md:w-14 md:h-14 w-12 h-12 rounded-full flex items-center justify-center bg-[#a788fa] hover:bg-[#8257e6] border-2 border-[#e5e4ef] transition">
+            <button
+              type="button"
+              disabled={isUpdating}
+              className="absolute md:-bottom-3 md:-right-2 bottom-1 right-0 md:w-14 md:h-14 w-7 h-7 rounded-full flex items-center justify-center bg-[#a788fa] hover:bg-[#8257e6] border-2 border-[#e5e4ef] transition"
+              style={{
+                position: "absolute",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Camera size={16} className="text-white" />
+
+              <input
+                type="file"
+                accept="image/*"
+                id="avatar"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={(e) => {
+                  const file = (e.target as HTMLInputElement).files?.[0];
+                  if (file && companyInfo?.id)
+                    updateLogo({ companyId: companyInfo.id, logo: file });
+                }}
+              />
             </button>
           </div>
 

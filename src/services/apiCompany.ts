@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import supabase from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
 import type { CompanyInfo } from "../utils/types";
 
 const { data } = await supabase.auth.getUser();
@@ -61,4 +61,36 @@ export async function editCompany(rowId: string, updatedFields: CompanyInfo) {
   }
 
   return data;
+}
+
+interface UpdateCompanyLogoProps {
+  companyId: string;
+  logo: File;
+}
+
+// UPLOAD LOGO STORAGE
+export async function updateCompanyLogo({
+  companyId,
+  logo,
+}: UpdateCompanyLogoProps) {
+  // UPLOAD
+  const logoFileName = `company-logo-${companyId}-${Date.now()}`;
+  const { error: logoStorageError } = await supabase.storage
+    .from("companyLogo")
+    .upload(logoFileName, logo);
+
+  if (logoStorageError) throw new Error(logoStorageError.message);
+
+  // GOT THE LOGO URL
+  const logoUrl = `${supabaseUrl}/storage/v1/object/public/companyLogo/${logoFileName}`;
+
+  // UPDATE COMPANY INFO
+  const { error: companyUpdateError } = await supabase
+    .from("companyInfo")
+    .update({ logo: logoUrl })
+    .eq("id", companyId);
+
+  if (companyUpdateError) throw new Error(companyUpdateError.message);
+
+  return logoUrl;
 }
