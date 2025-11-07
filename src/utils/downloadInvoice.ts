@@ -8,13 +8,12 @@ interface CompanyDetails {
   companyWebsite: string;
 }
 
-export async function downloadInvoiceAsPDF(
+async function generateInvoicePDF(
   invoiceElementId: string,
-  fileName: string,
   company: CompanyDetails
-) {
+): Promise<jsPDF> {
   const element = document.getElementById(invoiceElementId);
-  if (!element) return;
+  if (!element) throw new Error("Invoice element not found");
 
   const pdf = new jsPDF("p", "mm", "a4");
   const pageWidth = pdf.internal.pageSize.getWidth();
@@ -66,5 +65,45 @@ export async function downloadInvoiceAsPDF(
 
   pdf.addImage(imgData, "PNG", padding, contentY, contentWidth, contentHeight);
 
-  pdf.save(fileName + ".pdf");
+  return pdf;
+}
+
+export async function previewInvoiceAsPDF(
+  invoiceElementId: string,
+  fileName: string,
+  company: CompanyDetails
+) {
+  try {
+    const pdf = await generateInvoicePDF(invoiceElementId, company);
+    
+    // Open PDF in new tab for preview
+    const pdfBlob = pdf.output("blob");
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    
+    // Open in new window/tab
+    const previewWindow = window.open(pdfUrl, "_blank");
+    
+    if (!previewWindow) {
+      // If popup was blocked, fallback to download
+      pdf.save(fileName + ".pdf");
+    }
+    
+    // Clean up the URL after a delay to allow the window to load
+    setTimeout(() => URL.revokeObjectURL(pdfUrl), 1000);
+  } catch (error) {
+    console.error("Error generating PDF preview:", error);
+  }
+}
+
+export async function downloadInvoiceAsPDF(
+  invoiceElementId: string,
+  fileName: string,
+  company: CompanyDetails
+) {
+  try {
+    const pdf = await generateInvoicePDF(invoiceElementId, company);
+    pdf.save(fileName + ".pdf");
+  } catch (error) {
+    console.error("Error downloading PDF:", error);
+  }
 }

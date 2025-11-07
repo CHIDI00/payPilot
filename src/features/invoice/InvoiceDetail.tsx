@@ -17,7 +17,7 @@ import { useDeleteInvoice } from "./useDeleteInvoice";
 import { formatCurrency } from "../../utils/helper";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
-import { downloadInvoiceAsPDF } from "@/utils/downloadInvoice";
+import { previewInvoiceAsPDF } from "@/utils/downloadInvoice";
 import { useCompanyInfo } from "../acount/useCompanyInfo";
 
 const InvoiceDetail: React.FC = () => {
@@ -98,7 +98,7 @@ const InvoiceDetail: React.FC = () => {
 
           <Button
             onClick={() =>
-              downloadInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
+              previewInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
                 logoBase64: `${logo ? logo : companyLogo}`,
                 companyName: `${companyName}`,
                 companyPhone: `${companyLine}`,
@@ -108,7 +108,7 @@ const InvoiceDetail: React.FC = () => {
             variant="secondary"
             className="text-[1.1rem]"
           >
-            Download invoice (.pdf)
+            Preview invoice (.pdf)
           </Button>
         </div>
 
