@@ -55,13 +55,13 @@ const LoginForm: React.FC = () => {
         {/* EMAIL */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Email</label>
-          <div className="relative flex items-center justify-start w-full  border-2 border-gray-300 dark:border-gray-700 rounded-lg">
+          <div className="relative flex items-center justify-start w-full border-2 border-gray-300 rounded-lg dark:border-gray-700">
             <Mail className="absolute left-3 top-2 dark:text-gray-700" />
             <input
               id="email"
               type="text"
               placeholder="Enter your Email"
-              className="w-full pl-14 py-3 bg-transparent"
+              className="w-full py-3 bg-transparent pl-14"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -75,19 +75,19 @@ const LoginForm: React.FC = () => {
         {/* PASSWORD */}
         <div className="flex flex-col w-full gap-2">
           <label className="text-[1.7rem]">Password</label>
-          <div className="relative flex items-center justify-start w-full border-2 border-gray-300 dark:border-gray-700 rounded-lg">
+          <div className="relative flex items-center justify-start w-full border-2 border-gray-300 rounded-lg dark:border-gray-700">
             <Lock className="absolute left-3 top-2 dark:text-gray-700" />
             <input
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Create a password"
-              className="w-full px-14 py-3 bg-transparent"
+              className="w-full py-3 bg-transparent px-14"
               {...register("password", { required: "Enter your password" })}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-2 text-gray-500 hover:text-gray-800"
+              className="absolute text-gray-500 right-3 top-2 hover:text-gray-800"
             >
               {showPassword ? (
                 <EyeOff className="w-9 h-9" />
@@ -114,6 +114,14 @@ const LoginForm: React.FC = () => {
             {isPending ? "Loading" : "Login"}
           </Button>
         </motion.div>
+        {/* DIVIDER */}
+        <div className="relative flex items-center w-full">
+          <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
+          <span className="px-3 text-xl text-gray-600 uppercase dark:text-white">
+            or
+          </span>
+          <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
+        </div>
         {/* GOOGLE LOGIN */}
         <button
           onClick={signInWithGoogle}
@@ -121,7 +129,7 @@ const LoginForm: React.FC = () => {
           className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"
         >
           <img src={google} alt="google" className="w-7 h-7" />
-          <p className="font-medium text-3xl text-gray-700 dark:text-white">
+          <p className="text-3xl font-medium text-gray-700 dark:text-white">
             Continue with Google
           </p>
         </button>
