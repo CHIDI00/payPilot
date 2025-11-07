@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
-import homedark from "../../assets/homedark.png";
+import companyLogo from "../../assets/home.png";
 
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
@@ -57,7 +57,7 @@ const InvoiceDetail: React.FC = () => {
     // status,
   } = invoice;
 
-  const { companyName, companyLine, companyWebsite } = companyInfo;
+  const { companyName, companyLine, companyWebsite, logo } = companyInfo;
 
   const total = invoice.items?.reduce(
     (acc, item) => acc + item.quantity * item.price,
@@ -99,7 +99,7 @@ const InvoiceDetail: React.FC = () => {
           <Button
             onClick={() =>
               downloadInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
-                logoBase64: homedark,
+                logoBase64: `${logo ? logo : companyLogo}`,
                 companyName: `${companyName}`,
                 companyPhone: `${companyLine}`,
                 companyWebsite: `${companyWebsite}`,

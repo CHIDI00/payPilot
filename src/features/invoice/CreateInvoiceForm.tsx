@@ -11,7 +11,7 @@ import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../utils/types";
 import { generateInvoiceId } from "../../utils/helper";
 import toast from "react-hot-toast";
-import { useCompanyInfo } from "../acount/useCompanyInfo";
+// import { useCompanyInfo } from "../acount/useCompanyInfo";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
@@ -52,14 +52,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 }) => {
   const { createInvoice, isCreating } = useCreateInvoice();
   const { editInvoice, isEditing } = useEditInvoice();
-  const { companyInfo } = useCompanyInfo();
+  // const { companyInfo } = useCompanyInfo();
 
-  const {
-    companyStreet,
-
-    companyCity,
-    companyCountry,
-  } = companyInfo;
+  // const {
+  //   companyStreet, companyCity,
+  //   companyCountry,
+  // } = companyInfo;
 
   const isWorking = isCreating || isEditing;
 
@@ -179,7 +177,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <input
             type="text"
             id="street_address"
-            defaultValue={companyStreet}
+            // defaultValue={companyStreet}
             className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
               errors.street_address ? "border-red-600" : "border-gray-300"
             }`}
@@ -188,12 +186,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             })}
           />
         </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
           <FormColumn label="City" error={errors.city}>
             <input
               type="text"
               id="city"
-              defaultValue={companyCity}
+              // defaultValue={companyCity}
               className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.city ? "border-red-600" : "border-gray-300"
               }`}
@@ -222,7 +220,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="country"
-              defaultValue={companyCountry}
+              // defaultValue={companyCountry}
               className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.country ? "border-red-600" : "border-gray-300"
               }`}
@@ -276,7 +274,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             })}
           />
         </FormColumn>
-        <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
           {/* CLIENT'S CITY */}
           <FormColumn label="City" error={errors.client_city}>
             <input
@@ -324,7 +322,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </FormColumn>
         </div>
 
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* INVOICE DATA */}
           <FormColumn label="Invoice Date" error={errors.invoice_date}>
             <input
@@ -469,7 +467,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       </div>
 
       {isEditSession ? (
-        <div className="flex justify-end items-center gap-4">
+        <div className="flex items-center justify-end gap-4">
           <Button
             type="button"
             variant="secondary"
@@ -486,7 +484,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </Button>
         </div>
       ) : (
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="">
             <Button
               type="button"
