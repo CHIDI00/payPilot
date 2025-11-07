@@ -11,7 +11,7 @@ import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../utils/types";
 import { generateInvoiceId } from "../../utils/helper";
 import toast from "react-hot-toast";
-// import { useCompanyInfo } from "../acount/useCompanyInfo";
+import { useCompanyInfo } from "../acount/useCompanyInfo";
 
 interface ClosesModalProp {
   onCloseModal: () => void;
@@ -52,12 +52,9 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 }) => {
   const { createInvoice, isCreating } = useCreateInvoice();
   const { editInvoice, isEditing } = useEditInvoice();
-  // const { companyInfo } = useCompanyInfo();
+  const { companyInfo } = useCompanyInfo();
 
-  // const {
-  //   companyStreet, companyCity,
-  //   companyCountry,
-  // } = companyInfo;
+  const { companyStreet, companyCity, companyCountry } = companyInfo || {};
 
   const isWorking = isCreating || isEditing;
 
@@ -177,7 +174,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <input
             type="text"
             id="street_address"
-            // defaultValue={companyStreet}
+            defaultValue={companyStreet}
             className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
               errors.street_address ? "border-red-600" : "border-gray-300"
             }`}
@@ -191,7 +188,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="city"
-              // defaultValue={companyCity}
+              defaultValue={companyCity}
               className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.city ? "border-red-600" : "border-gray-300"
               }`}
@@ -220,7 +217,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             <input
               type="text"
               id="country"
-              // defaultValue={companyCountry}
+              defaultValue={companyCountry}
               className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
                 errors.country ? "border-red-600" : "border-gray-300"
               }`}
