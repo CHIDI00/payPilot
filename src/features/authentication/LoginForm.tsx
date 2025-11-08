@@ -3,23 +3,13 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import React, { useState } from "react";
 import { useLogin } from "./useLogin";
 import { motion } from "framer-motion";
-import {
-  useForm,
-  type FieldError,
-  type FieldErrorsImpl,
-  type FieldValues,
-  type Merge,
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { signInWithGoogle } from "../../services/apiAuth";
 import google from "../../assets/google.svg";
 
 interface InvoiceLoginData {
   email: string;
   password: string;
-  errors?:
-    | FieldError
-    | Merge<FieldError, FieldErrorsImpl<FieldValues>>
-    | undefined;
 }
 
 const LoginForm: React.FC = () => {

@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProp> = ({ children, onClose }) => {
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full h-[100vh] text-black transition-all duration-300 z-[20] flex lg:flex-row flex-col">
+    <div className="fixed top-0 left-0 w-full h-[100dvh] text-black transition-all duration-300 z-[20] flex lg:flex-row flex-col">
       <div className="bg-primary-gray dark:bg-[#141625] lg:w-[5.5%] lg:h-full md:w-full h-[7%] z-[-100]"></div>
       <div className="w-full lg:h-full h-[93%] bg-[#4645454f] dark:bg-[#1a191971]">
         <motion.div
