@@ -47,7 +47,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           >
-            {/* <Route index element={<Navigate replace to="/invoices" />} /> */}
+            <Route index element={<Navigate replace to="/invoices" />} />
 
             <Route path="invoices" element={<Invoices />} />
             <Route

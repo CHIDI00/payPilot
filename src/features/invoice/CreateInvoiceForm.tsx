@@ -131,7 +131,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           onCloseModal?.();
         },
         onError: () => {
-          toast.error("Please Select a date");
+          toast.error("Select a date");
         },
       }
     );
@@ -507,6 +507,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               className="font-bold text-[13px]"
               type="submit"
               disabled={isWorking}
+              // onClick={onSubmit}
             >
               Save & Send
             </Button>
