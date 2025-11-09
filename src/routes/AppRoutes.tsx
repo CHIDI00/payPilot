@@ -17,6 +17,7 @@ const Settings = lazy(() => import("../pages/Settings"));
 const UserAccount = lazy(() => import("../pages/UserAccount"));
 const CompanyInfo = lazy(() => import("../pages/CompanyInfo"));
 const PageNotFound = lazy(() => import("../pages/PageNotFound"));
+const LandingPage = lazy(() => import("../pages/LandingPage"));
 
 function AppRoutes() {
   const location = useLocation();
@@ -46,7 +47,8 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Navigate replace to="invoices" />} />
+            {/* <Route index element={<Navigate replace to="/invoices" />} /> */}
+
             <Route path="invoices" element={<Invoices />} />
             <Route
               path="invoice/view_invoice/:invoiceId"
@@ -64,9 +66,12 @@ function AppRoutes() {
             <Route path="settings/profile" element={<UserAccount />} />
             <Route path="settings/company_profile" element={<CompanyInfo />} />
           </Route>
+
           <Route path="auth/login" element={<Login />} />
           <Route path="auth/signup" element={<Signup />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="home" element={<LandingPage />} />
+          <Route index element={<Navigate replace to="/home" />} />
         </Routes>
       </Suspense>
     </AnimatePresence>
