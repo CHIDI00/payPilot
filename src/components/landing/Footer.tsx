@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="w-full lg:px-20 px-10 py-14">
+    <footer className="w-full lg:px-20 px-5 py-14">
       <div className="relative w-full py-24 lg:py-56  lg:px-0 overflow-hidden">
         {/* Your content sits here, on top */}
         <div className="flex flex-col items-center text-black">
@@ -45,12 +45,11 @@ const Footer = () => {
             <span className="font-bold md:text-6xl text-5xl">PayPilot</span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-44 gap-y-16 mb-32">
-            {/* Example footer columns */}
             <div>
-              <p className="mb-3 font-semibold text-4xl">Product</p>
+              <p className="mb-3 font-semibold text-3xl">Product</p>{" "}
               <ul
                 className="md:text-2xl
-text-3xl text-gray-200 flex flex-col gap-4"
+text-2xl text-gray-200 flex flex-col gap-4"
               >
                 <Link to="#">
                   <li>Features</li>
@@ -64,23 +63,23 @@ text-3xl text-gray-200 flex flex-col gap-4"
               </ul>
             </div>
             <div>
-              <p className="mb-3 font-semibold text-4xl">Company</p>
-              <ul className="md:text-2xl text-3xl text-gray-200 flex flex-col gap-4">
+              <p className="mb-3 font-semibold text-3xl">Company</p>
+              <ul className="md:text-2xl text-2xl text-gray-200 flex flex-col gap-4">
                 <li>About</li>
                 <li>Careers</li>
                 <li>Blog</li>
               </ul>
             </div>
             <div>
-              <p className="mb-3 font-semibold text-4xl">Legal</p>
-              <ul className="md:text-2xl text-3xl text-gray-200 flex flex-col gap-4">
+              <p className="mb-3 font-semibold tex3-3xl">Legal</p>
+              <ul className="md:text-2xl text-2xl text-gray-200 flex flex-col gap-4">
                 <li>Terms</li>
                 <li>Privacy</li>
               </ul>
             </div>
             <div>
-              <p className="mb-3 font-semibold text-4xl">Contact</p>
-              <ul className="md:text-2xl text-3xl text-gray-200 flex flex-col gap-4">
+              <p className="mb-3 font-semibold text-3xl">Contact</p>
+              <ul className="md:text-2xl text-2xl text-gray-200 flex flex-col gap-4">
                 <li>Email</li>
                 <li>Twitter</li>
               </ul>

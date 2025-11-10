@@ -8,7 +8,7 @@ export default function HeroSection() {
         {/* Main Hero Content */}
 
         {/* Main Heading */}
-        <h1 className="text-[4.8rem] md:text-[6.5rem] lg:text-[12rem] font-semibold leading-[1.1] mb-8 text-[#0a0a0a] md:text-center text-left md:tracking-tight">
+        <h1 className="text-[4.4rem] md:text-[6.5rem] lg:text-[12rem] font-semibold md:leading-[1.1] mb-8 text-[#0a0a0a] md:text-center text-left md:tracking-tight">
           Send invoices, get
           <br />
           <span className="">
