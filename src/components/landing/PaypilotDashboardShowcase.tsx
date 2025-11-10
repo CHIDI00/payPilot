@@ -18,7 +18,7 @@ const PaypilotDashboardShowcase = () => {
   const y = useTransform(
     scrollYProgress,
     [0, 1],
-    isMobile ? [0, -40] : [0, -200]
+    isMobile ? [0, -170] : [0, -250]
   );
 
   // const x = useTransform(scrollYProgress, [0, 1], [0, 30]);
