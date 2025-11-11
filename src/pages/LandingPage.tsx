@@ -6,7 +6,7 @@ import Footer from "@/components/landing/Footer";
 
 export default function LandingPage() {
   return (
-    <div className="relative w-screen min-h-screen bg-gradient-to-b from-[#f5f3ff] via-[#ede9fe] to-[#e9d5ff]">
+    <div className="relative w-screen min-h-screen bg-gradient-to-b from-[#f5f3ff] via-[#ede9fe] to-[#e9d5ff] overflow-x-hidden">
       <LandingHeader />
       <HeroSection />
       <PaypilotDashboardShowcase />

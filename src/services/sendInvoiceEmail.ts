@@ -5,13 +5,13 @@ export async function sendInvoiceEmail({
   subject,
   htmlContent,
   replyTo,
-}: // attachment,
-{
+  attachment,
+}: {
   recipient: string;
   subject: string;
   htmlContent: string;
   replyTo: string;
-  // attachment?: { content: string; name: string };
+  attachment?: { content: string; name: string };
 }) {
   // 1. Get JWT access token for current user/session
   const {
@@ -32,7 +32,7 @@ export async function sendInvoiceEmail({
         subject,
         htmlContent,
         replyTo,
-        // ...(attachment ? { attachment } : {})
+        ...(attachment ? { attachment } : {}),
       }),
     }
   );

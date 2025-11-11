@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { ChevronLeft, SendHorizonal } from "lucide-react";
+import { ChevronLeft, Send } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import companyLogo from "../../assets/home.png";
 
@@ -15,14 +15,15 @@ import CreateInvoiceForm from "./CreateInvoiceForm";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useDeleteInvoice } from "./useDeleteInvoice";
 import { formatCurrency } from "../../utils/helper";
-// import { blobToBase64 } from "@/utils/blobToBase64";
+import { blobToBase64 } from "@/utils/blobToBase64";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
 import { previewInvoiceAsPDF } from "@/utils/downloadInvoice";
 import { useCompanyInfo } from "../acount/useCompanyInfo";
 import { sendInvoiceEmail } from "@/services/sendInvoiceEmail";
 
-// import { generateInvoicePdfBlob } from "@/utils/generateInvoicePdfBlob"; // Update as needed
+import { generateInvoicePdfBlob } from "@/utils/generateInvoicePdfBlob";
+import { invoiceEmailHtml } from "@/utils/invoiceEmailFormat";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -61,6 +62,7 @@ const InvoiceDetail: React.FC = () => {
     // payment_terms,
     description,
     // status,
+    items,
   } = invoice;
 
   const { companyName, companyLine, companyWebsite, logo } = companyInfo || {};
@@ -70,6 +72,7 @@ const InvoiceDetail: React.FC = () => {
     0
   );
 
+  // MARK INVOICE AS PAID
   const handleMarkPaid = async () => {
     setLoading(true);
     try {
@@ -82,6 +85,7 @@ const InvoiceDetail: React.FC = () => {
     }
   };
 
+  // SEND EMAIL
   const onSendClick = async () => {
     setSending(true);
     try {
@@ -91,21 +95,43 @@ const InvoiceDetail: React.FC = () => {
         return;
       }
 
-      // Directly send email – NO Attachment
+      // GENERATE PDF BLOB BEFORE SENDING
+      const pdfBlob = await generateInvoicePdfBlob("invoice-content", {
+        logoBase64: logo ?? companyLogo,
+        companyName,
+        companyPhone: companyLine,
+        companyWebsite,
+      });
+
+      const base64Pdf = await blobToBase64(pdfBlob);
+
+      const htmlContent = invoiceEmailHtml({
+        logo,
+        companyLogo,
+        client_name,
+        invoice_id,
+        total,
+        formatCurrency,
+        invoice_date: invoice_date ?? null,
+        companyWebsite,
+        companyName,
+        items,
+      });
+
       await sendInvoiceEmail({
         recipient: client_email,
         subject: "Your PayPilot Invoice",
-        htmlContent: `<h1>Pay this invoice</h1><p>Amount: ${formatCurrency(
-          Number(total.toFixed(2))
-        )}</p>`,
-        replyTo: companyInfo?.companyEmail || "support@paypilot.com",
-        // DO NOT include 'attachment'
+        htmlContent,
+        replyTo: companyInfo?.companyEmail || "support@paypilot.com", // Ensure this is a valid email
+        attachment: {
+          content: base64Pdf,
+          name: `invoice-${invoice_id}.pdf`,
+        },
       });
-      toast.success("Invoice sent successfully!");
+      toast.success("Receipt sent successfully!");
     } catch (err: unknown) {
-      console.error("Send error:", err);
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
-      toast.error("Failed to send mail: " + errorMessage);
+      toast.error("Failed to send: " + errorMessage);
     } finally {
       setSending(false);
     }
@@ -193,7 +219,11 @@ const InvoiceDetail: React.FC = () => {
               disabled={sending}
               onClick={onSendClick}
             >
-              <SendHorizonal size={20} />
+              {sending ? (
+                <span className="mini-loader"></span>
+              ) : (
+                <Send size={18} />
+              )}
             </Button>
           </div>
         </div>
@@ -388,6 +418,9 @@ const InvoiceDetail: React.FC = () => {
             {loading ? "Marking..." : "Mark as Paid"}
           </Button>
         )}
+        <Button variant="secondary" disabled={sending} onClick={onSendClick}>
+          {sending ? <span className="mini-loader"></span> : <Send size={18} />}
+        </Button>
       </div>
 
       <AnimatePresence>
