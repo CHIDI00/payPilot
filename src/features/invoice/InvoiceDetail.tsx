@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, SendHorizonal } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import companyLogo from "../../assets/home.png";
 
@@ -15,10 +15,14 @@ import CreateInvoiceForm from "./CreateInvoiceForm";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useDeleteInvoice } from "./useDeleteInvoice";
 import { formatCurrency } from "../../utils/helper";
+// import { blobToBase64 } from "@/utils/blobToBase64";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
 import { previewInvoiceAsPDF } from "@/utils/downloadInvoice";
 import { useCompanyInfo } from "../acount/useCompanyInfo";
+import { sendInvoiceEmail } from "@/services/sendInvoiceEmail";
+
+// import { generateInvoicePdfBlob } from "@/utils/generateInvoicePdfBlob"; // Update as needed
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -34,6 +38,8 @@ const InvoiceDetail: React.FC = () => {
   const closeEditModal = () => setIsModalOpen(false);
 
   const [isStatus, setIsStatus] = useState(invoice?.status || "Pending");
+
+  const [sending, setSending] = useState(false);
 
   if (isLoading) return <Loader />;
   if (!invoice) return <FailedToLoadInvoiceDetails />;
@@ -73,6 +79,35 @@ const InvoiceDetail: React.FC = () => {
       toast.error(`Error updating invoice: ${err}`);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const onSendClick = async () => {
+    setSending(true);
+    try {
+      if (!client_email) {
+        toast.error("Client email is missing");
+        setSending(false);
+        return;
+      }
+
+      // Directly send email – NO Attachment
+      await sendInvoiceEmail({
+        recipient: client_email,
+        subject: "Your PayPilot Invoice",
+        htmlContent: `<h1>Pay this invoice</h1><p>Amount: ${formatCurrency(
+          Number(total.toFixed(2))
+        )}</p>`,
+        replyTo: companyInfo?.companyEmail || "support@paypilot.com",
+        // DO NOT include 'attachment'
+      });
+      toast.success("Invoice sent successfully!");
+    } catch (err: unknown) {
+      console.error("Send error:", err);
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      toast.error("Failed to send mail: " + errorMessage);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -153,6 +188,13 @@ const InvoiceDetail: React.FC = () => {
                 {loading ? "Marking..." : "Mark as Paid"}
               </Button>
             )}
+            <Button
+              variant="secondary"
+              disabled={sending}
+              onClick={onSendClick}
+            >
+              <SendHorizonal size={20} />
+            </Button>
           </div>
         </div>
 
