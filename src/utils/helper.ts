@@ -16,14 +16,18 @@ export function generateInvoiceId(): string {
   return `${randomLetters}${randomNumbers}`;
 }
 
-// export const formatCurrency = (value: number, currency = "NGN") => {
-//   const userLocale = navigator.language || "en-NG";
+export const formatCurrencyWithoutFormating = (
+  value: number,
+  currency = "NGN"
+) => {
+  const userLocale = navigator.language || "en-NG";
 
-//   return new Intl.NumberFormat(userLocale, {
-//     style: "currency",
-//     currency,
-//   }).format(value);
-// };
+  return new Intl.NumberFormat(userLocale, {
+    style: "currency",
+    currency,
+  }).format(value);
+};
+
 export const formatCurrency = (
   value: number,
   currency = "NGN",

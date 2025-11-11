@@ -14,7 +14,10 @@ import CreateInvoiceForm from "./CreateInvoiceForm";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useDeleteInvoice } from "./useDeleteInvoice";
-import { formatCurrency } from "../../utils/helper";
+import {
+  formatCurrency,
+  formatCurrencyWithoutFormating,
+} from "../../utils/helper";
 import { blobToBase64 } from "@/utils/blobToBase64";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
@@ -61,7 +64,7 @@ const InvoiceDetail: React.FC = () => {
     invoice_date,
     // payment_terms,
     description,
-    // status,
+    status,
     items,
   } = invoice;
 
@@ -112,15 +115,19 @@ const InvoiceDetail: React.FC = () => {
         invoice_id,
         total,
         formatCurrency,
+        formatCurrencyWithoutFormating,
         invoice_date: invoice_date ?? null,
         companyWebsite,
         companyName,
         items,
+        status,
       });
 
       await sendInvoiceEmail({
         recipient: client_email,
-        subject: "Your PayPilot Invoice",
+        subject: `Your ${
+          isStatus.toLowerCase() === "paid" ? "payment receipt" : "invoice"
+        } from ${companyName}`,
         htmlContent,
         replyTo: companyInfo?.companyEmail || "support@paypilot.com", // Ensure this is a valid email
         attachment: {
