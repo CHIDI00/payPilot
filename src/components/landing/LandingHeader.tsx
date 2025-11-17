@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-import { WalletMinimal } from "lucide-react";
 import Button from "../../ui/Button";
+import logo from "../../assets/logo.png";
 
 export default function LandingHeader() {
   return (
     <header className="fixed z-[10] top-0 left-0 w-full px-6 py-6 md:px-12 lg:px-20 bg-[#ffffff51] backdrop-blur-xl">
       <nav className="max-w-[160rem] mx-auto flex items-center justify-between">
-        <div className="flex justify-center items-center gap-20">
+        <div className="flex items-center justify-center gap-20">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#7C5DFA] to-[#9277FF] rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-              <WalletMinimal size={24} color="white" />
+            <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+              <img src={logo} alt="logo" />
             </div>
             <span className="text-[2.4rem] font-bold text-[#1a1a1a] tracking-tight">
               PayPilot

@@ -22,7 +22,7 @@ export default function HeroSection() {
         {/* Subheading */}
         <p className="text-[2.3rem] md:text-[2rem] md:leading-relaxed leading-tight text-[#4a4a4a] mb-12 max-w-[400px] font-medium md:text-center text-left">
           Create, send, and automate invoices in the cloud. Secure, branded, and
-          easy to use for freelancers and businesses.
+          easy to use for freelancers, businesses and companies..
         </p>
 
         {/* CTA Buttons */}
