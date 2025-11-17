@@ -3,16 +3,11 @@ import React from "react";
 import invoiceIcon from "../../assets/invoiceIcon.png";
 import receiptIcon from "../../assets/receiptIcon.png";
 import duebill from "../../assets/duebill.png";
-import { useQuery } from "@tanstack/react-query";
-import { getInvoice } from "../../services/apiInvoices";
-import type { Invoice } from "../../utils/types";
 import { formatCurrencyWithoutFormating } from "@/utils/helper";
+import { useInvoiceOnDashboard } from "../invoice/useInvoiceOnDashboard";
 
 const InvoiceOverView: React.FC = () => {
-  const { data: invoices, isLoading } = useQuery<Invoice[]>({
-    queryKey: ["invoices-overview"],
-    queryFn: () => getInvoice(),
-  });
+  const { invoices, isLoading } = useInvoiceOnDashboard();
 
   // Calculate totals by summing item totals (quantity * price)
   const invoiceVolume = (invoices || []).reduce((acc, inv) => {

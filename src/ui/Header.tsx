@@ -1,5 +1,6 @@
 import { Bell } from "lucide-react";
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Button from "./Button";
 
 interface HeaderProp {
@@ -8,6 +9,16 @@ interface HeaderProp {
 
 const Header: React.FC<HeaderProp> = ({ setMenuIsOpen }) => {
   const [showNotification, setShowNotification] = useState(false);
+  const location = useLocation();
+
+  const getTitleFromPath = (pathname: string) => {
+    const parts = pathname.split("/").filter(Boolean);
+    const key = parts.length ? parts[0] : "dashboard";
+    return key
+      .split("-")
+      .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+      .join(" ");
+  };
 
   function toggleNotification() {
     setShowNotification((show) => !show);
@@ -23,7 +34,9 @@ const Header: React.FC<HeaderProp> = ({ setMenuIsOpen }) => {
           <span className="w-8 h-[0.15rem] bg-black ml-3 rounded-full"></span>
           <span className="w-8 h-[0.15rem] bg-black rounded-full"></span>
         </div>
-        <h2 className="font-bold text-[2.5rem]">DashBoard</h2>
+        <h2 className="font-bold text-[2.5rem]">
+          {getTitleFromPath(location.pathname)}
+        </h2>
       </div>
 
       <div className="relative">

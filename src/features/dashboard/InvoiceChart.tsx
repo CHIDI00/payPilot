@@ -2,8 +2,6 @@ import React from "react";
 import invoiceIcon from "../../assets/invoiceIcon.png";
 import clients from "../../assets/clients.png";
 import { SquaresExclude } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { getInvoice } from "../../services/apiInvoices";
 import type { Invoice } from "../../utils/types";
 import {
   BarChart,
@@ -16,6 +14,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatCurrency } from "../../utils/helper";
+import { useInvoiceOnDashboard } from "../invoice/useInvoiceOnDashboard";
 
 const months = [
   "Jan",
@@ -57,12 +56,16 @@ function makeMonthCounts(invoices: Invoice[] = []) {
   }));
 }
 
-const InvoiceChart = () => {
-  const { data: invoices } = useQuery({
-    queryKey: ["invoices"],
-    queryFn: () => getInvoice(),
-  });
+const InvoiceChart: React.FC = () => {
+  const { invoices } = useInvoiceOnDashboard();
   const chartData = makeMonthCounts(invoices || []);
+
+  const paidCount = (invoices || []).filter(
+    (inv) => (inv.status || "").toString().toLowerCase() === "paid"
+  ).length;
+  const pendingCount = (invoices || []).filter(
+    (inv) => (inv.status || "").toString().toLowerCase() === "pending"
+  ).length;
 
   return (
     <div className="grid items-start justify-between grid-cols-1 lg:grid-cols-3 md:gap-x-5 gap-y-5">
@@ -115,17 +118,17 @@ const InvoiceChart = () => {
 
             <div className="flex flex-col items-start justify-start gap-2 my-10">
               <p className="font-bold ">Total Invoice</p>
-              <p className="text-4xl font-extrabold">11</p>
+              <p className="text-4xl font-extrabold">{invoices?.length}</p>
             </div>
 
             <div className="flex gap-7">
               <div className="flex flex-col items-center justify-start gap-1">
                 <p className="text-xl font-medium text-black">Paid</p>
-                <p className="text-4xl font-bold text-black">35</p>
+                <p className="text-4xl font-bold text-black">{paidCount}</p>
               </div>
               <div className="flex flex-col items-center justify-start gap-1">
                 <p className="text-xl font-medium text-black">Pending</p>
-                <p className="text-4xl font-bold text-black">76</p>
+                <p className="text-4xl font-bold text-black">{pendingCount}</p>
               </div>
             </div>
           </div>

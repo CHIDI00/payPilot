@@ -27,7 +27,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
       animate={{ opacity: 1, y: 10 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className="relative w-full md:py-20 py-3 lg:px-0 px-6"
+      className="relative w-[75%] mx-auto md:py-20 py-3 lg:px-0 px-6"
     >
       <div className="w-full mb-10 flex justify-between items-center">
         <h2 className="text-[2.5rem] font-medium">Settings</h2>
