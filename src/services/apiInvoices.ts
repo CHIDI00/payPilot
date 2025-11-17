@@ -20,9 +20,10 @@ export async function createEditInvoice(
 ): Promise<Invoice[] | null> {
   // CREATE
   if (!id) {
+    // Insert provided invoice as-is (don't force status to Draft — caller decides)
     const { data, error } = await supabase
       .from("invoices")
-      .insert([{ ...newInvoice, status: "Draft" }])
+      .insert([{ ...newInvoice }])
       .select()
       .single();
 
@@ -65,7 +66,7 @@ export async function getInvoiceById(id: string) {
     .single();
 
   if (error) {
-    toast.error("Invoice detail could not be loaded");
+    // toast.error("Invoice detail could not be loaded");
     throw new Error("Invoice detail could not be loaded");
   }
 

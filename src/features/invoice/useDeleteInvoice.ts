@@ -10,11 +10,10 @@ export function useDeleteInvoice() {
   const { isPending: isDeleting, mutate: deleteInvoice } = useMutation({
     mutationFn: deleteInvoiceApi,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["invoice"] });
+      navigate("/invoices", { state: { wasDeleted: true } });
       toast.success("Invoice deleted successfully");
-      queryClient.invalidateQueries({
-        queryKey: ["invoice"],
-      });
-      navigate("/invoices");
     },
     onError: () => toast.error("There was an error deleting this invoice"),
   });

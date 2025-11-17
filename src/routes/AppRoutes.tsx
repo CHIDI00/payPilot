@@ -18,6 +18,7 @@ const UserAccount = lazy(() => import("../pages/UserAccount"));
 const CompanyInfo = lazy(() => import("../pages/CompanyInfo"));
 const PageNotFound = lazy(() => import("../pages/PageNotFound"));
 const LandingPage = lazy(() => import("../pages/LandingPage"));
+const Dashboard = lazy(() => import("../pages/Dashboard"));
 
 function AppRoutes() {
   const location = useLocation();
@@ -47,7 +48,9 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<Navigate replace to="/invoices" />} />
+            <Route index element={<Navigate replace to="/dashboard" />} />
+
+            <Route path="dashboard" element={<Dashboard />} />
 
             <Route path="invoices" element={<Invoices />} />
             <Route

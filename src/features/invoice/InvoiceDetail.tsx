@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { ChevronLeft, Send } from "lucide-react";
@@ -27,6 +27,7 @@ import { sendInvoiceEmail } from "@/services/sendInvoiceEmail";
 
 import { generateInvoicePdfBlob } from "@/utils/generateInvoicePdfBlob";
 import { invoiceEmailHtml } from "@/utils/invoiceEmailFormat";
+// import { useLocation } from "react-router-dom";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -36,6 +37,8 @@ const InvoiceDetail: React.FC = () => {
 
   const { invoice, isLoading } = useInvoice();
   const { deleteInvoice, isDeleting } = useDeleteInvoice();
+  // const location = useLocation();
+  // const wasDeleted = location.state?.wasDeleted;
   const { companyInfo } = useCompanyInfo();
 
   const onClose = () => setIsDeleteModalOpen(false);
@@ -45,7 +48,14 @@ const InvoiceDetail: React.FC = () => {
 
   const [sending, setSending] = useState(false);
 
+  // IMMEDIATELY SHOW THE INVOICE STATUS WHEN LOADED
+  useEffect(() => {
+    if (invoice?.status) setIsStatus(invoice.status);
+  }, [invoice?.status]);
+
+  // DISPLAY LOADER WHEN LOADING DETAILS
   if (isLoading) return <Loader />;
+  // SHOW FAILD TO LOAD IMAGE WHEN INVOICE FAILD TO FETCH
   if (!invoice) return <FailedToLoadInvoiceDetails />;
 
   const {

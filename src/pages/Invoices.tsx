@@ -27,7 +27,7 @@ const Invoices: React.FC = () => {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col justify-center items-center lg:px-0 px-6 pb-8">
+      <div className="lg:w-[75%] w-full mx-auto h-full flex flex-col justify-center items-center lg:px-0  pb-8">
         <InvoiceHeading
           invoice={invoices}
           setIsModalOpen={setIsModalOpen}

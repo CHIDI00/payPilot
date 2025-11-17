@@ -96,7 +96,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       const newInvoice = {
         ...data,
         invoice_id: generateInvoiceId(),
-        status: data.status || "Pending",
+        status: "Paid",
       };
 
       createInvoice(
@@ -109,6 +109,24 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         }
       );
     }
+  }
+
+  function onSavePending(data: InvoiceFormData) {
+    const newInvoice = {
+      ...data,
+      invoice_id: generateInvoiceId(),
+      status: "Pending",
+    };
+
+    createInvoice(
+      { id: data.id, newInvoice },
+      {
+        onSuccess: () => {
+          reset();
+          onCloseModal?.();
+        },
+      }
+    );
   }
 
   function onSaveDraft() {
@@ -504,12 +522,20 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               Save as Draft
             </Button>
             <Button
-              className="font-bold text-[13px]"
-              type="submit"
+              className="font-bold text-[13px] bg-orange-60 0"
+              type="button"
               disabled={isWorking}
-              // onClick={onSubmit}
+              onClick={handleSubmit(onSavePending)}
             >
-              Save & Send
+              Pending
+            </Button>
+            <Button
+              className="font-bold text-[13px] bg-green-600"
+              type="button"
+              disabled={isWorking}
+              onClick={handleSubmit(onSubmit)}
+            >
+              Paid
             </Button>
           </div>
         </div>

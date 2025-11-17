@@ -10,8 +10,10 @@ export function useCreateInvoice() {
     mutationFn: (variables: { id: string; newInvoice: Invoice }) =>
       createEditInvoice(variables.id, variables.newInvoice),
     onSuccess: () => {
-      toast.success("An invoice have be created");
+      queryClient.invalidateQueries({ queryKey: ["invoice"] });
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+
+      toast.success("An invoice have be created");
     },
     onError: () => toast.error("Connection Error, failed to create invoice"),
   });
