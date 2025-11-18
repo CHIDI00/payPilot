@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SideBar from "./SideBar";
 import logo from "../assets/logo.png";
 import { motion } from "framer-motion";
+import companyAvartar from "../assets/homedark.png";
 
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -13,18 +14,12 @@ import {
   X,
 } from "lucide-react";
 import Button from "./Button";
-import { useUser } from "@/features/authentication/useUser";
+import { useCompanyInfo } from "@/features/acount/useCompanyInfo";
 
 const AppLayout: React.FC = () => {
   const navigate = useNavigate();
+  const { companyInfo } = useCompanyInfo();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-
-  const { user } = useUser();
-
-  const avatarUrl = user?.user_metadata?.avatar;
-  const userGoogleAvatar = user?.user_metadata?.avatar_url;
-  const fullName = user?.user_metadata?.fullName;
-  const userGoogleName = user?.user_metadata?.full_name;
 
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -123,17 +118,17 @@ const AppLayout: React.FC = () => {
                     className="w-16 h-16 border-2 border-purple-400 rounded-full lg:min-w-18 lg:max-h-36"
                   >
                     <img
-                      src={avatarUrl ? avatarUrl : userGoogleAvatar}
+                      src={companyInfo.logo ? companyInfo.logo : companyAvartar}
                       alt="profile image"
                       className="w-full h-full rounded-full cursor-pointer"
                     />
                   </div>
                   <div className="">
                     <p className="text-xl leading-tight text-gray-200">
-                      {user?.email}
+                      {companyInfo.companyEmail}
                     </p>
                     <p className="text-3xl font-semibold leading-tight text-white">
-                      {userGoogleName ? userGoogleName : fullName}
+                      {companyInfo?.companyName}
                     </p>
                   </div>
                 </div>

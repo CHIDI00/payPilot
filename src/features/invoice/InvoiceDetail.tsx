@@ -161,7 +161,7 @@ const InvoiceDetail: React.FC = () => {
         animate={{ opacity: 1, y: 10 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className="relative w-full py-3 md:py-20 lg:px-0"
+        className="relative w-full py-3 mx-auto lg:w-[75%] md:py-20 lg:px-0"
       >
         <div className="flex items-center justify-between w-full mb-10">
           <button
