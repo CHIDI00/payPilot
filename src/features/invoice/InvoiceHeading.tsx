@@ -28,7 +28,7 @@ const InvoiceHeading: React.FC<ModalProp> = ({
         <h2 className="md:text-[4rem] text-[2.3rem] font-bold leading-tight">
           Invoices
         </h2>
-        <p className="hidden md:flex text-[1.5rem] text-gray-400 leading-tight">
+        <p className="flex text-[1.5rem] text-gray-400 leading-tight">
           {invoice && invoice.length > 0
             ? `There ${invoice.length === 1 ? "is" : "are"} ${
                 invoice.length

@@ -2,12 +2,11 @@ import React from "react";
 
 import logo from "../assets/logo.png";
 import companyAvartar from "../assets/homedark.png";
-import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Settings, SquaresExclude, Users } from "lucide-react";
 import { useCompanyInfo } from "@/features/acount/useCompanyInfo";
 
 const SideBar: React.FC = () => {
-  const navigate = useNavigate();
   const { companyInfo } = useCompanyInfo();
 
   return (
@@ -67,11 +66,7 @@ const SideBar: React.FC = () => {
           to="/settings/company_profile"
           className="lg:w-full lg:h-auto z-[30] h-full flex justify-start items-center  gap-4 lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500"
         >
-          {/* <NavLink to="/settings/company_profile"> */}
-          <div
-            onClick={() => navigate("/settings")}
-            className="w-16 h-16 border-2 border-purple-400 rounded-full lg:min-w-18 lg:max-h-36"
-          >
+          <div className="w-16 h-16 border-2 border-purple-400 rounded-full lg:min-w-18 lg:max-h-36">
             <img
               src={companyInfo?.logo ? companyInfo?.logo : companyAvartar}
               alt="profile image"
@@ -88,7 +83,6 @@ const SideBar: React.FC = () => {
               {companyInfo?.companyName}
             </p>
           </div>
-          {/* </NavLink> */}
         </NavLink>
       </div>
     </div>
