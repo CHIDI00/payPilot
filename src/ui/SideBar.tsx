@@ -63,7 +63,11 @@ const SideBar: React.FC = () => {
       </div>
 
       <div className="flex items-center justify-end w-full h-full lg:flex-col lg:justify-end">
-        <div className="lg:w-full lg:h-auto z-[30] h-full flex justify-start items-center  gap-4 lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500">
+        <NavLink
+          to="/settings/company_profile"
+          className="lg:w-full lg:h-auto z-[30] h-full flex justify-start items-center  gap-4 lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500"
+        >
+          {/* <NavLink to="/settings/company_profile"> */}
           <div
             onClick={() => navigate("/settings")}
             className="w-16 h-16 border-2 border-purple-400 rounded-full lg:min-w-18 lg:max-h-36"
@@ -84,7 +88,8 @@ const SideBar: React.FC = () => {
               {companyInfo?.companyName}
             </p>
           </div>
-        </div>
+          {/* </NavLink> */}
+        </NavLink>
       </div>
     </div>
   );
