@@ -78,8 +78,6 @@ const SideBar: React.FC = () => {
               {companyInfo?.companyEmail}
             </p>
             <p className="text-3xl font-semibold leading-tight text-white">
-              {/* {userGoogleName ? userGoogleName : fullName}
-               */}
               {companyInfo?.companyName}
             </p>
           </div>
