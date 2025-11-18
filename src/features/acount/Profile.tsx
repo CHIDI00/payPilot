@@ -33,7 +33,7 @@ const Profile: React.FC<UserInfo> = ({
     <div className="w-full flex flex-col justify-start items-start bg-primary-gray dark:bg-[#1E2139] px-12 md:py-10 py-6 rounded-2xl gap-6">
       <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">Profile</h3>
 
-      <div className="flex gap-3 justify-start items-center">
+      <div className="flex items-center justify-start gap-3">
         <form onSubmit={handleSubmit} className="relative">
           <img
             src={avatarUrl ? avatarUrl : userGoogleAvatar}
@@ -68,14 +68,14 @@ const Profile: React.FC<UserInfo> = ({
         </form>
 
         {/* INFO SECTION */}
-        <div className="ml-6 flex flex-col ">
-          <span className="md:text-4xl text-2xl font-semibold text-black dark:text-white leading-tight">
+        <div className="flex flex-col ml-6 ">
+          <span className="text-2xl font-semibold leading-tight text-black md:text-4xl dark:text-white">
             {userName ? userName : userGoogleName}
           </span>
-          <span className="md:text-3xl text-xl text-gray-300 leading-tight">
+          <span className="text-xl leading-tight text-gray-300 md:text-3xl">
             <a href={`mailto:${email}`}>{email}</a>
           </span>
-          <span className="md:text-2xl text-lg text-gray-400 mt-1 leading-tight">
+          <span className="mt-1 text-lg leading-tight text-gray-400 md:text-2xl">
             Joined on {dateJoined}
           </span>
         </div>

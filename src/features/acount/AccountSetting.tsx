@@ -41,7 +41,7 @@ const AccountSetting: React.FC<userFormToUpdateProfile> = ({
         Profile setting
       </h3>
 
-      <div className="w-full flex flex-col gap-5">
+      <div className="flex flex-col w-full gap-5">
         <div className="flex flex-col">
           <p className="md:text-[1.6rem] text-2xl leading-tight">
             Change username
@@ -50,7 +50,7 @@ const AccountSetting: React.FC<userFormToUpdateProfile> = ({
 
         <form
           onSubmit={handleAvatarUpdate}
-          className="w-full grid md:grid-cols-3 grid-cols-1 justify-center items-center gap-x-5"
+          className="grid items-center justify-center w-full grid-cols-1 md:grid-cols-3 gap-x-5"
         >
           <FormColumn label="New userame">
             <input
@@ -76,7 +76,7 @@ const AccountSetting: React.FC<userFormToUpdateProfile> = ({
       </div>
       <form
         onSubmit={handleSubmit(handleUpdatePassword)}
-        className="w-full grid md:grid-cols-3 grid-cols-1 justify-center items-center gap-x-5"
+        className="grid items-center justify-center w-full grid-cols-1 md:grid-cols-3 gap-x-5"
       >
         <FormColumn label="New password">
           <input

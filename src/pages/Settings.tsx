@@ -13,6 +13,7 @@ type ToggleSwitchProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 };
+
 const Settings: React.FC<ToggleSwitchProps> = ({
   checked,
   onChange,
@@ -27,9 +28,9 @@ const Settings: React.FC<ToggleSwitchProps> = ({
       animate={{ opacity: 1, y: 10 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className="relative w-[75%] mx-auto md:py-20 py-3 lg:px-0 px-6"
+      className="relative lg:w-[75%] w-full mx-auto md:py-20 py-3 lg:px-0 md:px-6"
     >
-      <div className="w-full mb-10 flex justify-between items-center">
+      <div className="flex items-center justify-between w-full mb-10">
         <h2 className="text-[2.5rem] font-medium">Settings</h2>
         <button
           className="flex justify-between items-center md:gap-7 gap-2 md:text-[1.7rem] text-[1.5rem]"
@@ -176,7 +177,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
             </p>
           </div>
 
-          <div className="flex justify-end items-center ">
+          <div className="flex items-center justify-end ">
             <Logout />
           </div>
         </div>
@@ -197,7 +198,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
               title="Delete account"
               disabled={true}
               variant="danger"
-              className="bg-red-700 p-1"
+              className="p-1 bg-red-700"
             >
               Delete Account
             </Button>
