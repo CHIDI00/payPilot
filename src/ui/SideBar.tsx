@@ -69,14 +69,14 @@ const SideBar: React.FC = () => {
             className="w-16 h-16 border-2 border-purple-400 rounded-full lg:min-w-18 lg:max-h-36"
           >
             <img
-              src={companyInfo.logo ? companyInfo.logo : companyAvartar}
+              src={companyInfo?.logo ? companyInfo?.logo : companyAvartar}
               alt="profile image"
               className="w-full h-full rounded-full cursor-pointer"
             />
           </div>
           <div className="">
             <p className="text-xl leading-tight text-gray-200">
-              {companyInfo.companyEmail}
+              {companyInfo?.companyEmail}
             </p>
             <p className="text-3xl font-semibold leading-tight text-white">
               {/* {userGoogleName ? userGoogleName : fullName}

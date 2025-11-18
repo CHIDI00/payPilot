@@ -105,8 +105,8 @@ const InvoiceChart: React.FC = () => {
                 formatter={(value: number) => formatCurrency(Number(value))}
               />
               <Legend />
-              <Bar dataKey="Invoice" fill="#071B2F" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="Receipt" fill="#0C801B" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Invoice" fill="#9277ff" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Receipt" fill="#5b3cd5" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

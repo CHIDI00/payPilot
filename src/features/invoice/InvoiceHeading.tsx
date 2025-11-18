@@ -23,7 +23,7 @@ const InvoiceHeading: React.FC<ModalProp> = ({
   setFilter,
 }) => {
   return (
-    <div className="w-full md:h-[20rem] h-[10rem] py-[2rem] flex justify-between items-center">
+    <div className="w-full md:h-[14rem] h-[8rem] py-[1.3rem] flex justify-between items-center">
       <div className="w-1/2 text-primary-text dark:text-white">
         <h2 className="md:text-[4rem] text-[2.3rem] font-bold leading-tight">
           Invoices
@@ -37,8 +37,8 @@ const InvoiceHeading: React.FC<ModalProp> = ({
         </p>
       </div>
 
-      <div className="md:w-1/2 flex justify-end items-center md:gap-6 gap-2 text-primary-text">
-        <div className="relative lg:px-16 px-5 py-3">
+      <div className="flex items-center justify-end gap-2 md:w-1/2 md:gap-6 text-primary-text">
+        <div className="relative px-5 py-3 lg:px-16">
           <Select onValueChange={(value) => setFilter(value)}>
             {" "}
             {/* 👈 call setFilter */}
