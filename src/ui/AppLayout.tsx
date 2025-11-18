@@ -133,7 +133,7 @@ const AppLayout: React.FC = () => {
                       {user?.email}
                     </p>
                     <p className="text-3xl font-semibold leading-tight text-white">
-                      {fullName ? fullName : userGoogleName}
+                      {userGoogleName ? userGoogleName : fullName}
                     </p>
                   </div>
                 </div>

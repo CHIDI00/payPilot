@@ -66,6 +66,9 @@ const InvoiceChart: React.FC = () => {
   const pendingCount = (invoices || []).filter(
     (inv) => (inv.status || "").toString().toLowerCase() === "pending"
   ).length;
+  const draftCount = (invoices || []).filter(
+    (inv) => (inv.status || "").toString().toLowerCase() === "draft"
+  ).length;
 
   return (
     <div className="grid items-start justify-between grid-cols-1 lg:grid-cols-3 md:gap-x-5 gap-y-5">
@@ -129,6 +132,10 @@ const InvoiceChart: React.FC = () => {
               <div className="flex flex-col items-center justify-start gap-1">
                 <p className="text-xl font-medium text-black">Pending</p>
                 <p className="text-4xl font-bold text-black">{pendingCount}</p>
+              </div>
+              <div className="flex flex-col items-center justify-start gap-1">
+                <p className="text-xl font-medium text-black">Draft</p>
+                <p className="text-4xl font-bold text-black">{draftCount}</p>
               </div>
             </div>
           </div>

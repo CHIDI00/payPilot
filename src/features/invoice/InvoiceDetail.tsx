@@ -139,7 +139,7 @@ const InvoiceDetail: React.FC = () => {
           isStatus.toLowerCase() === "paid" ? "payment receipt" : "invoice"
         } from ${companyName}`,
         htmlContent,
-        replyTo: companyInfo?.companyEmail || "support@paypilot.com", // Ensure this is a valid email
+        replyTo: companyInfo?.companyEmail || "support@paypilot.com",
         attachment: {
           content: base64Pdf,
           name: `invoice-${invoice_id}.pdf`,
@@ -161,7 +161,7 @@ const InvoiceDetail: React.FC = () => {
         animate={{ opacity: 1, y: 10 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className="relative w-full px-6 py-3 md:py-20 lg:px-0"
+        className="relative w-full py-3 md:py-20 lg:px-0"
       >
         <div className="flex items-center justify-between w-full mb-10">
           <button

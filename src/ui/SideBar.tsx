@@ -22,7 +22,7 @@ const SideBar: React.FC = () => {
   const userGoogleName = user?.user_metadata?.full_name;
 
   return (
-    <div className="hidden lg:flex items-center justify-between w-full h-full lg:flex-col">
+    <div className="items-center justify-between hidden w-full h-full lg:flex lg:flex-col">
       <NavLink to="/invoices">
         <div className="flex gap-5 items-center lg:w-full w-[20%] h-full p-5">
           <img src={logo} alt="logo" className="h-full lg:w-[15%] lg:h-auto" />
@@ -88,7 +88,7 @@ const SideBar: React.FC = () => {
           <div className="">
             <p className="text-xl leading-tight text-gray-200">{user?.email}</p>
             <p className="text-3xl font-semibold leading-tight text-white">
-              {fullName ? fullName : userGoogleName}
+              {userGoogleName ? userGoogleName : fullName}
             </p>
           </div>
         </div>

@@ -17,10 +17,10 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-};
+// const itemVariants = {
+//   initial: { opacity: 0, y: 20 },
+//   animate: { opacity: 1, y: 0 },
+// };
 
 const InvoiceContainer: React.FC<InvoiceContainerProps> = ({ invoice }) => {
   if (!invoice || invoice.length === 0) {
@@ -32,12 +32,16 @@ const InvoiceContainer: React.FC<InvoiceContainerProps> = ({ invoice }) => {
       variants={containerVariants}
       initial="initial"
       animate="animate"
-      className="w-full flex flex-col justify-start items-start gap-6"
+      className="flex flex-col items-start justify-start w-full gap-6"
     >
       {invoice?.map((invoice) => (
-        <motion.div key={invoice.id} variants={itemVariants} className="w-full">
+        // <motion.div key={invoice.id} variants={itemVariants} className="w-full">
+        //   <InvoiceRow invoice={invoice} />{" "}
+        // </motion.div>
+
+        <div key={invoice.id} className="w-full">
           <InvoiceRow invoice={invoice} />{" "}
-        </motion.div>
+        </div>
       ))}
     </motion.div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InvoiceHeading from "../features/invoice/InvoiceHeading";
 import InvoiceContainer from "../features/invoice/InvoiceContainer";
 import Modal from "../ui/Modal";
@@ -11,6 +11,7 @@ import { AnimatePresence } from "framer-motion";
 const Invoices: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filter, setFilter] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const onClose = () => setIsModalOpen(false);
   // const onCloseEdit = () => setIsModalOpen(false);
@@ -20,10 +21,28 @@ const Invoices: React.FC = () => {
     queryFn: () => getInvoice(),
   });
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent)?.detail;
+      setSearchQuery((detail && detail.query) || "");
+    };
+
+    window.addEventListener("invoiceSearch", handler as EventListener);
+    return () =>
+      window.removeEventListener("invoiceSearch", handler as EventListener);
+  }, []);
+
   // FILTER INVOICE
-  const filteredInvoices = invoices?.filter((inv) =>
-    filter === "all" ? true : inv.status.toLowerCase() === filter
-  );
+  const filteredInvoices = invoices?.filter((inv) => {
+    const statusMatch =
+      filter === "all" ? true : inv.status.toLowerCase() === filter;
+    if (!statusMatch) return false;
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    const idMatch = inv.invoice_id?.toLowerCase().includes(q);
+    const clientMatch = inv.client_name?.toLowerCase().includes(q);
+    return Boolean(idMatch || clientMatch);
+  });
 
   return (
     <>
