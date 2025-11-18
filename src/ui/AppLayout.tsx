@@ -76,7 +76,7 @@ const AppLayout: React.FC = () => {
                   <NavLink
                     to="/dashboard"
                     className={({ isActive }) =>
-                      `flex items-center gap-5 px-4 py-3 text-3xl text-white ${
+                      `flex items-center gap-5 px-4 py-3 text-2xl text-white ${
                         isActive ? "bg-white/10 rounded-md" : ""
                       }`
                     }
@@ -86,7 +86,7 @@ const AppLayout: React.FC = () => {
                   <NavLink
                     to="/invoices"
                     className={({ isActive }) =>
-                      `flex items-center gap-5 px-4 py-3 text-3xl text-white ${
+                      `flex items-center gap-5 px-4 py-3 text-2xl text-white ${
                         isActive ? "bg-white/10 rounded-md" : ""
                       }`
                     }
@@ -96,7 +96,7 @@ const AppLayout: React.FC = () => {
                   <NavLink
                     to="/settings"
                     className={({ isActive }) =>
-                      `flex items-center gap-5 px-4 py-3 text-3xl text-white ${
+                      `flex items-center gap-5 px-4 py-3 text-2xl text-white ${
                         isActive ? "bg-white/10 rounded-md" : ""
                       }`
                     }
@@ -106,7 +106,7 @@ const AppLayout: React.FC = () => {
                   <NavLink
                     to="/settings"
                     className={({ isActive }) =>
-                      `flex items-center gap-5 px-4 py-3 text-3xl text-white ${
+                      `flex items-center gap-5 px-4 py-3 text-2xl text-white ${
                         isActive ? "bg-white/10 rounded-md" : ""
                       }`
                     }
