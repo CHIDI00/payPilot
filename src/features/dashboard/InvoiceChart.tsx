@@ -1,7 +1,7 @@
 import React from "react";
 import invoiceIcon from "../../assets/invoiceIcon.png";
 import clients from "../../assets/clients.png";
-import { SquaresExclude } from "lucide-react";
+import { SquaresExclude, Users } from "lucide-react";
 import type { Invoice } from "../../utils/types";
 import {
   BarChart,
@@ -145,8 +145,8 @@ const InvoiceChart: React.FC = () => {
         </div>
         <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
           <div className="flex flex-col items-start justify-center gap-32">
-            <span className="flex items-center justify-center w-12 h-12 p-2 text-white bg-purple-600 rounded-full">
-              <SquaresExclude size={15} />
+            <span className="flex items-center justify-center w-12 h-12 p-2 text-white rounded-full bg-slate-600">
+              <Users size={15} />
             </span>
 
             <div className="flex flex-col items-start justify-start gap-2 ">
