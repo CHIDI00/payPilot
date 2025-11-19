@@ -37,8 +37,6 @@ const InvoiceDetail: React.FC = () => {
 
   const { invoice, isLoading } = useInvoice();
   const { deleteInvoice, isDeleting } = useDeleteInvoice();
-  // const location = useLocation();
-  // const wasDeleted = location.state?.wasDeleted;
   const { companyInfo } = useCompanyInfo();
 
   const onClose = () => setIsDeleteModalOpen(false);
@@ -186,7 +184,7 @@ const InvoiceDetail: React.FC = () => {
             variant="secondary"
             className="text-[1.1rem]"
           >
-            Preview invoice (.pdf)
+            Download invoice (.pdf)
           </Button>
         </div>
 

@@ -4,7 +4,7 @@ import { useMoveBack } from "@/hooks/useMoveBack";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import ThemeToggle from "@/ui/ThemeToggle";
+// import ThemeToggle from "@/ui/ThemeToggle";
 import Button from "@/ui/Button";
 import Logout from "../features/authentication/Logout";
 
@@ -155,7 +155,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
         </div>
 
         {/* THEME */}
-        <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
+        {/* <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
           <div className="flex flex-col">
             <p className="md:text-[2rem] text-2xl leading-tight">Theme mode</p>
             <p className="md:text-[1.6rem] text-xl leading-tight text-gray-400">
@@ -166,7 +166,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
           <div className="flex justify-end items-center text-[#7E88C3]">
             <ThemeToggle />
           </div>
-        </div>
+        </div> */}
 
         {/* LOGOUT */}
         <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
