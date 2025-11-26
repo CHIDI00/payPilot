@@ -19,6 +19,7 @@ const CompanyInfo = lazy(() => import("../pages/CompanyInfo"));
 const PageNotFound = lazy(() => import("../pages/PageNotFound"));
 const LandingPage = lazy(() => import("../pages/LandingPage"));
 const Dashboard = lazy(() => import("../pages/Dashboard"));
+const Clients = lazy(() => import("../pages/Clients"));
 
 function AppRoutes() {
   const location = useLocation();
@@ -57,6 +58,7 @@ function AppRoutes() {
               path="invoice/view_invoice/:invoiceId"
               element={<InvoiceDetail />}
             />
+            <Route path="clients" element={<Clients />} />
             <Route
               path="settings"
               element={

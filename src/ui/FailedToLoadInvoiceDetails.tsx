@@ -24,7 +24,7 @@ const FailedToLoadInvoiceDetails = () => {
           Go back
         </button>
       </div>
-      <div className="md:w-[40%] w-full aspect-square">
+      <div className="md:w-[20%] w-full aspect-square">
         <img src={failedIcon} alt="" className="w-full" />
       </div>
 

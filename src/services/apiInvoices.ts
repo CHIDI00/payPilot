@@ -7,8 +7,8 @@ export async function getInvoice() {
   console.log(data);
 
   if (error) {
-    toast.error("Invoice could not be loaded.\n Check connection!");
-    throw new Error("Invoice could not be loaded");
+    toast.error("Invoice could not be loaded. Check connection!");
+    throw new Error("");
   }
 
   return data;
@@ -66,7 +66,6 @@ export async function getInvoiceById(id: string) {
     .single();
 
   if (error) {
-    // toast.error("Invoice detail could not be loaded");
     throw new Error("Invoice detail could not be loaded");
   }
 
