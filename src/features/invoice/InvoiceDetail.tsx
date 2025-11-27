@@ -21,14 +21,13 @@ import {
 import { blobToBase64 } from "@/utils/blobToBase64";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
-import { previewInvoiceAsPDF } from "@/utils/downloadInvoice";
+// import { previewInvoiceAsPDF } from "@/utils/downloadInvoice";
 import { useCompanyInfo } from "../acount/useCompanyInfo";
 import { sendInvoiceEmail } from "@/services/sendInvoiceEmail";
 
-import { generateInvoicePdfBlob } from "@/utils/generateInvoicePdfBlob";
 import { invoiceEmailHtml } from "@/utils/invoiceEmailFormat";
-// import { PDFDownloadLink } from "@react-pdf/renderer";
-// import { InvoicePDF } from "@/utils/invoicedownload";
+import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
+import { InvoicePDF } from "@/utils/invoicedownload";
 
 const InvoiceDetail: React.FC = () => {
   const moveBack = useMoveBack();
@@ -79,6 +78,7 @@ const InvoiceDetail: React.FC = () => {
   } = invoice;
 
   const {
+    created_at,
     companyName,
     companyLine,
     companyWebsite,
@@ -92,48 +92,50 @@ const InvoiceDetail: React.FC = () => {
   );
 
   // PDF DATA FOR DOWNLOAD
-  // const invoiceData = {
-  //   // Company Details
-  //   companyName: companyName || "PayPilot",
-  //   phone: companyLine || "",
-  //   website: companyWebsite || "",
-  //   logoUrl: logo || companyLogo, // Uses user logo or default
-  //   addressLine1: companyAddress || "",
-  //   addressLine2: `${city || ""} ${post_code || ""}`,
-  //   addressLine3: country || "",
-  //   country: country || "",
+  const invoiceData = {
+    // Company Details
+    companyName: companyName || "PayPilot",
+    phone: companyLine || "",
+    website: companyWebsite || "",
+    logoUrl: logo || companyLogo, // Uses user logo or default
+    addressLine1: street_address || "",
+    addressLine2: `${city || ""}`,
+    postCode: post_code || "",
+    country: country || "",
 
-  //   // Invoice Details
-  //   invoiceId: invoice_id,
-  //   description: description || "Invoice",
-  //   date: created_at ? new Date(created_at).toLocaleDateString() : "",
-  //   dueDate: invoice_date ? new Date(invoice_date).toLocaleDateString() : "",
+    // Invoice Details
+    invoiceId: invoice_id,
+    description: description || "Invoice",
+    date: created_at ? new Date(created_at).toLocaleDateString() : "",
+    dueDate: invoice_date ? new Date(invoice_date).toLocaleDateString() : "",
 
-  //   // Client Details
-  //   clientName: client_name,
-  //   clientAddress1: client_street_address || "",
-  //   clientAddress2: client_city || "",
-  //   clientAddress3: client_country || "",
-  //   clientCountry: client_country || "",
-  //   clientEmail: client_email || "",
+    // Client Details
+    clientName: client_name,
+    clientAddress1: client_street_address || "",
+    clientAddress2: client_city || "",
+    clientAddress3: client_post_code || "",
+    clientCountry: client_country || "",
+    clientEmail: client_email || "",
 
-  //   // Items (Map over the REAL items)
-  //   items:
-  //     invoice.items?.map((item) => ({
-  //       name: item.name,
-  //       qty: item.quantity,
-  //       // Format currency numbers to strings for the PDF
-  //       price: formatCurrency(item.price).replace("NGN", "").trim(),
-  //       total: formatCurrency(item.price * item.quantity)
-  //         .replace("NGN", "")
-  //         .trim(),
-  //     })) || [],
+    // Items (Map over the REAL items)
+    items:
+      invoice.items?.map((item) => ({
+        name: item.name,
+        qty: item.quantity,
+        // Format currency numbers to strings for the PDF
+        price: formatCurrencyWithoutFormating(item.price)
+          .replace("NGN", "")
+          .trim(),
+        total: formatCurrencyWithoutFormating(item.price * item.quantity)
+          .replace("NGN", "")
+          .trim(),
+      })) || [],
 
-  //   grandTotal: formatCurrency(total).replace("NGN", "").trim(),
-  // };
+    grandTotal: formatCurrency(total).replace("NGN", "").trim(),
+  };
 
   // MARK INVOICE AS PAID
-  const handleMarkPaid = async () => {
+  const handleMarkInvoiceAsPaid = async () => {
     setLoading(true);
     try {
       const updated = await markInvoiceAsPaid(invoice.id);
@@ -155,15 +157,9 @@ const InvoiceDetail: React.FC = () => {
         return;
       }
 
-      // GENERATE PDF BLOB BEFORE SENDING
-      const pdfBlob = await generateInvoicePdfBlob("invoice-content", {
-        logoBase64: logo ?? companyLogo,
-        companyName,
-        companyPhone: companyLine,
-        companyWebsite,
-      });
+      const blob = await pdf(<InvoicePDF data={invoiceData} />).toBlob();
 
-      const base64Pdf = await blobToBase64(pdfBlob);
+      const base64Pdf = await blobToBase64(blob);
 
       const htmlContent = invoiceEmailHtml({
         logo,
@@ -187,10 +183,13 @@ const InvoiceDetail: React.FC = () => {
         } from ${companyName}`,
         htmlContent,
         replyTo: companyInfo?.companyEmail || "support@paypilot.com",
-        attachment: {
-          content: base64Pdf,
-          name: `invoice-${invoice_id}.pdf`,
-        },
+        attachment:
+          isStatus.toLowerCase() !== "paid"
+            ? {
+                content: base64Pdf,
+                name: `invoice-${invoice_id}.pdf`,
+              }
+            : undefined,
       });
       toast.success("Receipt sent successfully!");
     } catch (err: unknown) {
@@ -221,7 +220,7 @@ const InvoiceDetail: React.FC = () => {
             Go back
           </button>
 
-          <Button
+          {/* <Button
             onClick={() =>
               previewInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
                 logoBase64: `${logo ? logo : companyLogo}`,
@@ -234,10 +233,9 @@ const InvoiceDetail: React.FC = () => {
             className="text-[1.1rem]"
           >
             Download invoice (.pdf)
-          </Button>
+          </Button> */}
 
-          {/* 👇 REPLACE YOUR OLD BUTTON WITH THIS 👇 */}
-          {/* <PDFDownloadLink
+          <PDFDownloadLink
             document={<InvoicePDF data={invoiceData} />}
             fileName={`invoice-${invoice_id}.pdf`}
             style={{ textDecoration: "none" }}
@@ -251,8 +249,7 @@ const InvoiceDetail: React.FC = () => {
                 {loading ? "Generating..." : "Download invoice (.pdf)"}
               </Button>
             )}
-          </PDFDownloadLink> */}
-          {/* 👆 END REPLACEMENT 👆 */}
+          </PDFDownloadLink>
         </div>
 
         {/* INVOICE STATUS */}
@@ -292,7 +289,7 @@ const InvoiceDetail: React.FC = () => {
               Delete
             </Button>
             {isStatus !== "Paid" && (
-              <Button onClick={handleMarkPaid}>
+              <Button onClick={handleMarkInvoiceAsPaid}>
                 {loading ? "Marking..." : "Mark as Paid"}
               </Button>
             )}
@@ -494,7 +491,7 @@ const InvoiceDetail: React.FC = () => {
         </Button>
         {isStatus !== "Paid" && (
           <Button
-            onClick={handleMarkPaid}
+            onClick={handleMarkInvoiceAsPaid}
             className="w-full py-6 text-[1.2rem] px-[10px]"
           >
             {loading ? "Marking..." : "Mark as Paid"}

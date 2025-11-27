@@ -6,20 +6,29 @@ import {
   Document,
   StyleSheet,
   Image,
+  Font,
 } from "@react-pdf/renderer";
+import LeagueSpantanFont from "../assets/LeagueSpartan-Regular.ttf";
+import LeagueSpantanFontBold from "../assets/LeagueSpartan-Bold.ttf";
 
 // Register a font (Optional, using standard Helvetica for now)
-// Font.register({ family: 'Inter', src: '...' });
+Font.register({
+  family: "League Spartan",
+  fonts: [
+    { src: LeagueSpantanFont },
+    { src: LeagueSpantanFontBold, fontWeight: "bold" },
+  ],
+});
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: "Helvetica",
+    fontFamily: "League Spartan",
     fontSize: 10,
     paddingTop: 40,
     paddingLeft: 40,
     paddingRight: 40,
     paddingBottom: 40,
-    color: "#333", // Dark Grey Text
+    color: "#333",
   },
   // 1. Header Section (Company Left, Image Right)
   headerContainer: {
@@ -28,7 +37,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   companyName: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
   },
@@ -38,10 +47,9 @@ const styles = StyleSheet.create({
     color: "#555",
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 4, // Note: support for borderRadius in PDF is limited, simpler to use square
-    objectFit: "cover",
+    width: 65,
+    height: 65,
+    borderRadius: 4,
   },
 
   // 2. Sub-Header (Invoice Details Left, Address Right)
@@ -58,13 +66,19 @@ const styles = StyleSheet.create({
   invoiceValue: {
     fontSize: 12,
     fontWeight: "bold",
-    marginBottom: 15, // Space between ID and Date
+    marginBottom: 15,
+  },
+  addressContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
   addressBlock: {
     textAlign: "right",
     fontSize: 9,
     lineHeight: 1.4,
-    color: "#666", // Light blue-ish grey in your design
+    color: "#7E88C3",
   },
 
   // 3. The "Grid" (Payment Date, Bill To, Send To)
@@ -73,11 +87,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   gridColumn: {
-    width: "33%", // 3 Columns
+    width: "33%",
   },
   columnLabel: {
     fontSize: 9,
-    color: "#888", // Light label
+    color: "#7E88C3",
     marginBottom: 4,
   },
   columnValue: {
@@ -86,38 +100,35 @@ const styles = StyleSheet.create({
   },
   columnSubValue: {
     fontSize: 9,
-    color: "#666",
+    color: "#7E88C3",
     marginTop: 2,
   },
 
   // 4. The Table Container (Grey Background wrapper)
   tableWrapper: {
-    backgroundColor: "#f3f4f6", // Very light grey background for the whole list
-    borderRadius: 8,
-    overflow: "hidden", // Keeps the footer corners inside
+    backgroundColor: "#f3f4f6",
+    borderRadius: 4,
+    overflow: "hidden",
   },
   tableHeader: {
     flexDirection: "row",
     padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb",
   },
   tableRow: {
     flexDirection: "row",
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e5e7eb", // Subtle divider
+    padding: 10,
   },
+
   // Columns alignment
   colItem: { width: "40%", textAlign: "left" },
-  colQty: { width: "15%", textAlign: "center", color: "#6366f1" }, // Indigo color for numbers
+  colQty: { width: "15%", textAlign: "center", color: "#6366f1" },
   colPrice: { width: "20%", textAlign: "right", color: "#6366f1" },
   colTotal: { width: "25%", textAlign: "right", fontWeight: "bold" },
 
   headerText: {
     fontSize: 9,
     color: "#9ca3af", // Light grey text for headers
-    fontWeight: "bold",
+    fontWeight: "normal",
   },
   rowText: {
     fontSize: 10,
@@ -127,7 +138,7 @@ const styles = StyleSheet.create({
 
   // 5. The Dark Footer Bar
   footerBar: {
-    backgroundColor: "#1e1e2e", // The Dark Navy Blue from your screenshot
+    backgroundColor: "#252945", // The Dark Navy Blue from your screenshot
     padding: 20,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -160,7 +171,7 @@ interface InvoiceData {
   description?: string;
   addressLine1?: string;
   addressLine2?: string;
-  addressLine3?: string;
+  postCode?: string;
   country?: string;
   date?: string;
   dueDate?: string;
@@ -194,15 +205,17 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({ data }) => (
       {/* 2. Sub-Header (Invoice # & Address) */}
       <View style={styles.subHeaderContainer}>
         <View>
-          <Text style={[styles.invoiceValue, { color: "#6366f1" }]}>
+          <Text style={[styles.invoiceValue, { color: "#7E88C3" }]}>
             #{data.invoiceId}
           </Text>
-          <Text style={{ fontSize: 9, color: "#888" }}>{data.description}</Text>
+          <Text style={{ fontSize: 9, color: "#7E88C3" }}>
+            {data.description}
+          </Text>
         </View>
-        <View>
+        <View style={styles.addressContainer}>
           <Text style={styles.addressBlock}>{data.addressLine1}</Text>
           <Text style={styles.addressBlock}>{data.addressLine2}</Text>
-          <Text style={styles.addressBlock}>{data.addressLine3}</Text>
+          <Text style={styles.addressBlock}>{data.postCode}</Text>
           <Text style={styles.addressBlock}>{data.country}</Text>
         </View>
       </View>
@@ -253,16 +266,12 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({ data }) => (
           <View key={index} style={styles.tableRow}>
             <Text style={[styles.rowText, styles.colItem]}>{item.name}</Text>
             <Text
-              style={[styles.rowText, styles.colQty, { fontWeight: "normal" }]}
+              style={[styles.rowText, styles.colQty, { fontWeight: "bold" }]}
             >
               {item.qty}
             </Text>
             <Text
-              style={[
-                styles.rowText,
-                styles.colPrice,
-                { fontWeight: "normal" },
-              ]}
+              style={[styles.rowText, styles.colPrice, { fontWeight: "bold" }]}
             >
               NGN {item.price}
             </Text>

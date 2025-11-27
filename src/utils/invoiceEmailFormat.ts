@@ -47,10 +47,14 @@ export function invoiceEmailHtml({
           logo || companyLogo
         }" alt="Company Logo" style="height:50px;margin:0 auto 8px auto;">
       </div>
-      <h2 style="font-size:1.3rem;margin-bottom:5px;">Hello ${
+      <h2 style="font-size:1.1rem;margin-bottom:1px;">Hello ${
         client_name || "Customer"
       },</h2>
-      <p style="font-size:1rem;">Please find your invoice below.</p>
+      <p style="font-size:0.9rem;"> ${
+        status.toLowerCase() === "paid"
+          ? "Your receipt"
+          : "Please find your invoice below"
+      } .</p>
       <table style="width:100%;margin:1.5rem 0;border-collapse:collapse;">
         <tr>
           <td style="padding:8px 0;font-weight:bold;">Invoice ID:</td>
