@@ -384,11 +384,11 @@ const InvoiceDetail: React.FC = () => {
               </div>
             </div>
 
-            <div className="">
+            <div className="col-span-2 md:col-span-1">
               <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
                 Send to
               </p>
-              <p className="font-bold text-[1.6rem]">{client_email}</p>
+              <p className="font-bold text-[1.6rem] truncate">{client_email}</p>
             </div>
           </div>
 
