@@ -10,7 +10,7 @@ import {
   LayoutDashboard,
   Settings,
   SquaresExclude,
-  Users,
+  // Users,
   X,
 } from "lucide-react";
 import Button from "./Button";
@@ -88,7 +88,7 @@ const AppLayout: React.FC = () => {
                   >
                     <SquaresExclude size={25} /> Invoices
                   </NavLink>
-                  <NavLink
+                  {/* <NavLink
                     to="/settings"
                     className={({ isActive }) =>
                       `flex items-center gap-5 px-4 py-3 text-2xl text-white ${
@@ -97,7 +97,7 @@ const AppLayout: React.FC = () => {
                     }
                   >
                     <Users size={25} /> Clients
-                  </NavLink>
+                  </NavLink> */}
                   <NavLink
                     to="/settings"
                     className={({ isActive }) =>

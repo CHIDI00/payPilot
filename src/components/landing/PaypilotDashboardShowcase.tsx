@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import bigscreen from "../../assets/Screenshot (218).png";
-import mobileView from "../../assets/paypilot_mobile_withframe.png";
+import bigscreen from "../../assets/paypilot_dashboard.png";
+import mobileView from "../../assets/paypilot_mobile_invoice2.png";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const PaypilotDashboardShowcase = () => {
@@ -24,7 +24,7 @@ const PaypilotDashboardShowcase = () => {
   // const x = useTransform(scrollYProgress, [0, 1], [0, 30]);
 
   return (
-    <section className="w-full lg:px-20 px-10 py-14 ">
+    <section className="w-full px-10 lg:px-20 py-14 ">
       <div className="relative w-full max-w-[160rem] mx-auto">
         <div className="w-full lg:px-20 aspect-video rounded-xl">
           <motion.img
