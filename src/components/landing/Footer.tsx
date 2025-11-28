@@ -1,6 +1,7 @@
 import Button from "@/ui/Button";
 import { Coffee } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
@@ -25,13 +26,21 @@ const Footer = () => {
               to="/auth/signup"
               className="flex items-center justify-center w-full"
             >
-              <Button
-                variant="primary"
-                size="md"
-                className="md:w-[20rem] w-full flex justify-center items-center gap-10 text-[1.6rem] transition-all duration-300 hover:scale-105 my-10"
+              <motion.div
+                whileHover={{
+                  scale: 1.05,
+                }}
+                whileTap={{ scale: 0.95, rotate: -1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
-                Try PayPilot Now
-              </Button>
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="md:w-[20rem] w-full flex justify-center items-center gap-10 text-[1.6rem] transition-all duration-300 hover:scale-105 my-10"
+                >
+                  Try PayPilot Now
+                </Button>
+              </motion.div>
             </Link>
           </div>
         </div>

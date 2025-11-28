@@ -25,7 +25,7 @@ const features = [
 
 const Cards = () => {
   return (
-    <section className="w-full lg:px-20 px-10 py-14">
+    <section className="w-full lg:px-40 px-10 py-14">
       <div className="w-full max-w-[160rem] mx-auto">
         <div className="w-full flex justify-center items-center mb-6">
           <h2 className="lg:text-[4.5rem] text-[3rem] leading-tight md:text-center text-left  font-semibold">

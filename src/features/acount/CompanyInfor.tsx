@@ -100,13 +100,13 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
     return (
       <>
         <div className="w-full flex flex-col justify-start items-start bg-primary-gray dark:bg-[#1E2139] px-12 md:py-10 py-6 rounded-2xl gap-10">
-          <div className="w-full flex justify-between items-center">
+          <div className="flex items-center justify-between w-full">
             <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
               Company Info
             </h3>
             <Button onClick={() => setShowForm(true)}>Add details</Button>{" "}
           </div>
-          <div className="flex gap-3 justify-start items-center">
+          <div className="flex items-center justify-start gap-3">
             <form className="relative">
               <img
                 src={companyInfo?.logo || avartar}
@@ -137,20 +137,20 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
             </form>
 
             {/* INFO SECTION */}
-            <div className="ml-6 flex flex-col ">
-              <span className="md:text-4xl text-2xl font-semibold text-black dark:text-white leading-tight">
+            <div className="flex flex-col ml-6 ">
+              <span className="text-2xl font-semibold leading-tight text-black md:text-4xl dark:text-white">
                 -- --
               </span>
-              <span className="md:text-3xl text-xl text-gray-300 leading-tight">
+              <span className="text-xl leading-tight text-gray-300 md:text-3xl">
                 -- --
               </span>
-              <span className="md:text-2xl text-lg text-gray-400 mt-1 leading-tight">
+              <span className="mt-1 text-lg leading-tight text-gray-400 md:text-2xl">
                 Joined on -- --
               </span>
             </div>
           </div>
 
-          <div className="w-full grid md:grid-cols-2 gap-10">
+          <div className="grid w-full gap-10 md:grid-cols-2">
             <div className="flex flex-col">
               <p className="md:text-[1.7rem] text-2xl leading-tight">
                 Company's name
@@ -342,12 +342,12 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
   return (
     <>
       <div className="w-full flex flex-col justify-start items-start bg-primary-gray dark:bg-[#1E2139] px-12 md:py-10 py-6 rounded-2xl gap-10">
-        <div className="w-full flex justify-between items-center">
+        <div className="flex items-center justify-between w-full">
           <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
             Company Info
           </h3>
         </div>
-        <div className="flex gap-3 justify-start items-center">
+        <div className="flex items-center justify-start gap-3">
           <div className="relative">
             <img
               src={companyInfo?.logo || avartar}
@@ -382,20 +382,20 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
           </div>
 
           {/* INFO SECTION */}
-          <div className="ml-6 flex flex-col ">
-            <span className="md:text-4xl text-2xl font-semibold text-black dark:text-white leading-tight">
+          <div className="flex flex-col ml-6 ">
+            <span className="text-2xl font-semibold leading-tight text-black md:text-4xl dark:text-white">
               {companyName ? companyName : "-- --"}
             </span>
-            <span className="md:text-3xl text-xl text-gray-300 leading-tight">
+            <span className="text-xl leading-tight text-gray-300 md:text-3xl">
               {companyEmail ? companyEmail : "-- --"}
             </span>
-            <span className="md:text-2xl text-lg text-gray-400 mt-1 leading-tight">
+            <span className="mt-1 text-lg leading-tight text-gray-400 md:text-2xl">
               Joined on
             </span>
           </div>
         </div>
 
-        <div className="w-full grid md:grid-cols-2 gap-10">
+        <div className="grid w-full gap-10 md:grid-cols-2">
           <div className="flex flex-col">
             <p className="md:text-[1.7rem] text-2xl leading-tight">
               Company's name
@@ -458,7 +458,7 @@ const CompanyInfor: React.FC<CompanyInfoProp> = () => {
         >
           <div className="">
             <h3 className="md:text-[2rem] text-[1.8rem] font-semibold">
-              Edit your company's detail
+              Edit your company detail
             </h3>
           </div>
           <form

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Button from "../../ui/Button";
+import { motion } from "framer-motion";
 
 export default function HeroSection() {
   return (
@@ -26,19 +27,27 @@ export default function HeroSection() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col items-center w-full gap-4 mb-16 sm:flex-row">
+        <div className="flex flex-col items-center justify-center w-full gap-4 mb-16 sm:flex-row">
           <Link
             to="/auth/signup"
             className="flex items-center justify-center w-full"
           >
-            <Button
-              variant="primary"
-              size="md"
-              className="md:w-[20rem] w-full flex justify-center items-center gap-10 text-[1.6rem] transition-all duration-300 hover:scale-105"
+            <motion.div
+              whileHover={{
+                scale: 1.05,
+              }}
+              whileTap={{ scale: 0.95, rotate: -1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              Try PayPilot
-              {/* <ArrowRight size={20} className="" /> */}
-            </Button>
+              <Button
+                variant="primary"
+                size="md"
+                className="md:w-[20rem] w-full flex justify-center items-center gap-10 text-[1.6rem] transition-all duration-300 hover:scale-105"
+              >
+                Try PayPilot
+                {/* <ArrowRight size={20} className="" /> */}
+              </Button>
+            </motion.div>
           </Link>
         </div>
       </div>

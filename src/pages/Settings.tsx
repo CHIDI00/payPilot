@@ -76,7 +76,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
         >
           <div className="flex flex-col">
             <p className="md:text-[2rem] text-2xl leading-tight">
-              Company's profile
+              Company profile
             </p>
             <p className="md:text-[1.6rem] text-xl leading-tight text-gray-400">
               View and update company's details

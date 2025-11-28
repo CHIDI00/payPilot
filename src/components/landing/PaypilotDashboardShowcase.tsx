@@ -8,7 +8,7 @@ const PaypilotDashboardShowcase = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768); // Adjust for your breakpoint
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
@@ -35,14 +35,7 @@ const PaypilotDashboardShowcase = () => {
           />
         </div>
         <div
-          className="
-    absolute 
-    lg:-right-14 right-5 lg:top-10 top-[50%] 
-    lg:w-[40rem] md:w-[20rem] w-[10rem]
-    lg:translate-y-0 translate-y-[-50%]
-    lg:px-16 lg:py-40
-    px-4 py-8
-    rounded-xl
+          className="absolute lg:-right-14 right-5 lg:top-10 top-[50%] lg:w-[40rem] md:w-[20rem] w-[10rem] lg:translate-y-0 translate-y-[-50%] lg:px-16 lg:py-40 px-4 py-8 rounded-xl
   "
         >
           <motion.img
