@@ -3,16 +3,20 @@ import HeroSection from "../components/landing/HeroSection";
 import LandingHeader from "../components/landing/LandingHeader";
 import Cards from "@/components/landing/Cards";
 import Footer from "@/components/landing/Footer";
-import {} from "lenis";
+import ReactLenis from "lenis/react";
 
 export default function LandingPage() {
   return (
-    <div className="relative w-screen min-h-screen bg-gradient-to-b from-[#f5f3ff] via-[#ede9fe] to-[#e9d5ff] overflow-x-hidden">
-      <LandingHeader />
-      <HeroSection />
-      <PaypilotDashboardShowcase />
-      <Cards />
-      <Footer />
-    </div>
+    <>
+      <ReactLenis root />
+
+      <div className="relative w-screen min-h-screen bg-gradient-to-b from-[#f5f3ff] via-[#ede9fe] to-[#e9d5ff] overflow-x-hidden">
+        <LandingHeader />
+        <HeroSection />
+        <PaypilotDashboardShowcase />
+        <Cards />
+        <Footer />
+      </div>
+    </>
   );
 }
