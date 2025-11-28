@@ -3,6 +3,7 @@ import HeroSection from "../components/landing/HeroSection";
 import LandingHeader from "../components/landing/LandingHeader";
 import Cards from "@/components/landing/Cards";
 import Footer from "@/components/landing/Footer";
+import {} from "lenis";
 
 export default function LandingPage() {
   return (

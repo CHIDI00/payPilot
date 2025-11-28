@@ -13,9 +13,9 @@ const CompanyInfo: React.FC = () => {
       animate={{ opacity: 1, y: 10 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className="relative w-full md:py-20 py-3 lg:px-0 px-6"
+      className="relative w-full px-6 py-3 md:py-20 lg:px-0"
     >
-      <div className="w-full mb-10 flex justify-between items-center">
+      <div className="flex items-center justify-between w-full mb-10">
         <h2 className="text-[2.5rem] font-medium">Company's profile</h2>
         <button
           className="flex justify-between items-center md:gap-7 gap-2 md:text-[1.7rem] text-[1.5rem]"
@@ -28,7 +28,7 @@ const CompanyInfo: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex w-full flex-col md:gap-10 gap-6">
+      <div className="flex flex-col w-full gap-6 md:gap-10">
         <CompanyInfor />
       </div>
     </motion.div>
