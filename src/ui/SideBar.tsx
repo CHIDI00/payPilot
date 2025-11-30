@@ -61,7 +61,7 @@ const SideBar: React.FC = () => {
         </NavLink>
       </div>
 
-      <div className="flex items-center justify-end w-full h-full lg:flex-col lg:justify-end">
+      <div className="flex items-center justify-center w-full h-full lg:flex-col lg:justify-end">
         <NavLink
           to="/settings/company_profile"
           className="lg:w-full lg:h-auto z-[30] h-full flex justify-start items-center  gap-4 lg:p-10 p-10 lg:border-t-2 lg:border-l-0 border-l-2 border-gray-500"
@@ -77,7 +77,7 @@ const SideBar: React.FC = () => {
             <p className="text-xl leading-tight text-gray-200">
               {companyInfo?.companyEmail}
             </p>
-            <p className="text-3xl font-semibold leading-tight text-white">
+            <p className="text-3xl font-semibold leading-tight text-white truncate">
               {companyInfo?.companyName}
             </p>
           </div>

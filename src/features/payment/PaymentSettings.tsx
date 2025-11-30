@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProFeature from "../../components/ProFeature";
 import Button from "@/ui/Button";
 import Loader from "@/ui/Loader";
 import { useCompanyInfo } from "../acount/useCompanyInfo";
+import { useUpdatePaystackKeys } from "./useUpdatePaystackKeys";
 
 const PaymentSettings: React.FC = () => {
   const [pk, setPk] = useState("");
@@ -10,16 +11,24 @@ const PaymentSettings: React.FC = () => {
 
   const { companyInfo, isPending: isSaving } = useCompanyInfo();
 
+  const { mutate: saveKeys, isPending: isSavingKeys } = useUpdatePaystackKeys();
+
+  useEffect(() => {
+    if (companyInfo) {
+      setPk(companyInfo.paystack_public_key ?? "");
+      setSk(companyInfo.paystack_secret_key ?? "");
+    }
+  }, [companyInfo]);
+
   if (isSaving) return <Loader />;
 
   const plan = (companyInfo?.subscription_plan ?? "free").toString();
-
   const isPro = plan.trim().toLowerCase() === "pro";
 
   console.log("DEBUG plan:", plan, "isPro:", isPro);
 
   return (
-    <div className="w-[80%] px-6 mx-auto my-10">
+    <div className="md:w-[80%] w-full mx-auto my-10">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Payment Gateway
@@ -65,8 +74,13 @@ const PaymentSettings: React.FC = () => {
           </div>
 
           <div className="flex justify-end pt-4">
-            <Button disabled={isSaving}>
-              {isSaving ? "Saving..." : "Save API Keys"}
+            <Button
+              disabled={isSavingKeys}
+              onClick={() =>
+                saveKeys({ paystack_public_key: pk, paystack_secret_key: sk })
+              }
+            >
+              {isSavingKeys ? "Saving..." : "Save API Keys"}
             </Button>
           </div>
         </div>

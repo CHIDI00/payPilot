@@ -41,4 +41,6 @@ export interface CompanyInfo {
   companyTaxId: string;
   companyWebsite: string;
   subscription_plan: string;
+  paystack_public_key: string;
+  paystack_secret_key: string;
 }
