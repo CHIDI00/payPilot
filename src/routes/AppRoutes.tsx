@@ -6,6 +6,7 @@ import { AnimatePresence } from "framer-motion";
 
 import supabase from "../services/supabase";
 import AppLoader from "../ui/preloader";
+import PaymentSettings from "@/features/payment/PaymentSettings";
 
 const AppLayout = lazy(() => import("../ui/AppLayout"));
 const Invoices = lazy(() => import("../pages/Invoices"));
@@ -70,6 +71,7 @@ function AppRoutes() {
             />
             <Route path="settings/profile" element={<UserAccount />} />
             <Route path="settings/company_profile" element={<CompanyInfo />} />
+            <Route path="settings/payment" element={<PaymentSettings />} />
           </Route>
 
           <Route path="auth/login" element={<Login />} />

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
-    <footer className="w-full px-5 lg:px-20 py-14">
+    <footer className="max-w-[160rem] mx-auto px-5 lg:px-20 py-14">
       <div className="relative w-full py-24 overflow-hidden lg:py-56 lg:px-0">
         {/* Your content sits here, on top */}
         <div className="flex flex-col items-center text-black">

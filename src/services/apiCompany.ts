@@ -2,25 +2,25 @@ import toast from "react-hot-toast";
 import supabase, { supabaseUrl } from "./supabase";
 import type { CompanyInfo } from "../utils/types";
 
-const { data } = await supabase.auth.getUser();
-console.log(data);
+export async function getCompanyInfo(): Promise<CompanyInfo[]> {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+  if (authError) throw authError;
+  if (!user) throw new Error("Not logged in");
 
-const userId = data?.user?.id;
-
-export async function getCompanyInfo() {
   const { data, error } = await supabase
     .from("companyInfo")
     .select("*")
-    .eq("user_id", userId);
-
-  console.log(data);
+    .eq("user_id", user.id);
 
   if (error) {
     toast.error("Info could not be loaded.\n Check connection!");
     throw new Error("Info could not be loaded");
   }
 
-  return data;
+  return data as CompanyInfo[];
 }
 
 interface AddCompany {
@@ -28,7 +28,6 @@ interface AddCompany {
   newCompany: CompanyInfo;
 }
 
-// ADD COMPANY INFO
 export async function addCompany({
   id,
   newCompany,
@@ -43,11 +42,13 @@ export async function addCompany({
     throw new Error("Company could not be created");
   }
 
-  return data;
+  return data as CompanyInfo[] | null;
 }
 
-// EDIT COMPANY INFO
-export async function editCompany(rowId: string, updatedFields: CompanyInfo) {
+export async function editCompany(
+  rowId: string,
+  updatedFields: CompanyInfo
+): Promise<CompanyInfo> {
   const { data, error } = await supabase
     .from("companyInfo")
     .update(updatedFields)
@@ -60,7 +61,7 @@ export async function editCompany(rowId: string, updatedFields: CompanyInfo) {
     throw new Error("Company could not be Editted");
   }
 
-  return data;
+  return data as CompanyInfo;
 }
 
 interface UpdateCompanyLogoProps {
@@ -68,12 +69,10 @@ interface UpdateCompanyLogoProps {
   logo: File;
 }
 
-// UPLOAD LOGO STORAGE
 export async function updateCompanyLogo({
   companyId,
   logo,
 }: UpdateCompanyLogoProps) {
-  // UPLOAD
   const logoFileName = `company-logo-${companyId}-${Date.now()}`;
   const { error: logoStorageError } = await supabase.storage
     .from("companyLogo")
@@ -81,10 +80,8 @@ export async function updateCompanyLogo({
 
   if (logoStorageError) throw new Error(logoStorageError.message);
 
-  // GOT THE LOGO URL
   const logoUrl = `${supabaseUrl}/storage/v1/object/public/companyLogo/${logoFileName}`;
 
-  // UPDATE COMPANY INFO
   const { error: companyUpdateError } = await supabase
     .from("companyInfo")
     .update({ logo: logoUrl })
@@ -93,4 +90,27 @@ export async function updateCompanyLogo({
   if (companyUpdateError) throw new Error(companyUpdateError.message);
 
   return logoUrl;
+}
+
+// NEW: update paystack keys using user_id
+export async function updatePaystackKeys(input: {
+  paystack_public_key: string;
+  paystack_secret_key: string;
+}) {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+  if (authError) throw authError;
+  if (!user) throw new Error("Not logged in");
+
+  const { error } = await supabase
+    .from("companyInfo")
+    .update({
+      paystack_public_key: input.paystack_public_key,
+      paystack_secret_key: input.paystack_secret_key,
+    })
+    .eq("user_id", user.id);
+
+  if (error) throw error;
 }

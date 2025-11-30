@@ -8,7 +8,7 @@ export function useCompanyInfo() {
   });
 
   const companyInfo = Array.isArray(data) ? data[0] : null;
-  console.log(companyInfo);
+  console.log("companyInfo from hook:", companyInfo);
 
   return { companyInfo, isPending };
 }

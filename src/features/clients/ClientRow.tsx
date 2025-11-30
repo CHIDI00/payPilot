@@ -1,5 +1,5 @@
 import React from "react";
-import ClientActionMenu from "../../components/ui/ClientActionMenu"; // Adjust path if needed
+import ClientActionMenu from "../../ui/ClientActionMenu"; // Adjust path if needed
 
 // 1. Define what data this row accepts
 interface ClientRowProps {

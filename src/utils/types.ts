@@ -40,4 +40,5 @@ export interface CompanyInfo {
   companyCountry: string;
   companyTaxId: string;
   companyWebsite: string;
+  subscription_plan: string;
 }

@@ -7,8 +7,8 @@ export default function LandingHeader() {
     <header className="fixed z-[10] top-0 left-0 w-full px-6 py-6 md:px-12 lg:px-20 bg-[#ffffff51] backdrop-blur-xl">
       <nav className="max-w-[160rem] mx-auto flex items-center justify-between">
         <div className="flex items-center justify-center gap-20">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+          <Link to="/home" className="flex items-center gap-3 group">
+            <div className="flex items-center justify-center w-12 h-12 transition-shadow duration-300 rounded-full shadow-lg group-hover:shadow-xl">
               <img src={logo} alt="logo" />
             </div>
             <span className="text-[2.4rem] font-bold text-[#1a1a1a] tracking-tight">
