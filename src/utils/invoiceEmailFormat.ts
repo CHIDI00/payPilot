@@ -9,6 +9,7 @@ export function invoiceEmailHtml({
   companyLogo,
   client_name,
   invoice_id,
+  invoice_id_uuid,
   total,
   formatCurrencyWithoutFormating,
   invoice_date,
@@ -21,6 +22,7 @@ export function invoiceEmailHtml({
   companyLogo: string;
   client_name?: string;
   invoice_id: string | number;
+  invoice_id_uuid: string;
   total: number;
   formatCurrency: (amount: number) => string;
   formatCurrencyWithoutFormating: (amount: number) => string;
@@ -30,6 +32,9 @@ export function invoiceEmailHtml({
   items: InvoiceItem[];
   status: string;
 }) {
+  const baseUrl = "http://localhost:5173";
+  const paymentLink = `${baseUrl}/pay/${invoice_id_uuid}`;
+
   return `
   <div style="max-width:500px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:#222;">
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#9277ff;border-radius:8px;padding:1.5rem 2rem;margin-bottom:2rem;">
@@ -102,7 +107,7 @@ export function invoiceEmailHtml({
         </tbody>
       </table>
 
-      <a href="${companyWebsite}" style="display:inline-block;margin-top:1.2rem;background:#3720f0;color:#fff;text-decoration:none;font-weight:500;border-radius:5px;padding:10px 22px;">${
+      <a href="${paymentLink}" style="display:inline-block;margin-top:1.2rem;background:#3720f0;color:#fff;text-decoration:none;font-weight:500;border-radius:5px;padding:10px 22px;">${
     status.toLowerCase() === "paid" ? "Confirm receipt" : "Pay now"
   }</a>
       <hr style="margin:2rem 0;">

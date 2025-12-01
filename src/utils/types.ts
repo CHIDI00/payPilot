@@ -29,8 +29,10 @@ export interface Invoice {
 
 export interface CompanyInfo {
   id?: string;
+  created_at: string;
   user_id: string;
   company_id: string;
+  logo: string;
   companyName: string;
   companyEmail: string;
   companyLine: number;

@@ -95,7 +95,7 @@ const InvoiceDetail: React.FC = () => {
   const invoiceData = {
     // Company Details
     companyName: companyName || "PayPilot",
-    phone: companyLine || "",
+    phone: companyLine ? String(companyLine) : undefined,
     website: companyWebsite || "",
     logoUrl: logo || companyLogo, // Uses user logo or default
     addressLine1: street_address || "",
@@ -166,6 +166,7 @@ const InvoiceDetail: React.FC = () => {
         companyLogo,
         client_name,
         invoice_id,
+        invoice_id_uuid: id,
         total,
         formatCurrency,
         formatCurrencyWithoutFormating,
@@ -219,21 +220,6 @@ const InvoiceDetail: React.FC = () => {
             </span>{" "}
             Go back
           </button>
-
-          {/* <Button
-            onClick={() =>
-              previewInvoiceAsPDF("invoice-content", `invoice-${invoice_id}`, {
-                logoBase64: `${logo ? logo : companyLogo}`,
-                companyName: `${companyName}`,
-                companyPhone: `${companyLine}`,
-                companyWebsite: `${companyWebsite}`,
-              })
-            }
-            variant="secondary"
-            className="text-[1.1rem]"
-          >
-            Download invoice (.pdf)
-          </Button> */}
 
           <PDFDownloadLink
             document={<InvoicePDF data={invoiceData} />}

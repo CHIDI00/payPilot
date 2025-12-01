@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import supabase from "../services/supabase";
 import AppLoader from "../ui/preloader";
 import PaymentSettings from "@/features/payment/PaymentSettings";
+import PublicInvoice from "@/pages/PublicInvoiceForPayment";
 
 const AppLayout = lazy(() => import("../ui/AppLayout"));
 const Invoices = lazy(() => import("../pages/Invoices"));
@@ -79,6 +80,7 @@ function AppRoutes() {
           <Route path="*" element={<PageNotFound />} />
           <Route path="home" element={<LandingPage />} />
           <Route index element={<Navigate replace to="/home" />} />
+          <Route path="/pay/:id" element={<PublicInvoice />} />
         </Routes>
       </Suspense>
     </AnimatePresence>
