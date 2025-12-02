@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePaystackPayment } from "react-paystack";
-import supabase from "@/services/supabase"; // Your supabase client
+import supabase from "@/services/supabase";
 import Button from "@/ui/Button";
 import Loader from "@/ui/Loader";
 import toast from "react-hot-toast";
-import { formatCurrency } from "@/utils/helper";
+import { formatCurrencyWithoutFormating } from "@/utils/helper";
 
 interface CompanyInfo {
   companyName?: string;
+  logo: string;
   paystack_public_key?: string;
 }
 
@@ -23,24 +24,24 @@ interface Invoice {
   client_email?: string;
   client_name?: string;
   status?: string;
-  items?: InvoiceItem[]; // array from your JSON/JSONB column [web:59]
+  items?: InvoiceItem[];
   companyInfo?: CompanyInfo;
   [key: string]: unknown;
 }
 
 const PublicInvoice: React.FC = () => {
-  const { id } = useParams(); // Get invoice ID from URL
+  const { id } = useParams();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [merchantKey, setMerchantKey] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // 1. Fetch Invoice & Merchant Key (Publicly)
+  // 1. FETCH INVOICE & MERCHANT KEY PUBLICLY
   useEffect(() => {
     async function fetchPublicInvoice() {
-      // Fetch Invoice
+      // FETCH THE INVOICE
       const { data: inv, error } = await supabase
         .from("invoices")
-        .select("*, companyInfo(companyName, paystack_public_key)")
+        .select("*, companyInfo(companyName, logo, paystack_public_key)")
         .eq("id", id)
         .single();
 
@@ -54,6 +55,10 @@ const PublicInvoice: React.FC = () => {
       // Get the key from the joined companyInfo table
       setMerchantKey(inv.companyInfo?.paystack_public_key || "");
       setLoading(false);
+
+      console.log("PUBLIC INVOICE RAW:", inv);
+      console.log("Keys:", Object.keys(inv));
+      console.log("companyInfo value:", inv.companyInfo);
     }
     fetchPublicInvoice();
   }, [id]);
@@ -68,7 +73,7 @@ const PublicInvoice: React.FC = () => {
   const config = {
     reference: new Date().getTime().toString(),
     email: invoice?.client_email,
-    amount: Math.round(itemsTotal * 100), // convert to kobo for Paystack [web:64]
+    amount: Math.round(itemsTotal * 100),
     publicKey: merchantKey,
     metadata: {
       custom_fields: [
@@ -95,12 +100,17 @@ const PublicInvoice: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-screen min-h-screen p-4 bg-gray-50">
-      <div className="w-full max-w-2xl p-8 text-center bg-white shadow-lg rounded-xl">
+      <div className="w-full max-w-xl p-8 text-center bg-white shadow-lg rounded-xl">
+        <img
+          src={invoice.companyInfo?.logo}
+          alt={invoice.companyInfo?.companyName}
+          className="w-[25%] mx-auto"
+        />
         <p className="mb-2 text-gray-500">
-          Invoice payment of {invoice.companyInfo?.companyName}
+          Invoice from {invoice.companyInfo?.companyName}
         </p>
         <h1 className="mb-6 text-4xl font-bold text-gray-900">
-          {formatCurrency(itemsTotal)}
+          {formatCurrencyWithoutFormating(itemsTotal)}
         </h1>
 
         <div className="py-4 mb-6 space-y-2 text-left border-t border-b border-gray-100">
@@ -116,7 +126,7 @@ const PublicInvoice: React.FC = () => {
 
         {merchantKey ? (
           <Button
-            className="w-full py-4 text-lg bg-green-600 hover:bg-green-700"
+            className="w-full py-2 text-5xl bg-green-600 hover:bg-green-700"
             onClick={() =>
               (
                 initializePayment as (
@@ -134,7 +144,7 @@ const PublicInvoice: React.FC = () => {
               })
             }
           >
-            Pay Now
+            Continue to payment
           </Button>
         ) : (
           <p className="text-2xl text-red-500">

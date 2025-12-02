@@ -20,16 +20,39 @@ export async function createEditInvoice(
 ): Promise<Invoice[] | null> {
   // CREATE
   if (!id) {
-    // Insert provided invoice as-is (don't force status to Draft — caller decides)
+    // get current user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+    if (authError) throw authError;
+    if (!user) throw new Error("Not logged in");
+
+    // get this user's company row GET THE USER'S COMPANY ROW
+    const { data: company, error: companyError } = await supabase
+      .from("companyInfo")
+      .select("company_id")
+      .eq("user_id", user.id)
+      .single();
+
+    if (companyError || !company) {
+      toast.error("Company not found for this user");
+      throw new Error("Company not found for this user");
+    }
+
     const { data, error } = await supabase
       .from("invoices")
-      .insert([{ ...newInvoice }])
+      .insert([
+        {
+          ...newInvoice,
+          company_id: company.company_id, // ← link invoice → company
+        },
+      ])
       .select()
       .single();
 
     if (error) {
       console.log(error);
-
       toast.error("Invoice could not be created");
       throw new Error("Invoice could not be created");
     }
@@ -37,7 +60,7 @@ export async function createEditInvoice(
     return data ? [data as Invoice] : null;
   }
 
-  // EDIT
+  // EDIT (keep existing company_id unless caller overrides)
   if (id) {
     const { data, error } = await supabase
       .from("invoices")
@@ -57,7 +80,6 @@ export async function createEditInvoice(
   return null;
 }
 
-// FETCH SINGLE INVOICE BY ID'
 export async function getInvoiceById(id: string) {
   const { data, error } = await supabase
     .from("invoices")
