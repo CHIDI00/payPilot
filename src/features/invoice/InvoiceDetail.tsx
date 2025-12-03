@@ -259,14 +259,16 @@ const InvoiceDetail: React.FC = () => {
           </div>
 
           <div className="items-center justify-end hidden w-1/2 gap-4 md:flex">
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
-            >
-              Edit
-            </Button>
+            {isStatus.toLowerCase() !== "paid" && (
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                Edit
+              </Button>
+            )}
             <Button
               variant="danger"
               disabled={isDeleting}

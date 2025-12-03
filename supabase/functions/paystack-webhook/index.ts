@@ -1,50 +1,74 @@
-// // supabase/functions/paystack-webhook/index.ts
-// import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-// import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import crypto from "https://deno.land/std@0.168.0/node/crypto.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// console.log("Paystack Webhook Listener running...")
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const PAYSTACK_SECRET_KEY = Deno.env.get("PAYSTACK_SECRET_KEY")!;
 
-// serve(async (req) => {
-//   // 1. Init Supabase Admin Client
-//   const supabaseAdmin = createClient(
-//     Deno.env.get('SUPABASE_URL') ?? '',
-//     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-//   )
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-//   // 2. Parse Paystack Payload
-//   const payload = await req.json()
-//   const event = payload.event
-//   const data = payload.data
+function verifyPaystackSignature(
+  body: string,
+  signature: string | null
+): boolean {
+  if (!signature) return false;
+  const hmac = crypto.createHmac("sha512", PAYSTACK_SECRET_KEY);
+  const expected = hmac.update(body).digest("hex");
+  return expected === signature;
+}
 
-//   // 3. Handle "Charge Success"
-//   if (event === 'charge.success') {
-//     const invoiceId = data.metadata?.invoice_id
-//     const amountPaid = data.amount / 100 // Convert Kobo to Naira
-//     const reference = data.reference
+serve(async (req) => {
+  if (req.method !== "POST") {
+    return new Response("Method not allowed", { status: 405 });
+  }
 
-//     console.log(`Payment received for Invoice: ${invoiceId}, Ref: ${reference}`)
+  const rawBody = await req.text(); // only this, no req.json()
+  const signature = req.headers.get("x-paystack-signature");
 
-//     if (!invoiceId) {
-//       return new Response("Missing invoice_id in metadata", { status: 400 })
-//     }
+  if (!verifyPaystackSignature(rawBody, signature)) {
+    console.error("Invalid Paystack signature");
+    return new Response("Invalid signature", { status: 400 });
+  }
 
-//     // 4. Update Invoice in Supabase
-//     const { error } = await supabaseAdmin
-//       .from('invoices')
-//       .update({
-//         status: 'Paid',
-//         amount_paid: amountPaid,
-//         payment_date: new Date().toISOString()
-//       })
-//       .eq('id', invoiceId)
+  const payload = JSON.parse(rawBody) as {
+    event: string;
+    data: {
+      reference: string;
+      status: string;
+      amount: number;
+      metadata?: { invoice_id?: string };
+    };
+  };
 
-//     if (error) {
-//       console.error("Failed to update invoice:", error)
-//       return new Response("Database update failed", { status: 500 })
-//     }
+  console.log("PAYSTACK WEBHOOK PAYLOAD", payload);
 
-//     return new Response("Invoice Updated Successfully", { status: 200 })
-//   }
+  if (payload.event !== "charge.success") {
+    return new Response("Event ignored", { status: 200 });
+  }
 
-//   return new Response("Event ignored", { status: 200 })
-// })
+  const invoiceId = payload.data.metadata?.invoice_id;
+  if (!invoiceId) {
+    console.error("Missing invoice_id in metadata", payload);
+    return new Response("Missing invoice_id", { status: 400 });
+  }
+
+  const amountPaid = payload.data.amount / 100;
+
+  const { error } = await supabase
+    .from("invoices")
+    .update({
+      status: "Paid",
+      amount_paid: amountPaid,
+      payment_date: new Date().toISOString(),
+      paystack_reference: payload.data.reference,
+    })
+    .eq("id", invoiceId); // or .eq("invoice_id", invoiceId) depending on your schema
+
+  if (error) {
+    console.error("Failed to update invoice:", error);
+    return new Response("DB error", { status: 500 });
+  }
+
+  return new Response("OK", { status: 200 });
+});

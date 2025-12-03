@@ -8,6 +8,8 @@ import toast from "react-hot-toast";
 import { formatCurrencyWithoutFormating } from "@/utils/helper";
 import { ChevronDown, ChevronUp, Lock, ShieldCheck } from "lucide-react";
 
+import animatedCheck from "../assets/checkAnimation.webm";
+
 // --- Types ---
 interface CompanyInfo {
   companyName?: string;
@@ -94,12 +96,14 @@ const PublicInvoice: React.FC = () => {
 
   if (invoice.status?.toLowerCase() === "paid") {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-green-50">
-        <div className="p-10 text-center bg-white shadow-sm rounded-xl">
-          <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
-            <span className="text-2xl">🎉</span>
+      <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-purple-50">
+        <div className="p-14 w-full max-w-lg text-center bg-white shadow-sm rounded-xl">
+          <div className="flex items-center justify-center w-[15rem] h-[15rem] mx-auto mb-4  rounded-full">
+            <video autoPlay muted playsInline className="w-full h-full">
+              <source src={animatedCheck} type="video/mp4" />
+            </video>
           </div>
-          <h1 className="mb-2 text-2xl font-bold text-green-700">
+          <h1 className="mb-2 text-4xl font-bold text-purple-700">
             Payment Successful!
           </h1>
           <p className="text-gray-600">This invoice has been fully paid.</p>
