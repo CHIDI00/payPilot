@@ -20,20 +20,22 @@ export const formatCurrencyWithoutFormating = (
   value: number,
   currency = "NGN"
 ) => {
-  const userLocale = navigator.language || "en-NG";
+  const userLocale = "en-NG";
 
   return new Intl.NumberFormat(userLocale, {
     style: "currency",
     currency,
+    currencyDisplay: "narrowSymbol",
   }).format(value);
 };
 
 export const formatCurrency = (
   value: number,
   currency = "NGN",
+
   abbreviate = true
 ) => {
-  const userLocale = navigator.language || "en-NG";
+  const userLocale = "en-NG";
 
   if (abbreviate) {
     if (Math.abs(value) >= 1_000_000_000) {
@@ -41,6 +43,7 @@ export const formatCurrency = (
         new Intl.NumberFormat(userLocale, {
           style: "currency",
           currency,
+          currencyDisplay: "narrowSymbol",
           maximumFractionDigits: 1,
         }).format(value / 1_000_000_000) + "B"
       );
@@ -49,6 +52,7 @@ export const formatCurrency = (
         new Intl.NumberFormat(userLocale, {
           style: "currency",
           currency,
+          currencyDisplay: "narrowSymbol",
           maximumFractionDigits: 1,
         }).format(value / 1_000_000) + "M"
       );
@@ -59,5 +63,6 @@ export const formatCurrency = (
   return new Intl.NumberFormat(userLocale, {
     style: "currency",
     currency,
+    // currencyDisplay,
   }).format(value);
 };
