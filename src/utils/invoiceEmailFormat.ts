@@ -110,11 +110,11 @@ export function invoiceEmailHtml({
       <a href="${paymentLink}" style="display:inline-block;margin-top:1.2rem;background:#3720f0;color:#fff;text-decoration:none;font-weight:500;border-radius:5px;padding:10px 22px;">${
     status.toLowerCase() === "paid" ? "Confirm receipt" : "Pay now"
   }</a>
-      <hr style="margin:2rem 0;">
-      <div style="font-size:0.97rem;color:#555;">
-        <p style="margin:0;">${companyName || "Your Company"}</p>
-        <p style="margin:0;">${companyWebsite || ""}</p>
-      </div>
+      // <hr style="margin:2rem 0;">
+      // <div style="font-size:0.97rem;color:#555;">
+      //   <p style="margin:0;">${companyName || "Your Company"}</p>
+      //   <p style="margin:0;">${companyWebsite || ""}</p>
+      // </div>
     </div>
     <div style="background:#f0f4fc;padding:0.8rem;text-align:center;font-size:0.92rem;color:#888;">
       This is an automated invoice from PayPilot. Need help? Contact us at <a href="mailto:support@paypilot.com" style="color:#3720f0;text-decoration:underline">support@paypilot.com</a>
