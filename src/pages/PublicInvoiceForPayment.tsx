@@ -97,7 +97,7 @@ const PublicInvoice: React.FC = () => {
   if (invoice.status?.toLowerCase() === "paid") {
     return (
       <div className="flex flex-col items-center justify-center w-screen min-h-screen bg-purple-50">
-        <div className="p-14 w-full max-w-lg text-center bg-white shadow-sm rounded-xl">
+        <div className="w-full max-w-lg text-center bg-white shadow-sm p-14 rounded-xl">
           <div className="flex items-center justify-center w-[15rem] h-[15rem] mx-auto mb-4  rounded-full">
             <video autoPlay muted playsInline className="w-full h-full">
               <source src={animatedCheck} type="video/mp4" />
@@ -224,7 +224,7 @@ const PublicInvoice: React.FC = () => {
 
                 <div className="flex gap-2 opacity-40">
                   <span className="text-[10px] font-bold border border-gray-300 px-1 rounded bg-gray-50">
-                    VISA
+                    <img src="" alt="" />
                   </span>
                   <span className="text-[10px] font-bold border border-gray-300 px-1 rounded bg-gray-50">
                     Mastercard
