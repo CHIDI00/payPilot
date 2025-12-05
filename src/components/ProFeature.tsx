@@ -1,10 +1,12 @@
 import React from "react";
 import { Lock } from "lucide-react";
-import Button from "@/ui/Button";
+import { UpgradeToProButton } from "@/features/payment/UpgrateToProButton";
 
 interface ProFeatureProps {
   children: React.ReactNode;
   isPro?: boolean;
+  companyId?: string;
+  companyEmail?: string;
 }
 
 const ProFeature: React.FC<ProFeatureProps> = ({ children, isPro = false }) => {
@@ -37,13 +39,7 @@ const ProFeature: React.FC<ProFeatureProps> = ({ children, isPro = false }) => {
             Auto-Reminders, and remove watermarks.
           </p>
 
-          <Button
-            className="w-full py-4 text-2xl"
-            // TODO: Replace this URL with your actual Paystack Payment Page link later
-            onClick={() => window.open("https://paystack.com", "_blank")}
-          >
-            Upgrade for ₦6,500/month
-          </Button>
+          <UpgradeToProButton />
 
           <p className="mt-4 text-xl text-gray-400">
             Cancel anytime. Secure payment via Paystack.

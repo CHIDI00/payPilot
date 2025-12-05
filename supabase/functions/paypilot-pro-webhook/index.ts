@@ -8,7 +8,8 @@ const PAYPILOT_SECRET = Deno.env.get("PAYPILOT_PAYSTACK_SECRET_KEY")!;
 
 const supabase = createClient(SUPABASE_URL, SERVICE_ROLE);
 
-function verify(body: string, sig: string | null) {
+// Verify webhook signature to make suer it's from Paystack
+function verify(body: string, sig: string | null): boolean {
   if (!sig) return false;
   const hmac = crypto.createHmac("sha512", PAYPILOT_SECRET);
   const expected = hmac.update(body).digest("hex");
@@ -16,34 +17,73 @@ function verify(body: string, sig: string | null) {
 }
 
 serve(async (req) => {
-  if (req.method !== "POST")
+  // Only accept POST requests
+  if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
+  }
 
+  // Read raw body for signature verification
   const raw = await req.text();
   const sig = req.headers.get("x-paystack-signature");
-  if (!verify(raw, sig))
-    return new Response("Invalid signature", { status: 400 });
 
+  // Verify that the signature is valid
+  if (!verify(raw, sig)) {
+    console.error("Invalid Paystack signature for Pro webhook");
+    return new Response("Invalid signature", { status: 400 });
+  }
+
+  // Parse the webhook payload
   const payload = JSON.parse(raw) as {
     event: string;
-    data: { metadata?: { company_id?: string } };
+    data: {
+      amount: number;
+      subscription?: { subscription_code: string };
+      customer?: { customer_code: string };
+      metadata?: { company_id?: string };
+    };
   };
 
-  if (payload.event !== "charge.success")
-    return new Response("Ignored", { status: 200 });
+  console.log("PAYPILOT PRO WEBHOOK PAYLOAD", payload);
 
+  // Only process successful charge events
+  if (payload.event !== "charge.success") {
+    return new Response("Event ignored", { status: 200 });
+  }
+
+  // Extract company_id from metadata
   const companyId = payload.data.metadata?.company_id;
-  if (!companyId) return new Response("Missing company_id", { status: 400 });
+  if (!companyId) {
+    console.error("Missing company_id in metadata");
+    return new Response("Missing company_id", { status: 400 });
+  }
 
+  // Extract subscription details from Paystack response
+  const subCode = payload.data.subscription?.subscription_code;
+  const custCode = payload.data.customer?.customer_code;
+
+  // Calculate next billing date (today + 1 month)
+  const nextBillingDate = new Date();
+  nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
+
+  console.log(`Processing Pro subscription for company: ${companyId}`);
+
+  // Update company with Pro subscription details
   const { error } = await supabase
     .from("companyInfo")
-    .update({ subscription_plan: "pro" })
-    .eq("company_id", companyId); // adjust to your FK
+    .update({
+      subscription_plan: "pro",
+      paystack_subscription_code: subCode,
+      paystack_customer_code: custCode,
+      next_billing_date: nextBillingDate.toISOString(),
+      subscription_cancelled_at: null,
+    })
+    .eq("company_id", companyId);
 
   if (error) {
-    console.error("Pro upgrade failed:", error);
+    console.error("Failed to update Pro subscription:", error);
     return new Response("DB error", { status: 500 });
   }
 
+  console.log(`✅ Pro subscription activated for company: ${companyId}`);
   return new Response("OK", { status: 200 });
 });

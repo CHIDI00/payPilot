@@ -33,6 +33,7 @@ export function invoiceEmailHtml({
   status: string;
 }) {
   const baseUrl = "paypilot-beta.vercel.app";
+  // const baseUrl = "localhost:5173";
   const paymentLink = `${baseUrl}/pay/${invoice_id_uuid}`;
 
   return `

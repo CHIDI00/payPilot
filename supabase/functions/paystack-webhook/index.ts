@@ -23,7 +23,7 @@ serve(async (req) => {
     return new Response("Method not allowed", { status: 405 });
   }
 
-  const rawBody = await req.text(); // only this, no req.json()
+  const rawBody = await req.text();
   const signature = req.headers.get("x-paystack-signature");
 
   if (!verifyPaystackSignature(rawBody, signature)) {
@@ -63,7 +63,7 @@ serve(async (req) => {
       payment_date: new Date().toISOString(),
       paystack_reference: payload.data.reference,
     })
-    .eq("id", invoiceId); // or .eq("invoice_id", invoiceId) depending on your schema
+    .eq("id", invoiceId);
 
   if (error) {
     console.error("Failed to update invoice:", error);
