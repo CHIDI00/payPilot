@@ -80,7 +80,7 @@ function AppRoutes() {
           <Route path="*" element={<PageNotFound />} />
           <Route path="home" element={<LandingPage />} />
           <Route index element={<Navigate replace to="/home" />} />
-          <Route path="/pay/:id" element={<PublicInvoice />} />
+          <Route path="/pay/:publicId" element={<PublicInvoice />} />
         </Routes>
       </Suspense>
     </AnimatePresence>

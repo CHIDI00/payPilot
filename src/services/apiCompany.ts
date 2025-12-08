@@ -92,7 +92,7 @@ export async function updateCompanyLogo({
   return logoUrl;
 }
 
-// NEW: update paystack keys using user_id
+// update paystack keys using user_id
 export async function updatePaystackKeys(input: {
   paystack_public_key: string;
   paystack_secret_key: string;

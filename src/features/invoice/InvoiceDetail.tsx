@@ -166,7 +166,7 @@ const InvoiceDetail: React.FC = () => {
         companyLogo,
         client_name,
         invoice_id,
-        invoice_id_uuid: id,
+        public_uuid: id,
         total,
         formatCurrency,
         formatCurrencyWithoutFormating,

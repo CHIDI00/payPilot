@@ -39,7 +39,7 @@ const PaymentSettings: React.FC = () => {
       </div>
 
       {/* The Paywall Wrapper */}
-      <ProFeature isPro={isPro}>
+      <ProFeature isPro={companyInfo?.subscription_plan !== "pro"}>
         <div className="flex flex-col gap-8 bg-white dark:bg-[#1e2139] p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
           {/* Public Key */}
           <div className="flex flex-col gap-2">

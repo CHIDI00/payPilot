@@ -9,7 +9,7 @@ export function invoiceEmailHtml({
   companyLogo,
   client_name,
   invoice_id,
-  invoice_id_uuid,
+  public_uuid, // 👈 rename to match DB column
   total,
   formatCurrencyWithoutFormating,
   invoice_date,
@@ -21,8 +21,8 @@ export function invoiceEmailHtml({
   logo?: string;
   companyLogo: string;
   client_name?: string;
-  invoice_id: string | number;
-  invoice_id_uuid: string;
+  invoice_id: string | number; // human invoice number shown to user
+  public_uuid: string; // 👈 invoices.public_uuid, used in link
   total: number;
   formatCurrency: (amount: number) => string;
   formatCurrencyWithoutFormating: (amount: number) => string;
@@ -32,9 +32,9 @@ export function invoiceEmailHtml({
   items: InvoiceItem[];
   status: string;
 }) {
-  const baseUrl = "paypilot-beta.vercel.app";
-  // const baseUrl = "localhost:5173";
-  const paymentLink = `${baseUrl}/pay/${invoice_id_uuid}`;
+  const baseUrl = "https://paypilot-beta.vercel.app";
+  // const baseUrl = "https://localhost:5173";
+  const paymentLink = `${baseUrl}/pay/${public_uuid}`; // 👈 public UUID in URL
 
   return `
   <div style="max-width:500px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:#222;">
@@ -56,11 +56,11 @@ export function invoiceEmailHtml({
       <h2 style="font-size:1.1rem;margin-bottom:1px;">Hello ${
         client_name || "Customer"
       },</h2>
-      <p style="font-size:0.9rem;"> ${
+      <p style="font-size:0.9rem;">${
         status.toLowerCase() === "paid"
           ? "Your receipt"
           : "Please find your invoice below"
-      } .</p>
+      }.</p>
       <table style="width:100%;margin:1.5rem 0;border-collapse:collapse;">
         <tr>
           <td style="padding:8px 0;font-weight:bold;">Invoice ID:</td>

@@ -9,8 +9,6 @@ import { formatCurrencyWithoutFormating } from "@/utils/helper";
 import { ChevronDown, ChevronUp, Lock, ShieldCheck } from "lucide-react";
 
 import animatedCheck from "../assets/checkAnimation.webm";
-
-// --- Types ---
 interface CompanyInfo {
   companyName?: string;
   logo: string;
@@ -20,7 +18,7 @@ interface CompanyInfo {
 interface InvoiceItem {
   quantity: number;
   price: number;
-  name: string; // Added 'name' to display in summary
+  name: string;
 }
 
 interface Invoice {
@@ -35,11 +33,11 @@ interface Invoice {
 }
 
 const PublicInvoice: React.FC = () => {
-  const { id } = useParams();
+  const { publicId } = useParams<{ publicId: string }>();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [merchantKey, setMerchantKey] = useState("");
   const [loading, setLoading] = useState(true);
-  const [showDetails, setShowDetails] = useState(false); // New state for accordion
+  const [showDetails, setShowDetails] = useState(false);
 
   // 1. Fetch Logic
   useEffect(() => {
@@ -47,7 +45,7 @@ const PublicInvoice: React.FC = () => {
       const { data: inv, error } = await supabase
         .from("invoices")
         .select("*, companyInfo(companyName, logo, paystack_public_key)")
-        .eq("id", id)
+        .eq("public_uuid", publicId)
         .single();
 
       if (error || !inv) {
@@ -61,7 +59,7 @@ const PublicInvoice: React.FC = () => {
       setLoading(false);
     }
     fetchPublicInvoice();
-  }, [id]);
+  }, [publicId]);
 
   // Calculations
   const itemsTotal =
@@ -77,7 +75,7 @@ const PublicInvoice: React.FC = () => {
     amount: Math.round(itemsTotal * 100),
     publicKey: merchantKey,
     metadata: {
-      invoice_id: id || "", // Important for Webhook
+      invoice_id: invoice?.id || "",
       custom_fields: [
         {
           display_name: "Invoice ID",
