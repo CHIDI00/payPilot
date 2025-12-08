@@ -60,6 +60,7 @@ const InvoiceDetail: React.FC = () => {
     // created_at,
     id,
     invoice_id,
+    // public_uuid,
     street_address,
     post_code,
     city,

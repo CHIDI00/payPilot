@@ -9,7 +9,7 @@ export function invoiceEmailHtml({
   companyLogo,
   client_name,
   invoice_id,
-  public_uuid, // 👈 rename to match DB column
+  public_uuid,
   total,
   formatCurrencyWithoutFormating,
   invoice_date,
@@ -34,7 +34,7 @@ export function invoiceEmailHtml({
 }) {
   const baseUrl = "https://paypilot-beta.vercel.app";
   // const baseUrl = "https://localhost:5173";
-  const paymentLink = `${baseUrl}/pay/${public_uuid}`; // 👈 public UUID in URL
+  const paymentLink = `${baseUrl}/pay/${public_uuid}`;
 
   return `
   <div style="max-width:500px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:#222;">
