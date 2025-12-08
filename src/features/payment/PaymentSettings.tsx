@@ -46,13 +46,13 @@ const PaymentSettings: React.FC = () => {
         <div className="flex flex-col gap-8 bg-white dark:bg-[#1e2139] p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
           {/* --- STEP 1: API KEYS --- */}
           <div>
-            <h3 className="mb-6 text-xl font-bold text-gray-900 dark:text-white">
+            <h3 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
               Step 1: Enter API Keys
             </h3>
 
             {/* Public Key */}
             <div className="flex flex-col gap-2 mb-6">
-              <label className="text-lg font-medium text-gray-700 dark:text-gray-200">
+              <label className="text-2xl font-medium text-gray-700 dark:text-gray-200">
                 Paystack Public Key
               </label>
               <input
@@ -66,7 +66,7 @@ const PaymentSettings: React.FC = () => {
 
             {/* Secret Key */}
             <div className="flex flex-col gap-2">
-              <label className="text-lg font-medium text-gray-700 dark:text-gray-200">
+              <label className="text-2xl font-medium text-gray-700 dark:text-gray-200">
                 Paystack Secret Key
               </label>
               <input
@@ -76,7 +76,7 @@ const PaymentSettings: React.FC = () => {
                 placeholder="sk_live_..."
                 className="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 dark:bg-[#141625] dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-purple-500 outline-none transition-all"
               />
-              <p className="mt-2 text-sm text-gray-400">
+              <p className="mt-2 text-2xl text-gray-400">
                 Your secret key is stored securely and never shown to clients.
               </p>
             </div>
@@ -95,7 +95,7 @@ const PaymentSettings: React.FC = () => {
 
           {/* --- STEP 2: WEBHOOK URL (NEW SECTION) --- */}
           <div className="pt-8 mt-2 border-t border-gray-100 dark:border-gray-700">
-            <h3 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+            <h3 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">
               Step 2: Connect Automation
             </h3>
 
@@ -121,7 +121,7 @@ const PaymentSettings: React.FC = () => {
                   <h4 className="font-semibold text-gray-900 dark:text-gray-100">
                     Why do I need this?
                   </h4>
-                  <p className="mt-1 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                  <p className="mt-1 text-2xl leading-relaxed text-gray-600 dark:text-gray-400">
                     This link tells Paystack to notify PayPilot when you receive
                     money. Without this, your invoices will stay "Pending" even
                     after your client pays.
@@ -130,15 +130,15 @@ const PaymentSettings: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">
+                <label className="text-2xl font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">
                   Your Webhook URL
                 </label>
                 <div className="flex items-center gap-2">
-                  <code className="flex-1 p-4 bg-white dark:bg-[#141625] rounded-lg border border-gray-200 dark:border-gray-700 font-mono text-sm text-gray-600 dark:text-gray-300 overflow-x-auto whitespace-nowrap">
+                  <code className="flex-1 p-4 bg-white dark:bg-[#141625] rounded-lg border border-gray-200 dark:border-gray-700 font-mono text-2xl text-gray-600 dark:text-gray-300 overflow-x-auto whitespace-nowrap">
                     {webhookUrl}
                   </code>
                   <Button
-                    className="shrink-0 bg-white dark:bg-[#141625] hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700"
+                    // className="text-black bg-white border border-gray-200 shrink-0 hover:bg-gray-50 dark:border-gray-700"
                     onClick={() => {
                       navigator.clipboard.writeText(webhookUrl);
                       toast.success("Copied Webhook URL!");
@@ -147,7 +147,7 @@ const PaymentSettings: React.FC = () => {
                     Copy Link
                   </Button>
                 </div>
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-2xl text-gray-400">
                   Paste this into the <strong>Webhook URL</strong> field in your{" "}
                   <a
                     href="https://dashboard.paystack.com/#/settings/developer"
