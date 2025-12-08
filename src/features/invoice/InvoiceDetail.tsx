@@ -36,6 +36,8 @@ const InvoiceDetail: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { invoice, isLoading } = useInvoice();
+  console.log(invoice);
+
   const { deleteInvoice, isDeleting } = useDeleteInvoice();
   const { companyInfo } = useCompanyInfo();
 
@@ -60,7 +62,7 @@ const InvoiceDetail: React.FC = () => {
     // created_at,
     id,
     invoice_id,
-    // public_uuid,
+    public_uuid,
     street_address,
     post_code,
     city,
@@ -167,7 +169,7 @@ const InvoiceDetail: React.FC = () => {
         companyLogo,
         client_name,
         invoice_id,
-        public_uuid: id,
+        public_uuid,
         total,
         formatCurrency,
         formatCurrencyWithoutFormating,

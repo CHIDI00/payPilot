@@ -7,6 +7,7 @@ export interface InvoiceItem {
 export interface Invoice {
   id: string;
   invoice_id: string;
+  public_uuid: string;
   street_address?: string;
   post_code?: string;
   city?: string;
@@ -32,7 +33,6 @@ export interface CompanyInfo {
   created_at: string;
   user_id: string;
   company_id: string;
-  public_uuid: string;
   logo: string;
   companyName: string;
   companyEmail: string;
