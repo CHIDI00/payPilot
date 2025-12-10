@@ -47,3 +47,12 @@ export interface CompanyInfo {
   paystack_public_key: string;
   paystack_secret_key: string;
 }
+
+export interface Notification {
+  id: string;
+  created_at: string;
+  title: string;
+  type: string;
+  read: boolean;
+  body: string;
+}

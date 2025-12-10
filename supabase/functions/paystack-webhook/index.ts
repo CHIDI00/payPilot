@@ -3,65 +3,111 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY")!; // <--- Uses the key from your screenshot
 
-// Initialize Supabase Admin
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
+// --- HELPER: SEND EMAIL VIA BREVO ---
+async function sendReceiptEmail(invoice: any, amountPaid: number) {
+  const companyName = invoice.companyInfo?.companyName || "PayPilot Merchant";
+
+  // Format currency to Naira
+  const formattedAmount = new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    currencyDisplay: "narrowSymbol",
+  }).format(amountPaid);
+
+  const emailHtml = `
+    <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px;">
+      <h2 style="color: #16a34a; text-align: center;">Payment Received! 🎉</h2>
+      <p>Hello <strong>${invoice.client_name}</strong>,</p>
+      <p>This is a confirmation that we have received your payment of <strong>${formattedAmount}</strong> for Invoice <strong>#${
+    invoice.invoice_id
+  }</strong>.</p>
+      
+      <div style="background: #f9fafb; padding: 15px; border-radius: 5px; margin: 20px 0;">
+        <p style="margin: 5px 0;"><strong>Paid to:</strong> ${companyName}</p>
+        <p style="margin: 5px 0;"><strong>Amount:</strong> ${formattedAmount}</p>
+        <p style="margin: 5px 0;"><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
+      </div>
+
+      <p style="text-align: center; color: #6b7280; font-size: 12px;">
+        Powered by PayPilot
+      </p>
+    </div>
+  `;
+
+  try {
+    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": BREVO_API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: { name: companyName, email: "chidimathayas@gmail.com" },
+        to: [{ email: invoice.client_email, name: invoice.client_name }],
+        subject: `Receipt for Invoice #${invoice.invoice_id}`,
+        htmlContent: emailHtml,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error("Brevo Error:", err);
+    } else {
+      console.log("Receipt Email Sent Successfully!");
+    }
+  } catch (error) {
+    console.error("Failed to send email:", error);
+  }
+}
+
+// --- MAIN WEBHOOK HANDLER ---
 serve(async (req) => {
-  // 1. Check Method
-  if (req.method !== "POST") {
+  if (req.method !== "POST")
     return new Response("Method not allowed", { status: 405 });
-  }
 
-  // 2. Parse Body safely
   const rawBody = await req.text();
-  console.log("RAW BODY RECEIVED:", rawBody);
-
-  // --- ⚠️ SKIPPING SIGNATURE VERIFICATION FOR BYOK ARCHITECTURE ---
-  // In a multi-tenant app, you cannot verify signature with a single env var.
-  // We will trust the invoice_id lookup for this MVP.
-
-  if (!rawBody) {
-    return new Response("Empty body", { status: 400 });
-  }
+  if (!rawBody) return new Response("Empty body", { status: 400 });
 
   const payload = JSON.parse(rawBody);
-  const event = payload.event;
-  const data = payload.data;
 
   // 3. Handle Charge Success
-  if (event === "charge.success") {
-    const invoiceId = data.metadata?.invoice_id; // Check exact spelling from frontend
+  if (payload.event === "charge.success") {
+    const data = payload.data;
+    const invoiceId = data.metadata?.invoice_id;
     const amountPaid = data.amount / 100;
-    const reference = data.reference;
 
-    console.log(`Processing Invoice: ${invoiceId}, Ref: ${reference}`);
+    console.log(`Processing Payment for Invoice: ${invoiceId}`);
 
-    if (!invoiceId) {
-      console.error("Missing invoice_id in metadata");
-      return new Response("Missing invoice_id", { status: 400 });
-    }
+    if (!invoiceId) return new Response("Missing invoice_id", { status: 400 });
 
-    // 4. Update Database
-    const { error } = await supabase
+    // 1. Update Database
+    const { data: updatedInvoice, error } = await supabase
       .from("invoices")
       .update({
         status: "Paid",
         amount_paid: amountPaid,
         payment_date: new Date().toISOString(),
-        // Make sure you actually have a column named 'paystack_reference' in your DB!
-        // If not, remove this line or the update will fail.
-        // paystack_reference: reference,
       })
-      .eq("id", invoiceId);
+      .eq("id", invoiceId)
+      .select("*, companyInfo(companyName)") // Fetch company name for email
+      .single();
 
     if (error) {
-      console.error("Failed to update invoice:", error);
-      return new Response("DB error", { status: 500 });
+      console.error("DB Error:", error);
+      return new Response("DB Error", { status: 500 });
     }
 
-    console.log("SUCCESS: Invoice marked as Paid");
-    return new Response("OK", { status: 200 });
+    // 2. Send Receipt Email (Fire and Forget)
+    if (updatedInvoice) {
+      // We call this without 'await' so Paystack gets a 200 OK immediately
+      sendReceiptEmail(updatedInvoice, amountPaid);
+    }
+
+    return new Response("Invoice Paid & Receipt Sent", { status: 200 });
   }
 
   return new Response("Event ignored", { status: 200 });
