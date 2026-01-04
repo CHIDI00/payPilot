@@ -95,7 +95,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
         </div>
 
         {/* Payment */}
-        <div
+        {/* <div
           onClick={() => navigate("/settings/payment")}
           className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700
          hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer"
@@ -116,7 +116,7 @@ const Settings: React.FC<ToggleSwitchProps> = ({
               <ChevronRight />
             </button>
           </div>
-        </div>
+        </div> */}
 
         {/* NOTIFICATION */}
         <div className="w-full flex justify-between items-center py-6 md:px-10 px-5 border-b-[1px] border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-[#252946] transition-all duration-300 cursor-pointer">
