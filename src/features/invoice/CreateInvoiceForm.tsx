@@ -100,14 +100,21 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   ];
 
   // Initialize React Hook Form
-  const { register, handleSubmit, formState, control, reset, getValues } =
-    useForm<InvoiceFormData>({
-      defaultValues: isEditSession
-        ? { ...editValue } // If editing, use existing invoice data
-        : {
-            items: [{ name: "", quantity: 0, price: 0 }], // Default empty item for new invoice
-          },
-    });
+  const {
+    register,
+    handleSubmit,
+    formState,
+    control,
+    reset,
+    getValues,
+    watch,
+  } = useForm<InvoiceFormData>({
+    defaultValues: isEditSession
+      ? { ...editValue } // If editing, use existing invoice data
+      : {
+          items: [{ name: "", quantity: 0, price: 0 }], // Default empty item for new invoice
+        },
+  });
 
   // Extract form errors from form state
   const { errors } = formState;
@@ -117,6 +124,9 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     control,
     name: "items",
   });
+
+  // Watch all items to trigger re-render when values change
+  const watchedItems = watch("items");
 
   // Get the currently selected action option
   const currentAction = actionOptions.find(
@@ -538,9 +548,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               />
             </FormColumn>
 
-            {/* TOTAL PRICE - Calculated automatically */}
+            {/* TOTAL PRICE - Calculated automatically and updates in real-time */}
             <p className="text-[#000] dark:text-white font-bold text-[1.7rem] ">
-              {(field.quantity ?? 0) * (field.price ?? 0)}
+              {(
+                (watchedItems?.[index]?.quantity ?? 0) *
+                (watchedItems?.[index]?.price ?? 0)
+              ).toFixed(2)}
             </p>
 
             {/* DELETE ITEM BUTTON */}
