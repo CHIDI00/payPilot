@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
+// UI Components
 import FormColumn from "../../ui/FormColumn";
 import FormSubTitle from "../../ui/FormSubTitle";
 import Button from "../../ui/Button";
 
+// Form handling
 import { useForm, useFieldArray } from "react-hook-form";
-import { ChevronLeft, Plus, Trash } from "lucide-react";
+
+// Icons
+import { ChevronLeft, Plus, Trash, ChevronDown } from "lucide-react";
+
+// Custom hooks and utilities
 import { useCreateInvoice } from "./useCreateInvoice";
 import { useEditInvoice } from "./useEditInvoice";
 import type { Invoice } from "../../utils/types";
@@ -13,17 +19,20 @@ import { generateInvoiceId } from "../../utils/helper";
 import toast from "react-hot-toast";
 import { useCompanyInfo } from "../acount/useCompanyInfo";
 
+// Props interface for the component
 interface ClosesModalProp {
   onCloseModal: () => void;
   invoiceToEdit: Invoice | null;
 }
 
+// Interface for individual invoice items
 interface InvoiceItem {
   name: string;
   quantity: number;
   price: number;
 }
 
+// Interface for the complete invoice form data
 interface InvoiceFormData {
   id: string;
   invoice_id: string;
@@ -46,42 +55,101 @@ interface InvoiceFormData {
   items: InvoiceItem[];
 }
 
+// Type for the invoice action - determines how the invoice is saved
+type InvoiceAction = "draft" | "pending" | "paid";
+
+// Interface for action options in the dropdown
+interface ActionOption {
+  value: InvoiceAction;
+  label: string;
+  color: string;
+}
+
 const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   invoiceToEdit,
   onCloseModal,
 }) => {
+  // Custom hooks for invoice operations
   const { createInvoice, isCreating } = useCreateInvoice();
   const { editInvoice, isEditing } = useEditInvoice();
   const { companyInfo } = useCompanyInfo();
 
+  // Extract company information for default values
   const { companyStreet, companyCity, companyCountry } = companyInfo || {};
 
+  // Check if any operation is in progress
   const isWorking = isCreating || isEditing;
 
+  // Separate the id from the rest of the invoice data for editing
   const { id: editId, ...editValue } = invoiceToEdit ?? {};
   const isEditSession = Boolean(editId);
 
+  // State for dropdown action selection (draft, pending, or paid)
+  const [selectedAction, setSelectedAction] = useState<InvoiceAction>("paid");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Action options for the dropdown menu
+  const actionOptions: ActionOption[] = [
+    {
+      value: "draft",
+      label: "Save as Draft",
+      color: "bg-[#373B53] dark:bg-[#0C0E16]",
+    },
+    { value: "pending", label: "Save as Pending", color: "bg-orange-600" },
+    { value: "paid", label: "Save & Send", color: "bg-green-600" },
+  ];
+
+  // Initialize React Hook Form
   const { register, handleSubmit, formState, control, reset, getValues } =
     useForm<InvoiceFormData>({
       defaultValues: isEditSession
-        ? { ...editValue }
+        ? { ...editValue } // If editing, use existing invoice data
         : {
-            items: [{ name: "", quantity: 0, price: 0 }],
+            items: [{ name: "", quantity: 0, price: 0 }], // Default empty item for new invoice
           },
     });
 
+  // Extract form errors from form state
   const { errors } = formState;
 
+  // useFieldArray for dynamically managing invoice items
   const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
   });
 
+  // Get the currently selected action option
+  const currentAction = actionOptions.find(
+    (opt) => opt.value === selectedAction
+  );
+
+  /**
+   * Main form submission handler
+   * Routes to appropriate save function based on selected action
+   */
+  const handleActionSubmit = (data: InvoiceFormData) => {
+    switch (selectedAction) {
+      case "draft":
+        onSaveDraft(); // Save without validation
+        break;
+      case "pending":
+        onSavePending(data); // Save as pending with validation
+        break;
+      case "paid":
+        onSubmit(data); // Save as paid with validation
+        break;
+    }
+  };
+
+  /**
+   * Save invoice as Paid
+   * Handles both creating new invoices and editing existing ones
+   */
   function onSubmit(data: InvoiceFormData) {
     console.log(data);
 
     if (isEditSession && editId) {
-      // EDITING AND EXISTING INVOICE
+      // EDITING AN EXISTING INVOICE
       editInvoice(
         { newInvoiceData: { ...data }, id: editId! },
         {
@@ -92,7 +160,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         }
       );
     } else {
-      // CREATE A NEW INVOICE
+      // CREATE A NEW INVOICE WITH PAID STATUS
       const newInvoice = {
         ...data,
         invoice_id: generateInvoiceId(),
@@ -111,6 +179,10 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     }
   }
 
+  /**
+   * Save invoice as Pending
+   * Creates a new invoice with pending status
+   */
   function onSavePending(data: InvoiceFormData) {
     const newInvoice = {
       ...data,
@@ -129,8 +201,13 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     );
   }
 
+  /**
+   * Save invoice as Draft
+   * Saves form values without running validation
+   * Uses getValues() to bypass validation requirements
+   */
   function onSaveDraft() {
-    // SAVE FORM VALUES WITHOUT RUNNING VALIDATION
+    // Get current form values without validation
     const draftData = getValues();
 
     const newInvoice = {
@@ -156,10 +233,10 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleActionSubmit)}>
+      {/* HEADER SECTION */}
       <div className="w-full mb-10">
         {isEditSession && (
-          // (window.innerWidth <= 500 && (
           <button
             type="button"
             onClick={onCloseModal}
@@ -172,6 +249,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </button>
         )}
       </div>
+
+      {/* FORM TITLE */}
       {isEditSession ? (
         <h2 className="font-bold text-[2.1rem] dark:text-[#FFF] mb-10">
           Edit <span className="text-[#7E88C3]">#</span>
@@ -182,7 +261,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           New Invoice
         </h2>
       )}
-      {/* BILL FROM */}
+      {/* BILL FROM SECTION - Company/Sender Information */}
       <div className="my-6">
         <FormSubTitle>Bill From</FormSubTitle>
 
@@ -247,7 +326,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </div>
       </div>
 
-      {/* BILL TO */}
+      {/* BILL TO SECTION - Client Information */}
       <div className="my-6">
         <FormSubTitle>Bill To</FormSubTitle>
 
@@ -338,7 +417,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* INVOICE DATA */}
+          {/* INVOICE DATE */}
           <FormColumn label="Invoice Date" error={errors.invoice_date}>
             <input
               type="date"
@@ -367,7 +446,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </FormColumn>
         </div>
 
-        {/* DESCRIPTION */}
+        {/* PROJECT DESCRIPTION */}
         <FormColumn label="Project Description" error={errors.description}>
           <input
             type="text"
@@ -382,9 +461,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </FormColumn>
       </div>
 
+      {/* ITEM LIST SECTION - Dynamic line items */}
       <div className="my-14">
         <FormSubTitle>Item List</FormSubTitle>
 
+        {/* Table headers for desktop view */}
         <div className="hidden md:grid grid-cols-[3fr_.8fr_1.3fr_1fr_.4fr] gap-7 mb-5">
           <p className="text-[#7E88C3] text-[1.4rem]">Item Name</p>
           <p className="text-[#7E88C3] text-[1.4rem] text-left">QTY.</p>
@@ -393,6 +474,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           <div></div>
         </div>
 
+        {/* Dynamic item rows - controlled by useFieldArray */}
         {fields.map((field, index) => (
           <div
             key={field.id}
@@ -456,12 +538,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
               />
             </FormColumn>
 
-            {/* TOTAL PRICE */}
+            {/* TOTAL PRICE - Calculated automatically */}
             <p className="text-[#000] dark:text-white font-bold text-[1.7rem] ">
               {(field.quantity ?? 0) * (field.price ?? 0)}
             </p>
 
-            {/* DELETE ITEM */}
+            {/* DELETE ITEM BUTTON */}
             <div
               className="cursor-pointer dark:text-white"
               onClick={() => remove(index)}
@@ -471,7 +553,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </div>
         ))}
 
-        {/* ADD NEW ITEM */}
+        {/* ADD NEW ITEM BUTTON */}
         <button
           type="button"
           onClick={() => append({ name: "", quantity: 0, price: 0 })}
@@ -481,7 +563,9 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </button>
       </div>
 
+      {/* FORM ACTIONS - Different button layouts for edit vs create */}
       {isEditSession ? (
+        // EDIT MODE - Simple Save/Cancel buttons
         <div className="flex items-center justify-end gap-4">
           <Button
             type="button"
@@ -499,7 +583,9 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
           </Button>
         </div>
       ) : (
+        // CREATE MODE - Discard button + Dropdown selector + Dynamic submit button
         <div className="flex items-center justify-between">
+          {/* Discard button */}
           <div className="">
             <Button
               type="button"
@@ -511,32 +597,63 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             </Button>
           </div>
 
-          <div className="flex gap-4">
-            <Button
-              variant="dark"
-              className="font-bold text-[13px]"
-              type="button"
+          <div className="flex items-center gap-4">
+            {/* DROPDOWN SELECTOR - Choose save action */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 px-4 py-3 bg-[#F9FAFE] dark:bg-[#252945] text-[#7E88C3] dark:text-[#DFE3FA] rounded-full font-bold text-[13px] hover:bg-[#DFE3FA] dark:hover:bg-[#373B53] transition-colors"
+              >
+                <span>{currentAction?.label}</span>
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform ${
+                    isDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* DROPDOWN MENU */}
+              {isDropdownOpen && (
+                <div className="absolute bottom-full mb-2 right-0 bg-white dark:bg-[#252945] rounded-lg shadow-lg border border-gray-200 dark:border-[#303559] py-2 min-w-[180px] z-10">
+                  {actionOptions.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => {
+                        setSelectedAction(option.value);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-[13px] font-medium hover:bg-gray-100 dark:hover:bg-[#373B53] transition-colors ${
+                        selectedAction === option.value
+                          ? "text-[#7C5DFA] dark:text-[#7C5DFA]"
+                          : "text-[#0C0E16] dark:text-[#FFF]"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* DYNAMIC SUBMIT BUTTON - Changes based on selected action */}
+            <button
+              type="submit"
               disabled={isWorking}
-              onClick={onSaveDraft}
+              className={`font-bold text-[13px] px-6 py-4 rounded-full text-white transition-colors ${
+                currentAction?.color
+              } ${
+                isWorking ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"
+              }`}
             >
-              Save as Draft
-            </Button>
-            <Button
-              className="font-bold text-[13px] bg-orange-60 0"
-              type="button"
-              disabled={isWorking}
-              onClick={handleSubmit(onSavePending)}
-            >
-              Pending
-            </Button>
-            <Button
-              className="font-bold text-[13px] bg-green-600"
-              type="button"
-              disabled={isWorking}
-              onClick={handleSubmit(onSubmit)}
-            >
-              Paid
-            </Button>
+              {selectedAction === "draft"
+                ? "Save Draft"
+                : selectedAction === "pending"
+                ? "Save Pending"
+                : "Save & Send"}
+            </button>
           </div>
         </div>
       )}
