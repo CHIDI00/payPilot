@@ -1,8 +1,5 @@
-import { ReceiptTurkishLira, SquaresExclude } from "lucide-react";
+import { BadgeAlert, ReceiptTurkishLira, SquaresExclude } from "lucide-react";
 import React from "react";
-import invoiceIcon from "../../assets/invoiceIcon.png";
-import receiptIcon from "../../assets/receiptIcon.png";
-import duebill from "../../assets/duebill.png";
 import { formatCurrencyWithoutFormating } from "@/utils/helper";
 import { useInvoiceOnDashboard } from "../invoice/useInvoiceOnDashboard";
 
@@ -60,7 +57,7 @@ const InvoiceOverView: React.FC = () => {
             <p className="font-medium text-2xl text-gray-400">
               Net sales position · 1year
             </p>
-            <p className="text-3xl font-extrabold lg:text-4xl md:text-2xl">
+            <p className="text-3xl font-medium lg:text-6xl md:text-2xl">
               {isLoading
                 ? "-- : -- "
                 : formatCurrencyWithoutFormating(invoiceVolume)}
@@ -76,7 +73,7 @@ const InvoiceOverView: React.FC = () => {
       <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
         <div className="flex flex-col items-start justify-center gap-7">
           <div className="flex justify-center items-center gap-5">
-            <span className="flex items-center justify-center w-12 h-12 p-2 text-white bg-purple-600 rounded-full">
+            <span className="flex items-center justify-center w-12 h-12 p-2 text-white bg-green-600 rounded-full">
               <ReceiptTurkishLira size={15} />
             </span>
 
@@ -85,7 +82,7 @@ const InvoiceOverView: React.FC = () => {
 
           <div className="flex flex-col items-start justify-start gap-2 my-10">
             <p className="font-medium text-gray-400 ">Net revenue · 1year</p>
-            <p className="text-3xl font-extrabold lg:text-4xl md:text-2xl">
+            <p className="text-3xl font-medium lg:text-6xl md:text-2xl">
               {isLoading
                 ? "-- : -- "
                 : formatCurrencyWithoutFormating(receiptVolume)}
@@ -100,20 +97,24 @@ const InvoiceOverView: React.FC = () => {
       </div>
       <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
         <div className="flex flex-col items-start justify-center gap-7">
-          <span className="flex items-center justify-center w-12 h-12 p-2 text-white bg-orange-600 rounded-full">
-            <SquaresExclude size={15} />
-          </span>
+          <div className="flex justify-center items-center gap-5">
+            <span className="flex items-center justify-center w-12 h-12 p-2 text-white bg-red-600 rounded-full">
+              <BadgeAlert size={15} />
+            </span>
+
+            <p className="font-bold text-gray-400">Due volume</p>
+          </div>
 
           <div className="flex flex-col items-start justify-start gap-2 my-10">
-            <p className="font-bold ">Due volume</p>
-            <p className="text-3xl font-extrabold lg:text-4xl md:text-2xl">
+            <p className="font-medium text-gray-400 ">Total net due</p>
+            <p className="text-3xl font-medium lg:text-6xl md:text-2xl">
               {isLoading
                 ? "-- : -- "
                 : formatCurrencyWithoutFormating(dueVolume)}
             </p>
           </div>
 
-          <p className="text-xl font-semibold text-gray-300">Last 12 months</p>
+          <p className="text-xl font-semibold text-gray-400">Last 12 months</p>
         </div>
         {/* <div className=""> */}
         {/* <img src={duebill} alt="" className="w-[30%]" /> */}
