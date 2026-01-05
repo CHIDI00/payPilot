@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Button from "./Button";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useUser } from "@/features/authentication/useUser";
 
 const formatDateTime = (dateString: string): string => {
   const date = new Date(dateString);
@@ -24,6 +25,9 @@ const Header: React.FC<HeaderProp> = ({ setMenuIsOpen }) => {
   const [showNotification, setShowNotification] = useState(false);
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
+  const { user } = useUser();
+  console.log(user);
+  const avatar = user?.user_metadata;
 
   const { notifications, hasUnread, markAllRead } = useNotifications();
 
@@ -86,58 +90,67 @@ const Header: React.FC<HeaderProp> = ({ setMenuIsOpen }) => {
         </div>
       )}
 
-      <div className="relative">
-        <Button
-          variant="secondary"
-          size="sm"
-          className="relative rounded-full"
-          onClick={toggleNotification}
-        >
-          <Bell size={15} />
+      <div className="flex gap-7 justify-center items-center">
+        <div className="relative">
+          <Button
+            variant="secondary"
+            size="sm"
+            className="relative rounded-full"
+            onClick={toggleNotification}
+          >
+            <Bell size={15} />
 
-          {hasUnread && (
-            <span className="absolute -top-1 -right-1 flex">
-              <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-            </span>
-          )}
-        </Button>
-
-        {showNotification && (
-          <div className="absolute top-[3rem] -right-2 w-[35rem] bg-white rounded-xl shadow-md">
-            <div className="flex items-center justify-center w-full px-6 py-4 border-b border-gray-200">
-              <p className="font-bold">Notification</p>
-            </div>
-
-            {!notifications && (
-              <div className="flex flex-col items-center justify-start w-full p-4">
-                <p className="my-6">No notifications</p>
-              </div>
+            {hasUnread && (
+              <span className="absolute -top-1 -right-1 flex">
+                <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
             )}
+          </Button>
 
-            {notifications.map((n, i) => (
-              <div
-                key={n.id ?? i}
-                className={`flex flex-col w-full p-6 gap-1 ${
-                  i !== notifications.length - 1
-                    ? "border-b border-gray-100"
-                    : ""
-                } ${!n.read ? "bg-purple-50" : "bg-white"}`}
-              >
-                <div className="flex items-center gap-2">
-                  <p className="font-semibold text-[1.4rem]">{n.title}</p>
-                  {!n.read && (
-                    <span className="w-2 h-2 bg-purple-500 rounded-full" />
-                  )}
-                </div>
-                <p className="text-2xl text-gray-700">{n.body}</p>
-                <p className="text-gray-400 text-xl">
-                  {n.created_at && formatDateTime(n.created_at)}
-                </p>
+          {showNotification && (
+            <div className="absolute top-[3rem] -right-2 w-[35rem] bg-white rounded-xl shadow-md">
+              <div className="flex items-center justify-center w-full px-6 py-4 border-b border-gray-200">
+                <p className="font-bold">Notification</p>
               </div>
-            ))}
-          </div>
-        )}
+
+              {!notifications && (
+                <div className="flex flex-col items-center justify-start w-full p-4">
+                  <p className="my-6">No notifications</p>
+                </div>
+              )}
+
+              {notifications.map((n, i) => (
+                <div
+                  key={n.id ?? i}
+                  className={`flex flex-col w-full p-6 gap-1 ${
+                    i !== notifications.length - 1
+                      ? "border-b border-gray-100"
+                      : ""
+                  } ${!n.read ? "bg-purple-50" : "bg-white"}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-[1.4rem]">{n.title}</p>
+                    {!n.read && (
+                      <span className="w-2 h-2 bg-purple-500 rounded-full" />
+                    )}
+                  </div>
+                  <p className="text-2xl text-gray-700">{n.body}</p>
+                  <p className="text-gray-400 text-xl">
+                    {n.created_at && formatDateTime(n.created_at)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="w-12 h-12 border-2 border-purple-400 rounded-full lg:min-w-18 lg:max-h-32">
+          <img
+            src={avatar?.avatar_url}
+            alt="profile image"
+            className="w-full h-full rounded-full"
+          />
+        </div>
       </div>
     </div>
   );
