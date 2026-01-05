@@ -1,5 +1,4 @@
 import React from "react";
-import invoiceIcon from "../../assets/invoiceIcon.png";
 import clients from "../../assets/clients.png";
 import { SquaresExclude, Users } from "lucide-react";
 import type { Invoice } from "../../utils/types";
@@ -114,33 +113,44 @@ const InvoiceChart: React.FC = () => {
 
       <div className="flex flex-col w-full gap-5 lg:flex-col md:flex-row">
         <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
-          <div className="flex flex-col items-start justify-center gap-7">
-            <span className="flex items-center justify-center w-12 h-12 p-2 text-white bg-purple-600 rounded-full">
-              <SquaresExclude size={15} />
-            </span>
+          <div className="flex flex-col items-start justify-center">
+            <div className="flex justify-center items-center gap-5">
+              <span className="flex items-center justify-center w-12 h-12 p-2 text-white bg-purple-600 rounded-full">
+                <SquaresExclude size={15} />
+              </span>
 
-            <div className="flex flex-col items-start justify-start gap-2 my-10">
-              <p className="font-bold ">Total Invoice</p>
-              <p className="text-4xl font-extrabold">{invoices?.length}</p>
+              <p className="font-bold text-gray-400">Invoice report</p>
             </div>
 
-            <div className="flex gap-7">
-              <div className="flex flex-col items-center justify-start gap-1">
-                <p className="text-xl font-medium text-black">Paid</p>
-                <p className="text-4xl font-bold text-black">{paidCount}</p>
+            <div className="flex flex-col items-start justify-start gap-2 my-7">
+              <p className="font-medium ">Total Invoice</p>
+              <p className="text-5xl font-bold">{invoices?.length}</p>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <div className="flex  items-center justify-start gap-4">
+                <p className="text-3xl font-medium text-black">
+                  Paid invoices ·{" "}
+                </p>
+                <p className="text-3xl font-bold text-black">
+                  {paidCount ? paidCount : "0"}
+                </p>
               </div>
-              <div className="flex flex-col items-center justify-start gap-1">
-                <p className="text-xl font-medium text-black">Pending</p>
-                <p className="text-4xl font-bold text-black">{pendingCount}</p>
+              <div className="flex  items-center justify-start gap-4">
+                <p className="text-3xl font-medium text-black">
+                  Pending invoices ·{" "}
+                </p>
+                <p className="text-3xl font-bold text-black">
+                  {pendingCount ? pendingCount : "0"}
+                </p>
               </div>
-              <div className="flex flex-col items-center justify-start gap-1">
-                <p className="text-xl font-medium text-black">Draft</p>
-                <p className="text-4xl font-bold text-black">{draftCount}</p>
+              <div className="flex  items-center justify-start gap-4">
+                <p className="text-3xl font-medium text-black">Draft · </p>
+                <p className="text-3xl font-bold text-black">
+                  {draftCount ? draftCount : "0"}
+                </p>
               </div>
             </div>
-          </div>
-          <div className="">
-            <img src={invoiceIcon} alt="" />
           </div>
         </div>
         <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
@@ -151,7 +161,7 @@ const InvoiceChart: React.FC = () => {
 
             <div className="flex flex-col items-start justify-start gap-2 ">
               <p className="font-bold ">Total Clients</p>
-              <p className="text-6xl font-extrabold">32</p>
+              <p className="text-6xl font-medium">0</p>
             </div>
           </div>
           <div className="">

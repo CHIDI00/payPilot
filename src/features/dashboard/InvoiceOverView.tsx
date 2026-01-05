@@ -59,7 +59,7 @@ const InvoiceOverView: React.FC = () => {
             </p>
             <p className="text-3xl font-medium lg:text-6xl md:text-2xl">
               {isLoading
-                ? "-- : -- "
+                ? "₦ 0.00"
                 : formatCurrencyWithoutFormating(invoiceVolume)}
             </p>
           </div>
@@ -84,7 +84,7 @@ const InvoiceOverView: React.FC = () => {
             <p className="font-medium text-gray-400 ">Net revenue · 1year</p>
             <p className="text-3xl font-medium lg:text-6xl md:text-2xl">
               {isLoading
-                ? "-- : -- "
+                ? "₦ 0.00"
                 : formatCurrencyWithoutFormating(receiptVolume)}
             </p>
           </div>
@@ -108,9 +108,7 @@ const InvoiceOverView: React.FC = () => {
           <div className="flex flex-col items-start justify-start gap-2 my-10">
             <p className="font-medium text-gray-400 ">Total net due</p>
             <p className="text-3xl font-medium lg:text-6xl md:text-2xl">
-              {isLoading
-                ? "-- : -- "
-                : formatCurrencyWithoutFormating(dueVolume)}
+              {isLoading ? "₦ 0.00" : formatCurrencyWithoutFormating(dueVolume)}
             </p>
           </div>
 
