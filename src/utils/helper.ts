@@ -29,6 +29,23 @@ export const formatCurrencyWithoutFormating = (
   }).format(value);
 };
 
+export const getGreeting = (): string => {
+  const hour = new Date().getHours();
+  
+  if (hour < 12) {
+    return "Morning";
+  } else if (hour < 18) {
+    return "Afternoon";
+  } else {
+    return "Evening";
+  }
+};
+
+export const getFirstName = (fullName: string | undefined): string => {
+  if (!fullName) return "there";
+  return fullName.split(" ")[0];
+};
+
 export const formatCurrency = (
   value: number,
   currency = "NGN",
