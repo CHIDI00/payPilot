@@ -1,9 +1,13 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const FormHeader: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  const isLoginActive = location.pathname === "/auth/login";
+  const isSignupActive = location.pathname === "/auth/signup";
 
   return (
     <>
@@ -24,13 +28,21 @@ const FormHeader: React.FC = () => {
         <div className="grid grid-cols-2 w-full justify-center items-center gap-1 bg-primary-gray100 dark:bg-[#141625] p-1 rounded-xl my-6">
           <div
             onClick={() => navigate("/auth/login")}
-            className="flex items-center justify-center w-full p-3 font-semibold rounded-lg cursor-pointer"
+            className={`flex items-center justify-center w-full p-3 font-semibold rounded-lg cursor-pointer transition-all duration-300 ease-in-out ${
+              isLoginActive
+                ? "bg-white dark:bg-[#191c2f] shadow-sm"
+                : "hover:bg-white/50 dark:hover:bg-[#191c2f]/50"
+            }`}
           >
             Login
           </div>
           <div
             onClick={() => navigate("/auth/signup")}
-            className="w-full bg-white dark:bg-[#191c2f] flex items-center justify-center rounded-lg p-3 font-semibold cursor-pointer"
+            className={`w-full flex items-center justify-center rounded-lg p-3 font-semibold cursor-pointer transition-all duration-300 ease-in-out ${
+              isSignupActive
+                ? "bg-white dark:bg-[#191c2f] shadow-sm"
+                : "hover:bg-white/50 dark:hover:bg-[#191c2f]/50"
+            }`}
           >
             Sign Up
           </div>
