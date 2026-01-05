@@ -204,6 +204,32 @@ const InvoiceDetail: React.FC = () => {
     }
   };
 
+  // 2. Create the WhatsApp Link Generator
+  // const handleWhatsAppShare = () => {
+  //   if (!invoice) return;
+
+  //   // The Invoice Public Link
+  //   // (Assuming your app is live at paypilot.me, otherwise use localhost for test)
+  //   const liveLink = `https://localhost:5173/pay/${invoice.id}`;
+
+  //   // The Message
+  //   const text = `Hello ${invoice.client_name},%0a%0aHere is your invoice *#${
+  //     invoice.invoice_id
+  //   }* for *₦${total.toLocaleString()}*.%0a%0aYou can view and pay it securely here:%0a${liveLink}%0a%0aThank you!`;
+
+  //   // The WhatsApp URL (wa.me)
+  //   // If we have a client phone number, we target them directly.
+  //   // If not, we just open WhatsApp so the user can pick a contact.
+  //   const baseUrl = "https://wa.me/";
+  //   // const phoneParam = invoice.client_phone ? `${invoice.client_phone}?` : "?";
+  //   const phoneParam = "?";
+
+  //   const whatsappUrl = `${baseUrl}${phoneParam}text=${text}`;
+
+  //   // Open in new tab
+  //   window.open(whatsappUrl, "_blank");
+  // };
+
   return (
     <>
       <motion.div
@@ -295,6 +321,16 @@ const InvoiceDetail: React.FC = () => {
                 <Send size={18} />
               )}
             </Button>
+
+            {/* --- NEW WHATSAPP BUTTON --- */}
+            {/* <Button
+              variant="secondary"
+              className="flex items-center gap-2 text-green-700 border-green-200 hover:bg-green-50"
+              onClick={handleWhatsAppShare}
+            >
+              <MessageCircle size={18} />
+              Share on WhatsApp
+            </Button> */}
           </div>
         </div>
 

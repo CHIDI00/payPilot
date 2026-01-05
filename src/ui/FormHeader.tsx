@@ -7,14 +7,10 @@ const FormHeader: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full">
-        <NavLink to="/home">
-          <div className="flex gap-5 items-center justify-center lg:w-full w-[20%] h-full p-5">
-            <img
-              src={logo}
-              alt="logo"
-              className="h-full lg:w-[10%] lg:h-auto"
-            />
+      <div className="flex flex-col items-center justify-center w-full">
+        <NavLink to="/home" className="flex items-center w-full">
+          <div className="flex items-center justify-center w-full h-full gap-5 p-5 lg:w-full">
+            <img src={logo} alt="logo" className="h-full w-[12%] lg:h-auto" />
             <p className="text-5xl font-extrabold text-black">PayPilot</p>
           </div>
         </NavLink>
