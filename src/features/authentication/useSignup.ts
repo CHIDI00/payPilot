@@ -36,7 +36,7 @@ export function useSignup() {
     onSuccess: (data) => {
       if (data?.user) {
         queryClient.setQueryData(["user"], data.user);
-        navigate("auth/login", { replace: true });
+        navigate("/auth/signup_?", { replace: true });
       }
     },
     onError: () => {

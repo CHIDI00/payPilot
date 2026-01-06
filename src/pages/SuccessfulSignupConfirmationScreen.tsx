@@ -1,6 +1,8 @@
+import { useUser } from "@/features/authentication/useUser";
 import { CheckCircle, MailCheck, SendHorizonal } from "lucide-react";
 
 const SuccessfulSignupConfirmationScreen = () => {
+  const { user } = useUser();
   return (
     <div className="w-screen h-[100dvh] flex justify-center items-center bg-purple-100">
       {/* <!-- Main Layout Container --> */}
@@ -27,7 +29,7 @@ const SuccessfulSignupConfirmationScreen = () => {
               <p className="text-[#756189] text-3xl sm:text-3xl font-normal leading-relaxed">
                 We've sent a verification email to{" "}
                 <span className="font-bold text-[#141118] dark:text-white">
-                  john.doe@example.com
+                  {user?.email}
                 </span>
                 . Please click the link in the email to activate your account.
               </p>

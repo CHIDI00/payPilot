@@ -44,13 +44,13 @@ const SignupForm: React.FC = () => {
       {/* FULL NAME */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Full Name</label>
-        <div className="relative flex items-center transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
-          <User className="absolute left-3 top-2 text-gray-500" />
+        <div className="relative flex items-center transition-all border-2 border-gray-300 rounded-lg dark:border-gray-700 focus-within:border-blue-500">
+          <User className="absolute text-gray-500 left-3 top-2" />
           <input
             type="text"
             id="fullName"
             placeholder="Enter your full name"
-            className="w-full py-3 pl-14 bg-transparent focus:outline-none"
+            className="w-full py-3 bg-transparent pl-14 focus:outline-none"
             {...register("fullName", { required: "Full name is required" })}
           />
         </div>
@@ -62,13 +62,13 @@ const SignupForm: React.FC = () => {
       {/* EMAIL */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Email</label>
-        <div className="relative flex items-center transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
-          <Mail className="absolute left-3 top-2 text-gray-500" />
+        <div className="relative flex items-center transition-all border-2 border-gray-300 rounded-lg dark:border-gray-700 focus-within:border-blue-500">
+          <Mail className="absolute text-gray-500 left-3 top-2" />
           <input
             type="email"
             id="email"
             placeholder="Enter your email"
-            className="w-full py-3 pl-14 bg-transparent focus:outline-none"
+            className="w-full py-3 bg-transparent pl-14 focus:outline-none"
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -86,13 +86,13 @@ const SignupForm: React.FC = () => {
       {/* PASSWORD */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Password</label>
-        <div className="relative flex items-center  transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
-          <Lock className="absolute left-3 top-2 text-gray-500" />
+        <div className="relative flex items-center transition-all border-2 border-gray-300 rounded-lg dark:border-gray-700 focus-within:border-blue-500">
+          <Lock className="absolute text-gray-500 left-3 top-2" />
           <input
             type={showPassword ? "text" : "password"}
             id="password"
             placeholder="Create a password"
-            className="w-full px-14 py-3 bg-transparent focus:outline-none"
+            className="w-full py-3 bg-transparent px-14 focus:outline-none"
             {...register("password", {
               required: "Password is required",
               minLength: { value: 6, message: "Minimum 6 characters" },
@@ -101,7 +101,7 @@ const SignupForm: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-2 text-gray-500 hover:text-gray-800"
+            className="absolute text-gray-500 right-3 top-2 hover:text-gray-800"
           >
             {showPassword ? <EyeOff /> : <Eye />}
           </button>
@@ -114,13 +114,13 @@ const SignupForm: React.FC = () => {
       {/* CONFIRM PASSWORD */}
       <div className="flex flex-col w-full gap-2">
         <label className="text-[1.6rem] font-medium">Confirm Password</label>
-        <div className="relative flex items-center transition-all border-2 border-gray-300 dark:border-gray-700 rounded-lg focus-within:border-blue-500">
-          <Lock className="absolute left-3 top-2 text-gray-500" />
+        <div className="relative flex items-center transition-all border-2 border-gray-300 rounded-lg dark:border-gray-700 focus-within:border-blue-500">
+          <Lock className="absolute text-gray-500 left-3 top-2" />
           <input
             type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
             placeholder="Confirm your password"
-            className="w-full px-14 py-3 bg-transparent focus:outline-none"
+            className="w-full py-3 bg-transparent px-14 focus:outline-none"
             {...register("confirmPassword", {
               required: "Please confirm your password",
               validate: (value) =>
@@ -130,7 +130,7 @@ const SignupForm: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-3 top-2 text-gray-500 hover:text-gray-800"
+            className="absolute text-gray-500 right-3 top-2 hover:text-gray-800"
           >
             {showConfirmPassword ? <EyeOff /> : <Eye />}
           </button>
@@ -159,7 +159,7 @@ const SignupForm: React.FC = () => {
       {/* DIVIDER */}
       <div className="relative flex items-center w-full">
         <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
-        <span className="px-3 text-xl text-gray-600 dark:text-white uppercase">
+        <span className="px-3 text-xl text-gray-600 uppercase dark:text-white">
           or
         </span>
         <div className="flex-grow h-[0.15rem] bg-gray-300 dark:bg-gray-700"></div>
@@ -172,7 +172,7 @@ const SignupForm: React.FC = () => {
         className="flex items-center justify-center w-full gap-4 px-6 py-4 transition-all border-2 border-gray-200 cursor-pointer rounded-xl hover:shadow-md"
       >
         <img src={google} alt="google" className="w-7 h-7" />
-        <p className="font-medium text-3xl text-gray-700 dark:text-white">
+        <p className="text-3xl font-medium text-gray-700 dark:text-white">
           Sign up with Google
         </p>
       </button>
