@@ -8,6 +8,7 @@ import supabase from "../services/supabase";
 import AppLoader from "../ui/preloader";
 import PaymentSettings from "@/features/payment/PaymentSettings";
 import PublicInvoice from "@/pages/PublicInvoiceForPayment";
+import SuccessfulSignupConfirmationScreen from "@/pages/SuccessfulSignupConfirmationScreen";
 
 const AppLayout = lazy(() => import("../ui/AppLayout"));
 const Invoices = lazy(() => import("../pages/Invoices"));
@@ -77,6 +78,10 @@ function AppRoutes() {
 
           <Route path="auth/login" element={<Login />} />
           <Route path="auth/signup" element={<Signup />} />
+          <Route
+            path="auth/signup_?"
+            element={<SuccessfulSignupConfirmationScreen />}
+          />
           <Route path="*" element={<PageNotFound />} />
           <Route path="home" element={<LandingPage />} />
           <Route index element={<Navigate replace to="/home" />} />
