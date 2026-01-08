@@ -36,19 +36,23 @@ interface InvoiceItem {
 interface InvoiceFormData {
   id: string;
   invoice_id: string;
+  public_uuid: string;
   street_address?: string;
   post_code?: string;
+  state: string;
   city?: string;
   country?: string;
   client_name?: string;
   client_email?: string;
   client_street_address?: string;
+  client_state: string;
   client_city?: string;
   client_post_code?: string;
   client_country?: string;
   invoice_date?: string;
   payment_terms?: string;
   description?: string;
+  accountNo?: number;
   status: string;
   company_id: string;
 
@@ -112,7 +116,8 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     defaultValues: isEditSession
       ? { ...editValue } // If editing, use existing invoice data
       : {
-          items: [{ name: "", quantity: 0, price: 0 }], // Default empty item for new invoice
+          // Default empty item for new invoice
+          items: [{ name: "", quantity: 0, price: 0 }],
         },
   });
 
@@ -290,7 +295,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             })}
           />
         </FormColumn>
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-2">
           <FormColumn label="City" error={errors.city}>
             <input
               type="text"
@@ -300,6 +305,19 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
                 errors.city ? "border-red-600" : "border-gray-300"
               }`}
               {...register("city", {
+                required: "*",
+              })}
+            />
+          </FormColumn>
+          <FormColumn label="State" error={errors.state}>
+            <input
+              type="text"
+              id="State"
+              // defaultValue={state}
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.state ? "border-red-600" : "border-gray-300"
+              }`}
+              {...register("state", {
                 required: "*",
               })}
             />
@@ -334,9 +352,22 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             />
           </FormColumn>
         </div>
+        {/* ACCOUNT NUMBER */}
+        <FormColumn label="Account No" error={errors.payment_terms}>
+          <input
+            type="text"
+            id="accountNo"
+            className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+              errors.accountNo ? "border-red-600" : "border-gray-300"
+            }`}
+            {...register("accountNo", {
+              required: "can't be empty",
+            })}
+          />
+        </FormColumn>
       </div>
 
-      {/* BILL TO SECTION - Client Information */}
+      {/* ---------------------BILL TO SECTION - Client Information--------------------- */}
       <div className="my-6">
         <FormSubTitle>Bill To</FormSubTitle>
 
@@ -378,7 +409,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             })}
           />
         </FormColumn>
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-2">
           {/* CLIENT'S CITY */}
           <FormColumn label="City" error={errors.client_city}>
             <input
@@ -388,6 +419,20 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
                 errors.client_city ? "border-red-600" : "border-gray-300"
               }`}
               {...register("client_city", {
+                required: "*",
+              })}
+            />
+          </FormColumn>
+          {/* CLIENT'S CITY */}
+          <FormColumn label="State" error={errors.state}>
+            <input
+              type="text"
+              id="client_state"
+              // defaultValue={client_state}
+              className={`w-full bg-transparent text-[1.3rem] text-black dark:text-[#FFF] dark:bg-[#252945] dark:border-[#303559] border-[1px] border-gray-300 py-3 px-6 font-bold rounded-md ${
+                errors.client_state ? "border-red-600" : "border-gray-300"
+              }`}
+              {...register("client_state", {
                 required: "*",
               })}
             />
@@ -428,7 +473,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* INVOICE DATE */}
-          <FormColumn label="Invoice Date" error={errors.invoice_date}>
+          <FormColumn label="Payment Date" error={errors.invoice_date}>
             <input
               type="date"
               id="invoice_date"
@@ -457,7 +502,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </div>
 
         {/* PROJECT DESCRIPTION */}
-        <FormColumn label="Project Description" error={errors.description}>
+        <FormColumn label="Description" error={errors.description}>
           <input
             type="text"
             id="description"
