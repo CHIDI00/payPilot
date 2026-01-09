@@ -60,42 +60,42 @@ const ClientsPage: React.FC = () => {
     <div className="w-full my-10">
       {/* ------Client overview------ */}
       <div className="grid grid-cols-4 justify-center items-center mb-6 gap-7">
-        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[15rem]">
+        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[17rem]">
           <h2 className="text-4xl font-normal">Okoya Fridaus</h2>
 
           <div className="flex flex-col gap-1">
             <p className="font-semibold">Most Active Client</p>
-            <p className="font-normal text-2xl text-gray-400">
+            <p className="font-normal text-[1.3rem] text-gray-400">
               1 invoice past 30 days
             </p>
           </div>
         </div>
-        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[15rem]">
+        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[17rem]">
           <h2 className="text-4xl font-normal">0</h2>
 
           <div className="flex flex-col gap-1">
             <p className="font-semibold">Inactive Client</p>
-            <p className="font-normal  text-2xl text-gray-400">
+            <p className="font-normal  text-[1.3rem] text-gray-400">
               No invoices or time tracked past 30 days
             </p>
           </div>
         </div>
-        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[15rem]">
+        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[17rem]">
           <h2 className="text-4xl font-normal">Okoya Fridaus</h2>
 
           <div className="flex flex-col gap-1">
             <p className="font-semibold">Top Revenue Client</p>
-            <p className="font-normal  text-2xl text-gray-400">
+            <p className="font-normal  text-[1.3rem] text-gray-400">
               NGN 60,000.00 from 1 invoice past 30 days
             </p>
           </div>
         </div>
-        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[15rem]">
+        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-between items-start w-full h-[17rem]">
           <h2 className="text-4xl font-normal">0</h2>
 
           <div className="flex flex-col gap-1">
             <p className="font-semibold">New Customers</p>
-            <p className="font-normal truncate text-2xl text-gray-400">
+            <p className="font-normal truncate text-[1.3rem] text-gray-400">
               Added past 30 days
             </p>
           </div>
@@ -122,7 +122,7 @@ const ClientsPage: React.FC = () => {
       </div>
 
       {/* --- TABLE CONTAINER --- */}
-      <div className="flex flex-col w-full border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-[#1e2139] overflow-hidden shadow-sm">
+      <div className="flex flex-col w-full border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-[#1e2139] overflow-x-scroll shadow-sm">
         <ClientTable />
 
         {/* Table Rows (The Data) */}
