@@ -30,6 +30,8 @@ export async function getClients() {
     )
     .order("created_at", { ascending: false }); // Newest clients first
 
+  console.log(data);
+
   if (error) {
     console.error(error);
     throw new Error("Clients could not be loaded");

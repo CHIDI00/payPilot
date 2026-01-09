@@ -6,7 +6,8 @@ interface ClientRowProps {
   id: string;
   name: string;
   email: string;
-  phone: string;
+  state: string;
+  phone_number: number;
   balance: string; // or number, depending on how you format it before passing
   lastActive: string;
   // Handler functions passed down from the parent
@@ -18,15 +19,16 @@ interface ClientRowProps {
 const ClientRow: React.FC<ClientRowProps> = ({
   name,
   email,
-  phone,
+  phone_number,
   balance,
+  state,
   lastActive,
   onView,
   onEdit,
   onDelete,
 }) => {
   return (
-    <div className="w-full px-6 py-5 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors grid grid-cols-[2fr_1fr_1fr_1fr_.3fr] gap-5 items-center">
+    <div className="w-full px-6 py-5 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors grid grid-cols-[2fr_1.5fr_1.5fr_.7fr_1fr_2fr_.5fr] gap-5 items-center">
       {/* 1. Name & Email */}
       <div className="flex flex-col">
         <p className="text-[1.5rem] font-bold text-[#0C0E16] dark:text-white truncate">
@@ -35,20 +37,33 @@ const ClientRow: React.FC<ClientRowProps> = ({
         <p className="text-[1.2rem] text-gray-400 truncate">{email}</p>
       </div>
 
-      {/* 2. Phone */}
+      {/* 2. Phone_number */}
       <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
-        {phone}
+        {phone_number}
+      </div>
+
+      {/* 3. email */}
+      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
+        {email}
+      </div>
+
+      {/* 3. invoices */}
+      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">0</div>
+
+      {/* 3. email */}
+      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
+        {state}
       </div>
 
       {/* 3. Balance (Right Aligned for Money) */}
-      <div className="text-right text-[1.4rem] font-bold text-[#0C0E16] dark:text-white">
+      <div className="text-left text-[1.4rem] font-bold text-[#0C0E16] dark:text-white">
         {balance}
       </div>
 
-      {/* 4. Last Active / Date */}
+      {/* 4. Last Active / Date
       <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
         {lastActive}
-      </div>
+      </div> */}
 
       {/* 5. The Dropdown Action Menu */}
       <div className="flex justify-end">

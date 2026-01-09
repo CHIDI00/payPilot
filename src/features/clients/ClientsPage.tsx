@@ -9,7 +9,7 @@ import ClientRow from "./ClientRow";
 import Loader from "@/ui/Loader";
 
 // Logic & Helpers
-import { getClients } from "../../services/apiClient"; // Adjust path if needed
+import { getClients } from "../../services/apiClient";
 import { formatCurrency } from "@/utils/helper";
 
 const ClientsPage: React.FC = () => {
@@ -19,8 +19,12 @@ const ClientsPage: React.FC = () => {
   type Client = {
     id: string;
     name: string;
-    email?: string | null;
-    phone?: string | null;
+    email: string;
+    phone_number: number;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
     outstanding_balance: number;
     last_activity?: string | null;
   };
@@ -122,7 +126,7 @@ const ClientsPage: React.FC = () => {
       </div>
 
       {/* --- TABLE CONTAINER --- */}
-      <div className="flex flex-col w-full border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-[#1e2139] overflow-x-scroll shadow-sm">
+      <div className="flex flex-col w-full border border-gray-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-[#1e2139]  shadow-sm">
         <ClientTable />
 
         {/* Table Rows (The Data) */}
@@ -138,8 +142,9 @@ const ClientsPage: React.FC = () => {
                   key={client.id}
                   id={client.id}
                   name={client.name}
-                  email={client.email || ""}
-                  phone={client.phone || "N/A"}
+                  email={client.email || "--"}
+                  state={client.state}
+                  phone_number={client.phone_number}
                   // Formatted Balance
                   balance={formatCurrency(client.outstanding_balance)}
                   // Formatted Date

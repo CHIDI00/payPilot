@@ -60,3 +60,13 @@ export interface Notification {
   read: boolean;
   body: string;
 }
+
+export interface client {
+  name: string;
+  email: string;
+  phone_number: number;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+}
