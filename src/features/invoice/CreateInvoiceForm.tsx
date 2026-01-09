@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import FormColumn from "../../ui/FormColumn";
 import FormSubTitle from "../../ui/FormSubTitle";
 import Button from "../../ui/Button";
+import ClientSelector from "./ClientSelector";
+import type { SelectedClientData } from "./ClientSelector";
 
 // Form handling
 import { useForm, useFieldArray } from "react-hook-form";
@@ -88,9 +90,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   const { id: editId, ...editValue } = invoiceToEdit ?? {};
   const isEditSession = Boolean(editId);
 
-  // State for dropdown action selection (draft, pending, or paid)
+  // STATE FOR DROPDOWN ACTION SELECTION (DRAFT, PENDING, OR PAID)
   const [selectedAction, setSelectedAction] = useState<InvoiceAction>("paid");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // STATE FOR SELECTED CLIENT NAME DISPLAY
+  const [selectedClientName, setSelectedClientName] = useState<string>("");
 
   // Action options for the dropdown menu
   const actionOptions: ActionOption[] = [
@@ -103,7 +108,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     { value: "paid", label: "Save & Send", color: "bg-green-600" },
   ];
 
-  // Initialize React Hook Form
+  // INITIALIZE REACT HOOK FORM
   const {
     register,
     handleSubmit,
@@ -112,6 +117,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     reset,
     getValues,
     watch,
+    setValue,
   } = useForm<InvoiceFormData>({
     defaultValues: isEditSession
       ? { ...editValue } // If editing, use existing invoice data
@@ -133,10 +139,28 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   // Watch all items to trigger re-render when values change
   const watchedItems = watch("items");
 
-  // Get the currently selected action option
+  // GET THE CURRENTLY SELECTED ACTION OPTION
   const currentAction = actionOptions.find(
     (opt) => opt.value === selectedAction
   );
+
+  /**
+   * HANDLE CLIENT SELECTION FROM DROPDOWN
+   * AUTO-FILLS CLIENT INFORMATION IN THE FORM
+   */
+  const handleClientSelect = (clientData: SelectedClientData) => {
+    // AUTO-FILL CLIENT FIELDS
+    setValue("client_name", clientData.client_name);
+    setValue("client_email", clientData.client_email);
+    setValue("client_street_address", clientData.client_street_address);
+    setValue("client_city", clientData.client_city);
+    setValue("client_state", clientData.client_state);
+    setValue("client_post_code", clientData.client_post_code);
+    setValue("client_country", clientData.client_country);
+
+    // UPDATE SELECTED CLIENT NAME FOR DISPLAY
+    setSelectedClientName(clientData.client_name);
+  };
 
   /**
    * Main form submission handler
@@ -367,9 +391,15 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         </FormColumn>
       </div>
 
-      {/* ---------------------BILL TO SECTION - Client Information--------------------- */}
+      {/* ---------------------BILL TO SECTION - CLIENT INFORMATION--------------------- */}
       <div className="my-6">
         <FormSubTitle>Bill To</FormSubTitle>
+
+        {/* CLIENT SELECTOR DROPDOWN */}
+        <ClientSelector
+          onClientSelect={handleClientSelect}
+          selectedClientName={selectedClientName}
+        />
 
         <FormColumn label="Client's Name" error={errors.client_name}>
           <input

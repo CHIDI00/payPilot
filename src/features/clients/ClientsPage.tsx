@@ -27,7 +27,9 @@ const ClientsPage: React.FC = () => {
     name: string;
     email: string;
     phone_number: number;
-    address: string;
+    address_line_1: string;
+    address_line_2: string;
+    zipcode: string;
     city: string;
     state: string;
     country: string;
