@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 
 // Components
 import Button from "@/ui/Button";
@@ -58,6 +58,18 @@ const ClientsPage: React.FC = () => {
 
   return (
     <div className="w-full my-20">
+      {/* ------Client overview------ */}
+      <div className="grid grid-cols-4 justify-center items-center mb-10 ">
+        <div className="border border-gray-300 p-8 bg-white rounded-2xl flex flex-col justify-start items-start gap-8">
+          <h2 className="text-4xl font-normal">Okoya Fridaus</h2>
+
+          <div className="flex flex-col gap-1">
+            <p className="font-semibold">Most Active Client</p>
+            <p className="font-normal text-gray-400">1 invoice past 30 days</p>
+          </div>
+        </div>
+      </div>
+
       {/* --- TOP BAR: SEARCH & ADD BUTTON --- */}
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center justify-center flex-1 max-w-lg gap-4 px-4 bg-white border border-gray-300 rounded-full dark:bg-[#1e2139] dark:border-transparent transition-colors">
@@ -72,8 +84,11 @@ const ClientsPage: React.FC = () => {
         </div>
 
         {/* Hook this up to your 'AddClientModal' later */}
-        <Button onClick={() => console.log("Open Add Modal")}>
-          Add new client
+        <Button
+          onClick={() => console.log("Open Add Modal")}
+          className="px-[.3rem] py-[.3rem]"
+        >
+          <Plus />
         </Button>
       </div>
 

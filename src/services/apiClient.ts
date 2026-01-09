@@ -23,7 +23,6 @@ export async function getClients() {
       *,
       invoices (
         id,
-        price,
         status,
         created_at
       )

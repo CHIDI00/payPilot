@@ -3,7 +3,7 @@ import React from "react";
 import logo from "../assets/logo.png";
 import companyAvartar from "../assets/homedark.png";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Settings, SquaresExclude } from "lucide-react";
+import { LayoutDashboard, Settings, SquaresExclude, Users } from "lucide-react";
 import { useCompanyInfo } from "@/features/acount/useCompanyInfo";
 
 const SideBar: React.FC = () => {
@@ -39,7 +39,7 @@ const SideBar: React.FC = () => {
         >
           <SquaresExclude size={18} /> Invoices
         </NavLink>
-        {/* <NavLink
+        <NavLink
           to="/clients"
           className={({ isActive }) =>
             `flex items-center gap-5 px-4 py-3 text-2xl text-white ${
@@ -48,7 +48,7 @@ const SideBar: React.FC = () => {
           }
         >
           <Users size={18} /> Clients
-        </NavLink> */}
+        </NavLink>
         <NavLink
           to="/settings"
           className={({ isActive }) =>
