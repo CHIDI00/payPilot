@@ -77,3 +77,69 @@ export async function getClients() {
 
   return formattedData;
 }
+
+// CLIENT FORM DATA TYPE
+export type CreateClientData = {
+  name: string;
+  email: string;
+  phone_number?: string;
+  website?: string;
+  address_line_1?: string;
+  address_line_2?: string;
+  city?: string;
+  state?: string;
+  zipcode?: string;
+  country?: string;
+  note?: string;
+};
+
+// CREATE NEW CLIENT
+export async function createClient(clientData: CreateClientData) {
+  // 1. Get the current logged-in user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("You must be logged in to create a client");
+  }
+
+  // 2. Insert the data AND the user_id
+  const { data, error } = await supabase
+    .from("clients")
+    .insert([
+      {
+        ...clientData,
+        user_id: user.id,
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Client could not be created");
+  }
+
+  return data;
+}
+
+// UPDATE EXISTING CLIENT
+export async function updateClient(
+  id: string,
+  clientData: Partial<CreateClientData>
+) {
+  const { data, error } = await supabase
+    .from("clients")
+    .update(clientData)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Client could not be updated");
+  }
+
+  return data;
+}
