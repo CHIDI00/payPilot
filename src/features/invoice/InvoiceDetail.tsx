@@ -59,18 +59,21 @@ const InvoiceDetail: React.FC = () => {
   if (!invoice) return <FailedToLoadInvoiceDetails />;
 
   const {
-    // created_at,
+    created_at: dayTheInvoiceWasCreated,
     id,
     invoice_id,
     public_uuid,
     street_address,
     post_code,
     city,
+    state,
     country,
+    accountNo,
     client_name,
     client_email,
     client_street_address,
     client_city,
+    client_state,
     client_post_code,
     client_country,
     invoice_date,
@@ -358,6 +361,9 @@ const InvoiceDetail: React.FC = () => {
                 {city}
               </p>
               <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                {state}
+              </p>
+              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
                 {post_code}
               </p>
               <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
@@ -368,14 +374,17 @@ const InvoiceDetail: React.FC = () => {
           <div className="grid items-start justify-between w-full grid-cols-2 md:grid-cols-3 gap-y-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-1">
-                <p className="text-[#7E88C3] text-[1.4rem]">Payment Date</p>
+                <p className="text-[#7E88C3] text-[1.4rem]">Date Created</p>
                 <p className="font-bold text-[1.6rem]">
-                  {invoice_date &&
-                    new Date(invoice_date).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
+                  {dayTheInvoiceWasCreated &&
+                    new Date(dayTheInvoiceWasCreated).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
                 </p>
               </div>
               <div className="flex flex-col gap-1">
@@ -385,7 +394,14 @@ const InvoiceDetail: React.FC = () => {
                 >
                   Payment Due
                 </p>
-                <p className="font-bold text-[1.6rem]">31 Aug 2025</p>
+                <p className="font-bold text-[1.6rem]">
+                  {invoice_date &&
+                    new Date(invoice_date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                </p>
               </div>
             </div>
 
@@ -403,6 +419,9 @@ const InvoiceDetail: React.FC = () => {
                   {client_city}
                 </p>
                 <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                  {client_state}
+                </p>
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
                   {client_post_code}
                 </p>
                 <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
@@ -412,10 +431,22 @@ const InvoiceDetail: React.FC = () => {
             </div>
 
             <div className="col-span-2 md:col-span-1">
-              <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
-                Send to
-              </p>
-              <p className="font-bold text-[1.6rem] truncate">{client_email}</p>
+              <div className="mb-5">
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                  Send to
+                </p>
+                <p className="font-bold text-[1.6rem] truncate">
+                  {client_email}
+                </p>
+              </div>
+
+              <div className="">
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
+                  Account details.
+                </p>
+                <p className="font-bold text-[1.6rem] truncate">{accountNo}</p>
+                <p className="font-bold text-[1.6rem] truncate">FCMB</p>
+              </div>
             </div>
           </div>
 
