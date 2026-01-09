@@ -28,7 +28,7 @@ const ClientRow: React.FC<ClientRowProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="w-full px-6 py-5 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors grid grid-cols-[2fr_1.5fr_1.5fr_.7fr_1fr_2fr_.5fr] gap-5 items-center">
+    <div className="w-full px-6 py-5 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors grid grid-cols-[2fr_1.1fr_1.9fr_.7fr_1fr_2fr_.5fr] gap-5 items-center">
       {/* 1. Name & Email */}
       <div className="flex flex-col">
         <p className="text-[1.5rem] font-bold text-[#0C0E16] dark:text-white truncate">
@@ -38,25 +38,19 @@ const ClientRow: React.FC<ClientRowProps> = ({
       </div>
 
       {/* 2. Phone_number */}
-      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
-        {phone_number}
-      </div>
+      <div className="text-[1.4rem] text-gray-500">{phone_number}</div>
 
       {/* 3. email */}
-      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
-        {email}
-      </div>
+      <div className="text-[1.4rem] text-gray-500">{email}</div>
 
-      {/* 3. invoices */}
-      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">0</div>
+      {/* 4. invoices */}
+      <div className="text-[1.4rem] text-gray-500">0</div>
 
-      {/* 3. email */}
-      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
-        {state}
-      </div>
+      {/* 5. email */}
+      <div className="text-[1.4rem] text-gray-500">{state}</div>
 
-      {/* 3. Balance (Right Aligned for Money) */}
-      <div className="text-left text-[1.4rem] font-bold text-[#0C0E16] dark:text-white">
+      {/* 6. Balance (Right Aligned for Money) */}
+      <div className="text-left text-[1.4rem] font-medium text-[#0C0E16]">
         {balance}
       </div>
 
@@ -65,7 +59,7 @@ const ClientRow: React.FC<ClientRowProps> = ({
         {lastActive}
       </div> */}
 
-      {/* 5. The Dropdown Action Menu */}
+      {/* 7. The Dropdown Action Menu */}
       <div className="flex justify-end">
         <ClientActionMenu onView={onView} onEdit={onEdit} onDelete={onDelete} />
       </div>
