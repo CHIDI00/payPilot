@@ -22,7 +22,7 @@ const ClientRow: React.FC<ClientRowProps> = ({
   phone_number,
   balance,
   state,
-  lastActive,
+  // lastActive,
   onView,
   onEdit,
   onDelete,

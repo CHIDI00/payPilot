@@ -13,7 +13,6 @@ import { getClients } from "../../services/apiClient";
 import { formatCurrency } from "@/utils/helper";
 import { AnimatePresence } from "framer-motion";
 import Modal from "@/ui/Modal";
-import CreateInvoiceForm from "../invoice/CreateInvoiceForm";
 import CreateClientForm from "./CreateClientForm";
 
 const ClientsPage: React.FC = () => {

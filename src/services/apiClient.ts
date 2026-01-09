@@ -28,7 +28,7 @@ export async function getClients() {
       )
     `
     )
-    .order("created_at", { ascending: false }); // Newest clients first
+    .order("created_at", { ascending: false });
 
   console.log(data);
 
@@ -72,6 +72,8 @@ export async function getClients() {
       last_activity: lastActivity,
     };
   });
+
+  console.log(formattedData);
 
   return formattedData;
 }
