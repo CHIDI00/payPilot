@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useNavigate } from "react-router-dom";
 import type { Invoice } from "../../utils/types";
 import { ChevronRight } from "lucide-react";
@@ -17,15 +16,13 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
     invoice_id,
     client_name,
     invoice_date,
-    items,
     status,
     created_at,
+    total_amount, // We use the pre-calculated value from the DB now
   } = invoice;
 
-  const totalPrice = items?.reduce(
-    (acc, item) => acc + item.price * (item.quantity ?? 1),
-    0
-  );
+  // REMOVED: const totalPrice = ...
+  // We don't need to calculate this manually anymore!
 
   if (invoice) {
     return (
@@ -61,7 +58,8 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
             {client_name}
           </div>
           <div className="font-bold text-[1.6rem] w-full flex justify-end items-center">
-            {formatCurrency(Number(totalPrice))}
+            {/* Direct usage of total_amount */}
+            {formatCurrency(total_amount || 0)}
           </div>
 
           <div
@@ -112,7 +110,8 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
                 })}
             </div>
             <div className="font-bold text-[1.7rem] w-full flex justify-start items-center">
-              {formatCurrency(Number(totalPrice))}
+              {/* Direct usage of total_amount */}
+              {formatCurrency(total_amount || 0)}
             </div>
           </div>
           <div className="flex items-center justify-end w-full">
@@ -133,6 +132,7 @@ const InvoiceRow: React.FC<InvoiceContainerProps> = ({ invoice }) => {
       </>
     );
   }
+  return null;
 };
 
 export default InvoiceRow;

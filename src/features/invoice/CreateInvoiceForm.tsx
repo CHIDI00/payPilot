@@ -27,8 +27,8 @@ interface ClosesModalProp {
   invoiceToEdit: Invoice | null;
 }
 
-// Interface for individual invoice items
-interface InvoiceItem {
+// Interface for individual invoice items (Form version)
+interface InvoiceItemFormData {
   name: string;
   quantity: number;
   price: number;
@@ -58,7 +58,7 @@ interface InvoiceFormData {
   status: string;
   company_id: string;
 
-  items: InvoiceItem[];
+  items: InvoiceItemFormData[]; // Form uses 'items'
 }
 
 // Type for the invoice action - determines how the invoice is saved
@@ -86,11 +86,17 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
   // Check if any operation is in progress
   const isWorking = isCreating || isEditing;
 
-  // Separate the id from the rest of the invoice data for editing
-  const { id: editId, ...editValue } = invoiceToEdit ?? {};
+  // Separate the id and items from the rest of the invoice data for editing
+  // NOTE: We rename invoice_items to items for the form state
+  const {
+    id: editId,
+    invoice_items, // Grab the array from DB
+    ...editValue
+  } = invoiceToEdit ?? {};
+
   const isEditSession = Boolean(editId);
 
-  // STATE FOR DROPDOWN ACTION SELECTION (DRAFT, PENDING, OR PAID)
+  // STATE FOR DROPDOWN ACTION SELECTION
   const [selectedAction, setSelectedAction] = useState<InvoiceAction>("paid");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -120,9 +126,12 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     setValue,
   } = useForm<InvoiceFormData>({
     defaultValues: isEditSession
-      ? { ...editValue } // If editing, use existing invoice data
+      ? {
+          ...editValue,
+          // MAPPING: Convert DB 'invoice_items' -> Form 'items'
+          items: invoice_items || [],
+        }
       : {
-          // Default empty item for new invoice
           items: [{ name: "", quantity: 0, price: 0 }],
         },
   });
@@ -144,12 +153,7 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     (opt) => opt.value === selectedAction
   );
 
-  /**
-   * HANDLE CLIENT SELECTION FROM DROPDOWN
-   * AUTO-FILLS CLIENT INFORMATION IN THE FORM
-   */
   const handleClientSelect = (clientData: SelectedClientData) => {
-    // AUTO-FILL CLIENT FIELDS
     setValue("client_name", clientData.client_name);
     setValue("client_email", clientData.client_email);
     setValue("client_street_address", clientData.client_street_address);
@@ -157,40 +161,52 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
     setValue("client_state", clientData.client_state);
     setValue("client_post_code", clientData.client_post_code);
     setValue("client_country", clientData.client_country);
-
-    // UPDATE SELECTED CLIENT NAME FOR DISPLAY
     setSelectedClientName(clientData.client_name);
   };
 
-  /**
-   * Main form submission handler
-   * Routes to appropriate save function based on selected action
-   */
   const handleActionSubmit = (data: InvoiceFormData) => {
     switch (selectedAction) {
       case "draft":
-        onSaveDraft(); // Save without validation
+        onSaveDraft();
         break;
       case "pending":
-        onSavePending(data); // Save as pending with validation
+        onSavePending(data);
         break;
       case "paid":
-        onSubmit(data); // Save as paid with validation
+        onSubmit(data);
         break;
     }
   };
 
+  // HELPER: Convert Form Data ('items') -> Backend Data ('invoice_items')
+  // We explicitly cast to 'any' or 'Invoice' because the hook expects Invoice structure
+  const prepareDataForSubmit = (
+    data: Partial<InvoiceFormData>,
+    status: string
+  ) => {
+    const { items, ...rest } = data;
+
+    return {
+      ...rest,
+      status,
+      // MAPPING: Convert Form 'items' -> DB 'invoice_items'
+      invoice_items: items?.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+    } as unknown as Invoice;
+  };
+
   /**
    * Save invoice as Paid
-   * Handles both creating new invoices and editing existing ones
    */
   function onSubmit(data: InvoiceFormData) {
-    console.log(data);
+    const finalData = prepareDataForSubmit(data, "Paid");
 
     if (isEditSession && editId) {
-      // EDITING AN EXISTING INVOICE
       editInvoice(
-        { newInvoiceData: { ...data }, id: editId! },
+        { newInvoiceData: finalData, id: editId! },
         {
           onSuccess: () => {
             reset();
@@ -199,11 +215,9 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
         }
       );
     } else {
-      // CREATE A NEW INVOICE WITH PAID STATUS
       const newInvoice = {
-        ...data,
+        ...finalData,
         invoice_id: generateInvoiceId(),
-        status: "Paid",
       };
 
       createInvoice(
@@ -220,13 +234,13 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 
   /**
    * Save invoice as Pending
-   * Creates a new invoice with pending status
    */
   function onSavePending(data: InvoiceFormData) {
+    const finalData = prepareDataForSubmit(data, "Pending");
+
     const newInvoice = {
-      ...data,
+      ...finalData,
       invoice_id: generateInvoiceId(),
-      status: "Pending",
     };
 
     createInvoice(
@@ -242,17 +256,14 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
 
   /**
    * Save invoice as Draft
-   * Saves form values without running validation
-   * Uses getValues() to bypass validation requirements
    */
   function onSaveDraft() {
-    // Get current form values without validation
     const draftData = getValues();
+    const finalData = prepareDataForSubmit(draftData, "Draft");
 
     const newInvoice = {
-      ...draftData,
+      ...finalData,
       invoice_id: generateInvoiceId(),
-      status: "Draft",
     };
 
     createInvoice(
@@ -260,12 +271,11 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
       {
         onSuccess: () => {
           toast.success("Invoice saved as draft");
-
           reset();
           onCloseModal?.();
         },
         onError: () => {
-          toast.error("Select a date");
+          toast.error("An error occurred");
         },
       }
     );
@@ -661,7 +671,6 @@ const CreateInvoiceForm: React.FC<ClosesModalProp> = ({
             className="font-bold"
             onClick={() => {
               onCloseModal();
-              console.log("Clicked");
             }}
           >
             Cancel

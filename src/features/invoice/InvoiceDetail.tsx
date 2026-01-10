@@ -21,7 +21,6 @@ import {
 import { blobToBase64 } from "@/utils/blobToBase64";
 import { markInvoiceAsPaid } from "../../services/apiInvoices";
 import FailedToLoadInvoiceDetails from "@/ui/FailedToLoadInvoiceDetails";
-// import { previewInvoiceAsPDF } from "@/utils/downloadInvoice";
 import { useCompanyInfo } from "../acount/useCompanyInfo";
 import { sendInvoiceEmail } from "@/services/sendInvoiceEmail";
 
@@ -36,7 +35,6 @@ const InvoiceDetail: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { invoice, isLoading } = useInvoice();
-  console.log(invoice);
 
   const { deleteInvoice, isDeleting } = useDeleteInvoice();
   const { companyInfo } = useCompanyInfo();
@@ -45,7 +43,6 @@ const InvoiceDetail: React.FC = () => {
   const closeEditModal = () => setIsModalOpen(false);
 
   const [isStatus, setIsStatus] = useState(invoice?.status || "Pending");
-
   const [sending, setSending] = useState(false);
 
   // IMMEDIATELY SHOW THE INVOICE STATUS WHEN LOADED
@@ -77,25 +74,18 @@ const InvoiceDetail: React.FC = () => {
     client_post_code,
     client_country,
     invoice_date,
-    // payment_terms,
     description,
     status,
-    items,
+    total_amount, // <-- Get the calculated total directly from DB
+    invoice_items: items, // <-- Alias the new table name to 'items' so your JSX still works!
   } = invoice;
 
-  const {
-    created_at,
-    companyName,
-    companyLine,
-    companyWebsite,
-    // companyAddress,
-    logo,
-  } = companyInfo || {};
+  const { created_at, companyName, companyLine, companyWebsite, logo } =
+    companyInfo || {};
 
-  const total = invoice.items?.reduce(
-    (acc, item) => acc + item.quantity * item.price,
-    0
-  );
+  // REMOVED: const total = invoice.items?.reduce(...)
+  // We use the DB value instead:
+  const total = total_amount || 0;
 
   // PDF DATA FOR DOWNLOAD
   const invoiceData = {
@@ -103,7 +93,7 @@ const InvoiceDetail: React.FC = () => {
     companyName: companyName || "PayPilot",
     phone: companyLine ? String(companyLine) : undefined,
     website: companyWebsite || "",
-    logoUrl: logo || companyLogo, // Uses user logo or default
+    logoUrl: logo || companyLogo,
     addressLine1: street_address || "",
     addressLine2: `${city || ""}`,
     postCode: post_code || "",
@@ -123,12 +113,11 @@ const InvoiceDetail: React.FC = () => {
     clientCountry: client_country || "",
     clientEmail: client_email || "",
 
-    // Items (Map over the REAL items)
+    // Items (Using the aliased 'items' variable)
     items:
-      invoice.items?.map((item) => ({
+      items?.map((item) => ({
         name: item.name,
         qty: item.quantity,
-        // Format currency numbers to strings for the PDF
         price: formatCurrencyWithoutFormating(item.price)
           .replace("NGN", "")
           .trim(),
@@ -164,7 +153,6 @@ const InvoiceDetail: React.FC = () => {
       }
 
       const blob = await pdf(<InvoicePDF data={invoiceData} />).toBlob();
-
       const base64Pdf = await blobToBase64(blob);
 
       const htmlContent = invoiceEmailHtml({
@@ -179,7 +167,7 @@ const InvoiceDetail: React.FC = () => {
         invoice_date: invoice_date ?? null,
         companyWebsite,
         companyName,
-        items,
+        items, // Passed the aliased items
         status,
       });
 
@@ -206,32 +194,6 @@ const InvoiceDetail: React.FC = () => {
       setSending(false);
     }
   };
-
-  // 2. Create the WhatsApp Link Generator
-  // const handleWhatsAppShare = () => {
-  //   if (!invoice) return;
-
-  //   // The Invoice Public Link
-  //   // (Assuming your app is live at paypilot.me, otherwise use localhost for test)
-  //   const liveLink = `https://localhost:5173/pay/${invoice.id}`;
-
-  //   // The Message
-  //   const text = `Hello ${invoice.client_name},%0a%0aHere is your invoice *#${
-  //     invoice.invoice_id
-  //   }* for *₦${total.toLocaleString()}*.%0a%0aYou can view and pay it securely here:%0a${liveLink}%0a%0aThank you!`;
-
-  //   // The WhatsApp URL (wa.me)
-  //   // If we have a client phone number, we target them directly.
-  //   // If not, we just open WhatsApp so the user can pick a contact.
-  //   const baseUrl = "https://wa.me/";
-  //   // const phoneParam = invoice.client_phone ? `${invoice.client_phone}?` : "?";
-  //   const phoneParam = "?";
-
-  //   const whatsappUrl = `${baseUrl}${phoneParam}text=${text}`;
-
-  //   // Open in new tab
-  //   window.open(whatsappUrl, "_blank");
-  // };
 
   return (
     <>
@@ -324,16 +286,6 @@ const InvoiceDetail: React.FC = () => {
                 <Send size={18} />
               )}
             </Button>
-
-            {/* --- NEW WHATSAPP BUTTON --- */}
-            {/* <Button
-              variant="secondary"
-              className="flex items-center gap-2 text-green-700 border-green-200 hover:bg-green-50"
-              onClick={handleWhatsAppShare}
-            >
-              <MessageCircle size={18} />
-              Share on WhatsApp
-            </Button> */}
           </div>
         </div>
 
@@ -388,10 +340,7 @@ const InvoiceDetail: React.FC = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-1">
-                <p
-                  className="text-[#7E88C3] dark:text-gray-300
- text-[1.4rem]"
-                >
+                <p className="text-[#7E88C3] dark:text-gray-300 text-[1.4rem]">
                   Payment Due
                 </p>
                 <p className="font-bold text-[1.6rem]">
@@ -468,7 +417,8 @@ const InvoiceDetail: React.FC = () => {
                 </p>
               </div>
 
-              {invoice.items?.map((item) => (
+              {/* Using mapped 'items' */}
+              {items?.map((item) => (
                 <div
                   key={item.name}
                   className="grid grid-cols-[1.6fr_1fr_1fr_1fr] mb-2"
@@ -489,8 +439,12 @@ const InvoiceDetail: React.FC = () => {
               ))}
             </div>
 
-            {invoice.items?.map((item) => (
-              <div className="px-6 py-4 md:hidden flex flex-col justify-between items-center bg-primary-gray100 dark:bg-[#252945] rounded-[1rem]">
+            {/* Mobile View */}
+            {items?.map((item) => (
+              <div
+                key={item.name}
+                className="px-6 py-4 md:hidden flex flex-col justify-between items-center bg-primary-gray100 dark:bg-[#252945] rounded-[1rem]"
+              >
                 <div className="flex items-center justify-between w-full">
                   <div className="flex flex-col items-start justify-center">
                     <p className="font-bold text-[1.6rem]">{item.name}</p>
@@ -513,6 +467,7 @@ const InvoiceDetail: React.FC = () => {
                 Amount Due
               </p>
               <p className="font-bold text-primary-gray md:text-[2.3rem] text-[2rem]">
+                {/* Using the calculated 'total' variable */}
                 {formatCurrency(Number(total.toFixed(2)))}
               </p>
             </div>

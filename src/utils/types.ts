@@ -1,7 +1,9 @@
 export interface InvoiceItem {
+  id: string;
+  invoice_id: string;
   name: string;
-  quantity: number;
   price: number;
+  quantity: number;
 }
 
 export interface Invoice {
@@ -25,7 +27,8 @@ export interface Invoice {
   description?: string;
   accountNo?: number;
   status: string;
-  items: InvoiceItem[];
+  invoice_items: InvoiceItem[];
+  total_amount: number;
   created_at?: string;
   user_id?: string;
   company_id: string;

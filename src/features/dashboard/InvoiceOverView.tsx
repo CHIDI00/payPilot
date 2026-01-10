@@ -6,43 +6,29 @@ import { useInvoiceOnDashboard } from "../invoice/useInvoiceOnDashboard";
 const InvoiceOverView: React.FC = () => {
   const { invoices, isLoading } = useInvoiceOnDashboard();
 
-  // Calculate totals by summing item totals (quantity * price)
-  const invoiceVolume = (invoices || []).reduce((acc, inv) => {
-    const invTotal =
-      inv.items?.reduce(
-        (s, it) => s + (it.quantity || 0) * (it.price || 0),
-        0
-      ) || 0;
-    return acc + invTotal;
-  }, 0);
+  // 1. INVOICE VOLUME (Total of all invoices)
+  // OPTIMIZATION: We no longer need to loop through items. We just sum the 'total_amount' column.
+  const invoiceVolume = (invoices || []).reduce(
+    (acc, inv) => acc + (inv.total_amount || 0),
+    0
+  );
 
+  // 2. RECEIPT VOLUME (Total of PAID invoices)
   const receiptVolume = (invoices || [])
     .filter((inv) => (inv.status || "").toLowerCase() === "paid")
-    .reduce((acc, inv) => {
-      const invTotal =
-        inv.items?.reduce(
-          (s, it) => s + (it.quantity || 0) * (it.price || 0),
-          0
-        ) || 0;
-      return acc + invTotal;
-    }, 0);
+    .reduce((acc, inv) => acc + (inv.total_amount || 0), 0);
 
+  // 3. DUE VOLUME (Total of PENDING/UNPAID invoices)
   const dueVolume = (invoices || [])
     .filter((inv) => {
       const s = (inv.status || "").toLowerCase();
       return s === "pending" || s === "due" || s === "unpaid";
     })
-    .reduce((acc, inv) => {
-      const invTotal =
-        inv.items?.reduce(
-          (s, it) => s + (it.quantity || 0) * (it.price || 0),
-          0
-        ) || 0;
-      return acc + invTotal;
-    }, 0);
+    .reduce((acc, inv) => acc + (inv.total_amount || 0), 0);
 
   return (
     <div className="grid items-center justify-center grid-cols-1 gap-5 md:grid-cols-3">
+      {/* CARD 1: INVOICE VOLUME */}
       <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
         <div className="flex flex-col items-start justify-center gap-7">
           <div className="flex justify-center items-center gap-5">
@@ -66,10 +52,9 @@ const InvoiceOverView: React.FC = () => {
 
           <p className="text-xl font-semibold text-gray-400">Last 12 months</p>
         </div>
-        {/* <div className=""> */}
-        {/* <img src={invoiceIcon} alt="" className="w-[30%]" /> */}
-        {/* </div> */}
       </div>
+
+      {/* CARD 2: RECEIPT VOLUME */}
       <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
         <div className="flex flex-col items-start justify-center gap-7">
           <div className="flex justify-center items-center gap-5">
@@ -91,10 +76,9 @@ const InvoiceOverView: React.FC = () => {
 
           <p className="text-xl font-semibold text-gray-400">Last 12 months</p>
         </div>
-        {/* <div className=""> */}
-        {/* <img src={receiptIcon} alt="" className="w-[30%]" /> */}
-        {/* </div> */}
       </div>
+
+      {/* CARD 3: DUE VOLUME */}
       <div className="flex items-center justify-between w-full p-5 bg-white rounded-3xl">
         <div className="flex flex-col items-start justify-center gap-7">
           <div className="flex justify-center items-center gap-5">
@@ -114,9 +98,6 @@ const InvoiceOverView: React.FC = () => {
 
           <p className="text-xl font-semibold text-gray-400">Last 12 months</p>
         </div>
-        {/* <div className=""> */}
-        {/* <img src={duebill} alt="" className="w-[30%]" /> */}
-        {/* </div> */}
       </div>
     </div>
   );

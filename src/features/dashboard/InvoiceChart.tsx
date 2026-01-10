@@ -41,11 +41,12 @@ function makeMonthCounts(invoices: Invoice[] = []) {
     const date = dateStr ? new Date(dateStr) : null;
     const idx = date && !isNaN(date.getTime()) ? date.getMonth() : 0;
 
-    const invoiceTotal =
-      inv.items?.reduce((acc, it) => acc + it.quantity * it.price, 0) || 0;
+    // OPTIMIZATION: Use the pre-calculated total from the DB
+    const invoiceTotal = inv.total_amount || 0;
 
     if (status === "paid") paid[idx] += invoiceTotal;
-    if (status === "pending") pending[idx] += invoiceTotal;
+    if (status === "pending" || status === "draft")
+      pending[idx] += invoiceTotal;
   });
 
   return months.map((m, i) => ({
@@ -161,6 +162,7 @@ const InvoiceChart: React.FC = () => {
 
             <div className="flex flex-col items-start justify-start gap-2 ">
               <p className="font-bold ">Total Clients</p>
+              {/* Note: You might want to query the 'clients' table count here later */}
               <p className="text-6xl font-medium">0</p>
             </div>
           </div>

@@ -1,14 +1,28 @@
 import toast from "react-hot-toast";
-import type { Invoice } from "../utils/types";
+import type { Invoice, InvoiceItem } from "../utils/types"; // Ensure InvoiceItem is exported from types
 import supabase from "./supabase";
 
+// This prevents trying to save "items" into the invoices table (which would cause an error)
+const separateItems = (invoiceData: Partial<Invoice>) => {
+  const { invoice_items, ...invoiceDetails } = invoiceData;
+
+  return {
+    invoiceDetails,
+    itemsToSave: invoice_items || [],
+  };
+};
+
 export async function getInvoice() {
-  const { data, error } = await supabase.from("invoices").select("*");
-  console.log(data);
+  // Added invoice_items(*) to fetch the linked data
+  const { data, error } = await supabase
+    .from("invoices")
+    .select("*, invoice_items(*)")
+    .order("created_at", { ascending: false });
 
   if (error) {
+    console.error(error);
     toast.error("Invoice could not be loaded. Check connection!");
-    throw new Error("");
+    throw new Error("Invoice load failed");
   }
 
   return data;
@@ -18,9 +32,12 @@ export async function createEditInvoice(
   id: string,
   newInvoice: Invoice
 ): Promise<Invoice[] | null> {
-  // CREATE
+  // 1. Separate the array of items from the main invoice data
+  const { invoiceDetails, itemsToSave } = separateItems(newInvoice);
+
+  // CREATE NEW INVOICE
   if (!id) {
-    // get current user
+    // Get current user
     const {
       data: { user },
       error: authError,
@@ -28,7 +45,7 @@ export async function createEditInvoice(
     if (authError) throw authError;
     if (!user) throw new Error("Not logged in");
 
-    // get this user's company row GET THE USER'S COMPANY ROW
+    // Get Company Info
     const { data: company, error: companyError } = await supabase
       .from("companyInfo")
       .select("company_id")
@@ -37,53 +54,106 @@ export async function createEditInvoice(
 
     if (companyError || !company) {
       toast.error("Company not found for this user");
-      throw new Error("Company not found for this user");
+      throw new Error("Company not found");
     }
 
-    const { data, error } = await supabase
+    // A. Insert the Invoice (Main Details Only)
+    const { data: savedInvoice, error: invoiceError } = await supabase
       .from("invoices")
       .insert([
         {
-          ...newInvoice,
-          company_id: company.company_id, // ← link invoice → company
+          ...invoiceDetails,
+          company_id: company.company_id,
+          // total_amount will be auto-calculated by DB, but you can init it if you want
         },
       ])
       .select()
       .single();
 
-    if (error) {
-      console.log(error);
+    if (invoiceError) {
+      console.error(invoiceError);
       toast.error("Invoice could not be created");
-      throw new Error("Invoice could not be created");
+      throw new Error("Invoice creation failed");
     }
 
-    return data ? [data as Invoice] : null;
+    // B. Insert the Items (Linked to the new invoice ID)
+    if (itemsToSave.length > 0) {
+      const formattedItems = itemsToSave.map((item: InvoiceItem) => ({
+        invoice_id: savedInvoice.id, // Link to the new invoice
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      }));
+
+      const { error: itemsError } = await supabase
+        .from("invoice_items")
+        .insert(formattedItems);
+
+      if (itemsError) {
+        // Optional: Delete the ghost invoice if items fail
+        await supabase.from("invoices").delete().eq("id", savedInvoice.id);
+        console.error(itemsError);
+        toast.error("Failed to save invoice items");
+        throw new Error("Item creation failed");
+      }
+    }
+
+    return [savedInvoice as Invoice];
   }
 
-  // EDIT (keep existing company_id unless caller overrides)
+  // EDIT EXISTING INVOICE
   if (id) {
-    const { data, error } = await supabase
+    // A. Update Invoice Details
+    const { data: updatedInvoice, error: invoiceError } = await supabase
       .from("invoices")
-      .update({ ...newInvoice })
+      .update({ ...invoiceDetails })
       .eq("id", id)
       .select()
       .single();
 
-    if (error) {
-      toast.error("Invoice could not be Edited");
-      throw new Error("Invoice could not be Editted");
+    if (invoiceError) {
+      toast.error("Invoice could not be edited");
+      throw new Error("Invoice edit failed");
     }
 
-    return data ? [data as Invoice] : null;
+    // B. Update Items (Strategy: Delete all old items, Insert all new ones)
+    // This is safer/easier than checking which specific item changed.
+
+    // 1. Delete old items
+    const { error: deleteError } = await supabase
+      .from("invoice_items")
+      .delete()
+      .eq("invoice_id", id);
+
+    if (deleteError) throw deleteError;
+
+    // 2. Insert new items
+    if (itemsToSave.length > 0) {
+      const formattedItems = itemsToSave.map((item: InvoiceItem) => ({
+        invoice_id: id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      }));
+
+      const { error: itemsError } = await supabase
+        .from("invoice_items")
+        .insert(formattedItems);
+
+      if (itemsError) throw itemsError;
+    }
+
+    return [updatedInvoice as Invoice];
   }
 
   return null;
 }
 
 export async function getInvoiceById(id: string) {
+  // CHANGED: Added invoice_items(*)
   const { data, error } = await supabase
     .from("invoices")
-    .select("*")
+    .select("*, invoice_items(*)")
     .eq("id", id)
     .single();
 
@@ -96,6 +166,8 @@ export async function getInvoiceById(id: string) {
 
 // DELETE INVOICE
 export async function deleteInvoice(id: string) {
+  // No changes needed here!
+  // Postgres "ON DELETE CASCADE" will automatically delete the linked items.
   const { data, error } = await supabase.from("invoices").delete().eq("id", id);
 
   if (error) {
@@ -114,19 +186,42 @@ export async function markInvoiceAsPaid(id: string) {
     .select()
     .single();
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
 
-export async function saveInvoiceDraft(data: Invoice) {
-  const { error } = await supabase.from("invoices").insert([
-    {
-      ...data,
-      status: "Draft",
-    },
-  ]);
-  if (error) throw error;
+export async function saveInvoiceDraft(newInvoice: Invoice) {
+  // 1. Separate items
+  const { invoiceDetails, itemsToSave } = separateItems(newInvoice);
+
+  // 2. Save Invoice
+  const { data: savedInvoice, error: invoiceError } = await supabase
+    .from("invoices")
+    .insert([
+      {
+        ...invoiceDetails,
+        status: "Draft",
+      },
+    ])
+    .select()
+    .single();
+
+  if (invoiceError) throw invoiceError;
+
+  // 3. Save Items
+  if (itemsToSave.length > 0) {
+    const formattedItems = itemsToSave.map((item: InvoiceItem) => ({
+      invoice_id: savedInvoice.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+
+    const { error: itemsError } = await supabase
+      .from("invoice_items")
+      .insert(formattedItems);
+
+    if (itemsError) throw itemsError;
+  }
 }
