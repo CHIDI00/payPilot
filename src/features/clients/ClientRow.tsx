@@ -28,10 +28,10 @@ const ClientRow: React.FC<ClientRowProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="w-full px-6 py-5 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors grid grid-cols-[2fr_1.1fr_1.9fr_.7fr_1fr_2fr_.5fr] gap-5 items-center">
+    <div className="w-full px-6 py-3 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors grid grid-cols-[2fr_1.1fr_1.9fr_.7fr_1fr_2fr_.5fr] gap-5 items-center">
       {/* 1. Name & Email */}
       <div className="flex flex-col">
-        <p className="text-[1.5rem] font-bold text-[#0C0E16] dark:text-white truncate">
+        <p className="text-[1.5rem] font-semibold text-[#0C0E16] dark:text-white truncate">
           {name}
         </p>
         <p className="text-[1.2rem] text-gray-400 truncate">{email}</p>

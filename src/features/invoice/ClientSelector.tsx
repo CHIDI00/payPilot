@@ -178,7 +178,7 @@ const ClientSelector: React.FC<ClientSelectorProps> = ({
                   key={client.id}
                   type="button"
                   onClick={() => handleSelectClient(client)}
-                  className="w-full px-6 py-4 text-left hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors border-b border-gray-100 dark:border-[#303559] last:border-b-0"
+                  className="w-full px-6 py-2 text-left hover:bg-gray-50 dark:hover:bg-[#1e2139] transition-colors border-b border-gray-100 dark:border-[#303559] last:border-b-0"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -188,9 +188,9 @@ const ClientSelector: React.FC<ClientSelectorProps> = ({
                       <p className="text-[1.2rem] text-gray-500 dark:text-gray-400">
                         {client.email}
                       </p>
-                      <p className="text-[1.2rem] text-gray-400 dark:text-gray-500 mt-1">
+                      {/* <p className="text-[1.2rem] text-gray-400 dark:text-gray-500 mt-1">
                         {client.city}, {client.state}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </button>
@@ -202,7 +202,7 @@ const ClientSelector: React.FC<ClientSelectorProps> = ({
           <div className="p-4 border-t border-gray-200 dark:border-[#303559] bg-gray-50 dark:bg-[#1e2139]">
             <Link
               to="/clients"
-              className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#7C5DFA] hover:bg-[#9277FF] text-white rounded-md text-[1.3rem] font-bold transition-colors"
+              className="flex items-center justify-center gap-2 w-full px-6 py-3 bg-[#7C5DFA] hover:bg-[#9277FF] text-white hover:text-white rounded-md text-[1.3rem] font-bold transition-colors"
               onClick={() => setIsOpen(false)}
             >
               <UserPlus size={18} />
