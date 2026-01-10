@@ -1,16 +1,16 @@
 import React from "react";
-import ClientActionMenu from "../../ui/ClientActionMenu"; // Adjust path if needed
+import ClientActionMenu from "../../ui/ClientActionMenu";
 
-// 1. Define what data this row accepts
 interface ClientRowProps {
   id: string;
   name: string;
   email: string;
   state: string;
   phone_number: number;
-  balance: string; // or number, depending on how you format it before passing
+  invoiceCount: number; // <--- Added this to accept the real count
+  balance: string;
   lastActive: string;
-  // Handler functions passed down from the parent
+
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -22,7 +22,8 @@ const ClientRow: React.FC<ClientRowProps> = ({
   phone_number,
   balance,
   state,
-  // lastActive,
+  invoiceCount, // <--- Use this
+  // lastActive, // Left as is (commented out)
   onView,
   onEdit,
   onDelete,
@@ -43,10 +44,10 @@ const ClientRow: React.FC<ClientRowProps> = ({
       {/* 3. email */}
       <div className="text-[1.4rem] text-gray-500">{email}</div>
 
-      {/* 4. invoices */}
-      <div className="text-[1.4rem] text-gray-500">0</div>
+      {/* 4. invoices (Now Dynamic) */}
+      <div className="text-[1.4rem] text-gray-500">{invoiceCount}</div>
 
-      {/* 5. email */}
+      {/* 5. State */}
       <div className="text-[1.4rem] text-gray-500">{state}</div>
 
       {/* 6. Balance (Right Aligned for Money) */}
@@ -54,12 +55,12 @@ const ClientRow: React.FC<ClientRowProps> = ({
         {balance}
       </div>
 
-      {/* 4. Last Active / Date
-      <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
+      {/* 7. Last Active (Left as is) */}
+      {/* <div className="text-[1.3rem] text-gray-500 dark:text-gray-200">
         {lastActive}
       </div> */}
 
-      {/* 7. The Dropdown Action Menu */}
+      {/* 8. The Dropdown Action Menu */}
       <div className="flex justify-end">
         <ClientActionMenu onView={onView} onEdit={onEdit} onDelete={onDelete} />
       </div>

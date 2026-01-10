@@ -1,10 +1,11 @@
 import supabase from "./supabase";
 
+// 1. UPDATE TYPE: Add 'total_amount' to reflect your DB change
 type RawInvoice = {
   id?: string;
-  amount?: number | null;
   status?: string | null;
   created_at?: string | null;
+  total_amount?: number | null; // <-- This is the new calculated column
 };
 
 type RawClient = {
@@ -15,7 +16,7 @@ type RawClient = {
 };
 
 export async function getClients() {
-  // 1. GET DATA: Select all clients AND their related invoices
+  // 2. GET DATA: Select clients + total_amount from invoices
   const { data, error } = await supabase
     .from("clients")
     .select(
@@ -24,13 +25,12 @@ export async function getClients() {
       invoices (
         id,
         status,
-        created_at
+        created_at,
+        total_amount 
       )
     `
     )
     .order("created_at", { ascending: false });
-
-  console.log(data);
 
   if (error) {
     console.error(error);
@@ -41,21 +41,35 @@ export async function getClients() {
     ? (data as RawClient[])
     : [];
 
-  // 2. TRANSFORM DATA: Calculate the totals for the UI
+  // 3. TRANSFORM DATA: Calculate Outstanding, Paid, and Total
   const formattedData = safeData.map((client) => {
     const invoices = Array.isArray(client.invoices) ? client.invoices : [];
 
-    // Sum up only the 'pending' invoices (case-insensitive)
-    const pendingInvoices = invoices.filter(
-      (inv) => (inv.status || "").toString().toLowerCase() === "pending"
+    // We can calculate all totals in one single loop (.reduce)
+    const totals = invoices.reduce(
+      (acc, inv) => {
+        const amount = Number(inv.total_amount ?? 0);
+        const status = (inv.status || "").toLowerCase();
+
+        // A. Total Volume (Sum of all invoices)
+        acc.total += amount;
+
+        // B. Paid Volume
+        if (status === "paid") {
+          acc.paid += amount;
+        }
+
+        // C. Outstanding (Pending) Volume
+        if (status === "pending") {
+          acc.outstanding += amount;
+        }
+
+        return acc;
+      },
+      { total: 0, paid: 0, outstanding: 0 }
     );
 
-    const outstandingBalance = pendingInvoices.reduce((sum, inv) => {
-      const amt = Number(inv.amount ?? 0) || 0;
-      return sum + amt;
-    }, 0);
-
-    // Find the most recent invoice date (invoices may have null/undefined created_at)
+    // Find the most recent invoice date for "Last Activity"
     const latestInvoice = invoices.reduce((latest: RawInvoice | null, inv) => {
       if (!inv || !inv.created_at) return latest;
       const t = new Date(inv.created_at).getTime();
@@ -66,14 +80,33 @@ export async function getClients() {
 
     const lastActivity = latestInvoice?.created_at ?? client.created_at ?? null;
 
+    // Helper date for "30 days ago"
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    // Filter for invoices created in the last 30 days
+    const recentInvoices = invoices.filter((inv) => {
+      if (!inv.created_at) return false;
+      return new Date(inv.created_at) > thirtyDaysAgo;
+    });
+
+    // Sum up revenue for those recent invoices
+    const recentTotal = recentInvoices.reduce(
+      (sum, inv) => sum + Number(inv.total_amount ?? 0),
+      0
+    );
+
     return {
       ...client,
-      outstanding_balance: outstandingBalance,
+      recent_invoice_count: recentInvoices.length,
+      recent_total_billed: recentTotal,
+      invoice_count: invoices.length,
+      outstanding_balance: totals.outstanding,
+      paid_amount: totals.paid,
+      total_billed: totals.total,
       last_activity: lastActivity,
     };
   });
-
-  console.log(formattedData);
 
   return formattedData;
 }
@@ -95,7 +128,6 @@ export type CreateClientData = {
 
 // CREATE NEW CLIENT
 export async function createClient(clientData: CreateClientData) {
-  // 1. Get the current logged-in user
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -104,7 +136,6 @@ export async function createClient(clientData: CreateClientData) {
     throw new Error("You must be logged in to create a client");
   }
 
-  // 2. Insert the data AND the user_id
   const { data, error } = await supabase
     .from("clients")
     .insert([

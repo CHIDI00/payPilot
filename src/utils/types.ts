@@ -64,12 +64,27 @@ export interface Notification {
   body: string;
 }
 
-export interface client {
+export interface Client {
+  id: string;
   name: string;
   email: string;
-  phone_number: number;
-  address: string;
+  phone_number: number; // or string, depending on your DB
+  address_line_1: string;
+  address_line_2: string;
+  zipcode: string;
   city: string;
   state: string;
   country: string;
+  created_at: string;
+
+  // Calculated fields (joined from invoices)
+  outstanding_balance: number;
+  paid_amount: number;
+  total_billed: number;
+  invoice_count: number;
+  last_activity?: string | null;
+
+  // NEW: "Past 30 Days" Stats
+  recent_invoice_count: number;
+  recent_total_billed: number;
 }
